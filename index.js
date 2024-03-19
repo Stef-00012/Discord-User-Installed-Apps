@@ -5,6 +5,7 @@ const {
     Collection
 } = require('discord.js')
 const fs = require('fs')
+const mongoose = require('mongoose')
 
 const client = new Client({
     intents: [
@@ -43,6 +44,7 @@ const client = new Client({
 
 client.config = require(`${__dirname}/config.js`)
 client.commands = new Collection()
+client.mongo = require(`${__dirname}/mongo/schemas.js`)
 
 const events = fs.readdirSync(`${__dirname}/events`).filter(file => file.endsWith('.js'))
 const commands = fs.readdirSync(`${__dirname}/commands`).filter(file => file.endsWith('.js'))
@@ -64,3 +66,9 @@ for (const command of commands) {
 }
 
 client.login(client.config.token)
+
+mongoose.connect(client.config.mongo).then(() => {
+    console.log('\x1b[33mSuccessfully connected to the database (MongoDB)\x1b[0m')
+}).catch((err) => {
+    console.log(err, '\x1b[31mThere was an error while connecting to the database (MongoDB)\x1b[0m')
+})

@@ -23,8 +23,9 @@ module.exports = {
                 content: 'Successfully deployed the commands'
             })
         } catch(err) {
-            return int.edirReply({
-                content: 'Something went wrong, try again'
+            console.error(JSON.stringify(err.response.data, null, 2))
+            return int.editReply({
+                content: 'Something went wrong, check the console'
             })
         }
     }
