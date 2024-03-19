@@ -5,7 +5,7 @@ module.exports = async (client, int) => {
     
     const commands = await client.application.commands.fetch()
     
-    if (commands.length == 0) {
+    if (commands.size == 0) {
         try {
             await axios.put(`https://discord.com/api/v10/applications/${client.user.id}/commands`, commands, {
                 headers: {
