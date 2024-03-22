@@ -1,17 +1,40 @@
+const fs = require('fs')
+
 module.exports = async (client, int) => {
-    if (!int.isChatInputCommand()) return;
+    if (int.isChatInputCommand()) {
+        const commandPermissions = fs.readFileSync(`${__dirname}/../data/commandPermissions.json`)
+        const commandPermissionsJSON = JSON.parse(commandPermissions)
+        
+        if (!commandPermissionsJSON[int.commandName]) {
+            commandPermissionsJSON[int.commandName] = []
+            
+            fs.writeFileSync(`${__dirname}/../data/commandPermissions.json`, JSON.stringify(commandPermissionsJSON, null, 2))
+        }
+        
+        if (
+            commandPermissionsJSON[int.commandName].length &&
+            !commandPermissionsJSON[int.commandName].includes(int.user.id)
+        ) return int.reply({
+            ephemeral: true,
+            content: "You're not allowed to run this command"
+        })
+        
+        const cmd = client.commands.get(int.commandName)
     
-    if (!client.config.owners.includes(int.user.id)) return int.reply({
-        ephemeral: true,
-        content: "You're not allowed to run this command"
-    })
+        if (!cmd) return int.reply({
+            ephemeral: true,
+            content: "I couldn't find this command"
+        });
     
-    const cmd = client.commands.get(int.commandName)
-
-    if (!cmd) return int.reply({
-        ephemeral: true,
-        content: "I couldn't find this command"
-    });
-
-    cmd.execute(client, int)
+        cmd.execute(client, int)
+    }
+    
+    if (int.isAutocomplete()) {
+        const cmd = client.commands.get(int.commandName)
+    
+        if (!cmd) return;
+    
+        cmd.autocomplete(client, int)
+    }
+    
 }

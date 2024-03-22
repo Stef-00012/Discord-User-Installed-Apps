@@ -52,7 +52,7 @@ module.exports = {
                 embeds: [embed]
             })
         } catch (e) {
-            e = global.bot.functions.cleanEvalOutput(e)
+            e = cleanEvalOutput(e)
 
             if (e.length > 1000) {
                 console.log(e)
