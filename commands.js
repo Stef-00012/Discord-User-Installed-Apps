@@ -5,13 +5,6 @@ const {
 
 module.exports = [
     {
-        name: 'deploy',
-        description: 'Deploys the user commands',
-        type: ApplicationCommandType.ChatInput,
-        integration_types: [0, 1],
-        contexts: [0, 1, 2]
-    },
-    {
         name: 'eval',
         description: 'Executes the given code',
         type: ApplicationCommandType.ChatInput,
