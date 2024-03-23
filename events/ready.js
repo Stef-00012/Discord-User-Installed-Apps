@@ -1,13 +1,15 @@
 const axios = require('axios')
 const fs = require('fs')
 
-module.exports = async (client, int) => {
+module.exports = async (client) => {
     console.log("The app is online")
 
     const commands = await client.application.commands.fetch()
 
+    const cmds = require(`../commands.js`)
+
     try {
-        await axios.put(`https://discord.com/api/v10/applications/${client.user.id}/commands`, commands, {
+        await axios.put(`https://discord.com/api/v10/applications/${client.user.id}/commands`, cmds, {
             headers: {
                 Authorization: `Bot ${client.config.token}`,
                 'Content-Type': 'application/json; charset=UTF-8',
