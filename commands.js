@@ -144,5 +144,11 @@ module.exports = [
                 description: 'Lists the permissions for each command'
             }
         ]
+    },
+    {
+        name: 'Save as Tag',
+        type: ApplicationCommandType.Message,
+        integration_types: [0, 1],
+        contexts: [0, 1, 2],
     }
 ]

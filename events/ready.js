@@ -21,5 +21,8 @@ module.exports = async (client) => {
     }
     
     
-    if (commands.size == 0) fs.writeFileSync(`${__dirname}/../data/commandPermissions.json`, '{}')
+    if (commands.size == 0) {
+        fs.writeFileSync(`${__dirname}/../data/commandPermissions.json`, '{}')
+        fs.writeFileSync(`${__dirname}/../data/messageContextMenuCommandPermissions.json`, '{}')
+    }
 }

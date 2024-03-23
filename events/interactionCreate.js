@@ -37,4 +37,31 @@ module.exports = async (client, int) => {
         cmd.autocomplete(client, int)
     }
     
+    if (int.isMessageContextMenuCommand()) {
+        const commandPermissions = fs.readFileSync(`${__dirname}/../data/messageContextMenuCommandPermissions.json`)
+        const commandPermissionsJSON = JSON.parse(commandPermissions)
+
+        if (!commandPermissionsJSON[int.commandName]) {
+            commandPermissionsJSON[int.commandName] = []
+            
+            fs.writeFileSync(`${__dirname}/../data/messageContextMenuCommandPermissions.json`, JSON.stringify(commandPermissionsJSON, null, 2))
+        }
+        
+        if (
+            commandPermissionsJSON[int.commandName].length &&
+            !commandPermissionsJSON[int.commandName].includes(int.user.id)
+        ) return int.reply({
+            ephemeral: true,
+            content: "You're not allowed to run this command"
+        })
+        
+        const cmd = client.messageCommands.get(int.commandName)
+    
+        if (!cmd) return int.reply({
+            ephemeral: true,
+            content: "I couldn't find this command"
+        });
+
+        cmd.execute(client, int)
+    }
 }

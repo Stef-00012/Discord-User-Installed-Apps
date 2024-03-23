@@ -44,10 +44,12 @@ const client = new Client({
 
 client.config = require(`${__dirname}/config.js`)
 client.commands = new Collection()
+client.messageCommands = new Collection()
 client.mongo = require(`${__dirname}/mongo/schemas.js`)
 
 const events = fs.readdirSync(`${__dirname}/events`).filter(file => file.endsWith('.js'))
 const commands = fs.readdirSync(`${__dirname}/commands`).filter(file => file.endsWith('.js'))
+const messageContextMenuCommands = fs.readdirSync(`${__dirname}/messageCommands`).filter(file => file.endsWith('.js'))
 
 for (const event of events) {
     const eventData = require(`${__dirname}/events/${event}`)
@@ -63,6 +65,14 @@ for (const command of commands) {
     client.commands.set(commandData.name, commandData)
     
     console.log(`Loaded the command "${command.split('.')[0]}"`)
+}
+
+for (const messageContextMenuCommand of messageContextMenuCommands) {
+    const commandData = require(`${__dirname}/messageCommands/${messageContextMenuCommand}`)
+    
+    client.messageCommands.set(commandData.name, commandData)
+    
+    console.log(`Loaded the message command "${messageContextMenuCommand.split('.')[0]}"`)
 }
 
 client.login(client.config.token)
