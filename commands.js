@@ -4,6 +4,7 @@ const {
 } = require('discord.js')
 
 module.exports = [
+    // slash commands
     {
         name: 'eval',
         description: 'Executes the given code',
@@ -146,7 +147,102 @@ module.exports = [
         ]
     },
     {
+        name: 'embed',
+        description: 'Sends an embed with the given data',
+        type: ApplicationCommandType.ChatInput,
+        integration_types: [0, 1],
+        contexts: [0, 1, 2],
+        options: [
+            {
+                name: 'title',
+                type: ApplicationCommandOptionType.String,
+                description: 'Embed title',
+                required: false,
+                max_length: 256
+            },
+            {
+                name: 'description',
+                type: ApplicationCommandOptionType.String,
+                description: 'Embed description',
+                required: false,
+                max_length: 4096
+            },
+            {
+                name: 'url',
+                type: ApplicationCommandOptionType.String,
+                description: 'Embed URL',
+                required: false
+            },
+            {
+                name: 'timetstamp',
+                type: ApplicationCommandOptionType.Boolean,
+                description: 'Embed timestamp',
+                required: false
+            },
+            {
+                name: 'color',
+                type: ApplicationCommandOptionType.String,
+                description: 'Embed color',
+                required: false,
+                max_length: 4096
+            },
+            {
+                name: 'footer-text',
+                type: ApplicationCommandOptionType.String,
+                description: 'Embed footer text',
+                required: false,
+                max_length: 2048
+            },
+            {
+                name: 'footer-icon',
+                type: ApplicationCommandOptionType.String,
+                description: 'Embed footer icon',
+                required: false
+            },
+            {
+                name: 'image',
+                type: ApplicationCommandOptionType.String,
+                description: 'Embed image',
+                required: false
+            },
+            {
+                name: 'thumbnail',
+                type: ApplicationCommandOptionType.String,
+                description: 'Embed thumbnail',
+                required: false,
+                max_length: 4096
+            },
+            {
+                name: 'author-name',
+                type: ApplicationCommandOptionType.String,
+                description: 'Embed author name',
+                required: false,
+                max_length: 256
+            },
+            {
+                name: 'author-icon',
+                type: ApplicationCommandOptionType.String,
+                description: 'Embed author icon',
+                required: false
+            },
+            {
+                name: 'fields',
+                type: ApplicationCommandOptionType.Boolean,
+                description: 'Embed fields',
+                required: false
+            },
+        ]
+    },
+
+    // message commands
+    {
         name: 'Save as Tag',
+        type: ApplicationCommandType.Message,
+        integration_types: [0, 1],
+        contexts: [0, 1, 2],
+    },
+    {
+        name: 'Get Message JSON',
         type: ApplicationCommandType.Message,
         integration_types: [0, 1],
         contexts: [0, 1, 2],
