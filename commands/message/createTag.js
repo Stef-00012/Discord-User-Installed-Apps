@@ -22,20 +22,40 @@ module.exports = {
             .setStyle(TextInputStyle.Short)
             .setPlaceholder(int.targetMessage.content.split(' ')[0].substr(0, 25))
 
+        const contentOption = new TextInputBuilder()
+            .setCustomId('content')
+            .setLabel('Content')
+            .setMinLength(1)
+            .setRequired(true)
+            .setStyle(TextInputStyle.Paragraph)
+            .setValue(int.targetMessage.content.split(' ')[0].substr(0, 25))
+
         const nameRow = new ActionRowBuilder()
-            .addComponents([nameOption])
+            .addComponents([
+                nameOption
+            ])
+
+        const contentRow = new ActionRowBuilder()
+            .addComponents([
+                contentOption
+            ])
 
         modal
-            .addComponents([nameRow])
+            .addComponents([
+                nameRow,
+                contentRow
+            ])
 
         await int.showModal(modal)
 
         int.awaitModalSubmit({
-            filter: (interaction) => interaction.customId == "createTag" && interaction.user.id == int.user.id,
+            filter: (interaction) => interaction.customId == 'createTag' && interaction.user.id == int.user.id,
             time: 60e3
         }).then(async (interaction) => {
-            const tagName = interaction.fields.getTextInputValue("name")
-            const tagContent = int.targetMessage.content.length >= (2000 - 58 - tagName.length) ? `${int.targetMessage.content.substr(0, (2000 - 58 - tagName.length))}...` : int.targetMessage.content
+            const tagName = interaction.fields.getTextInputValue('name')
+            let tagContent = interaction.fields.getTextInputValue('content')
+
+            tagContent = tagContent.length >= (2000 - 58 - tagName.length) ? `${tagContent.substr(0, (2000 - 58 - tagName.length))}...` : tagContent
 
             let userData = await client.mongo.tags.findOne({
                 id: int.user.id
