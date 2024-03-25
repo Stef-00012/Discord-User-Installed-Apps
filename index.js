@@ -81,30 +81,6 @@ for (const event of events) {
     console.log(`Loaded the event "${event.split('.')[0]}"`)
 }
 
-// for (const command of commands) {
-//     const commandData = require(`${__dirname}/commands/slash/${command}`)
-    
-//     client.commands.set(commandData.name, commandData)
-    
-//     console.log(`Loaded the command "${command.split('.')[0]}"`)
-// }
-
-// for (const messageContextMenuCommand of messageContextMenuCommands) {
-//     const commandData = require(`${__dirname}/commands/message/${messageContextMenuCommand}`)
-    
-//     client.messageCommands.set(commandData.name, commandData)
-    
-//     console.log(`Loaded the message command "${messageContextMenuCommand.split('.')[0]}"`)
-// }
-
-// for (const userContextMenuCommand of userContextMenuCommands) {
-//     const commandData = require(`${__dirname}/commands/user/${userContextMenuCommand}`)
-    
-//     client.userCommands.set(commandData.name, commandData)
-    
-//     console.log(`Loaded the user command "${userContextMenuCommand.split('.')[0]}"`)
-// }
-
 client.login(client.config.token)
 
 mongoose.connect(client.config.mongo).then(() => {
