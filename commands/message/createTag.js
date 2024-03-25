@@ -28,7 +28,7 @@ module.exports = {
             .setMinLength(1)
             .setRequired(true)
             .setStyle(TextInputStyle.Paragraph)
-            .setValue(int.targetMessage.content.split(' ')[0].substr(0, 25))
+            .setValue(int.targetMessage.content.substr(0, 2048))
 
         const nameRow = new ActionRowBuilder()
             .addComponents([
@@ -53,9 +53,7 @@ module.exports = {
             time: 60e3
         }).then(async (interaction) => {
             const tagName = interaction.fields.getTextInputValue('name')
-            let tagContent = interaction.fields.getTextInputValue('content')
-
-            tagContent = tagContent.length >= (2000 - 58 - tagName.length) ? `${tagContent.substr(0, (2000 - 58 - tagName.length))}...` : tagContent
+            const tagContent = interaction.fields.getTextInputValue('content')
 
             let userData = await client.mongo.tags.findOne({
                 id: int.user.id
