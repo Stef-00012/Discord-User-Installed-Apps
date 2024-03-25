@@ -246,5 +246,31 @@ module.exports = [
         type: ApplicationCommandType.Message,
         integration_types: [0, 1],
         contexts: [0, 1, 2],
+    },
+
+    // user commands
+    {
+        name: 'Get User JSON',
+        type: ApplicationCommandType.User,
+        integration_types: [0, 1],
+        contexts: [0, 1, 2],
+    },
+    {
+        name: 'Get Member JSON',
+        type: ApplicationCommandType.User,
+        integration_types: [0, 1],
+        contexts: [0],
+    },
+    {
+        name: 'Get User Avatar',
+        type: ApplicationCommandType.User,
+        integration_types: [0, 1],
+        contexts: [0, 1, 2],
+    },
+    {
+        name: 'Get Member Avatar',
+        type: ApplicationCommandType.User,
+        integration_types: [0, 1],
+        contexts: [0],
     }
 ]

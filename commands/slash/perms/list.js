@@ -2,10 +2,10 @@ const { EmbedBuilder } = require('discord.js')
 const fs = require('fs')
 
 module.exports = async (client, int) => {
-    const commandPermissions = fs.readFileSync(`${__dirname}/../../data/commandPermissions.json`)
+    const commandPermissions = fs.readFileSync(`${__dirname}/../../../data/commandPermissions.json`)
     const commandPermissionsJSON = JSON.parse(commandPermissions)
 
-    const commands = require('../../commands.js')
+    const commands = require('../../../commands.js')
     
     const embed = new EmbedBuilder()
         .setTitle('Command Permissions')

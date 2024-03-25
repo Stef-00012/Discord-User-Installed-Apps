@@ -45,11 +45,33 @@ const client = new Client({
 client.config = require(`${__dirname}/config.js`)
 client.commands = new Collection()
 client.messageCommands = new Collection()
+client.userCommands = new Collection()
 client.mongo = require(`${__dirname}/mongo/schemas.js`)
 
 const events = fs.readdirSync(`${__dirname}/events`).filter(file => file.endsWith('.js'))
-const commands = fs.readdirSync(`${__dirname}/commands`).filter(file => file.endsWith('.js'))
-const messageContextMenuCommands = fs.readdirSync(`${__dirname}/messageCommands`).filter(file => file.endsWith('.js'))
+const commands = fs.readdirSync(`${__dirname}/commands/slash`).filter(file => file.endsWith('.js'))
+const messageContextMenuCommands = fs.readdirSync(`${__dirname}/commands/message`).filter(file => file.endsWith('.js'))
+const userContextMenuCommands = fs.readdirSync(`${__dirname}/commands/user`).filter(file => file.endsWith('.js'))
+
+const commandDirs = ['slash', 'message', 'user']
+
+for (const dir of commandDirs) {
+    const commands = fs.readdirSync(`${__dirname}/commands/${dir}`).filter(file => file.endsWith('.js'))
+
+    for (const command of commands) {
+        const commandData = require(`${__dirname}/commands/${dir}/${command}`)
+        
+        switch(dir) {
+            case 'slash': client.commands.set(commandData.name, commandData)
+
+            case 'message': client.messageCommands.set(commandData.name, commandData)
+
+            case 'user': client.userCommands.set(commandData.name, commandData)
+        }
+        
+        console.log(`Loaded the ${dir} command "${command.split('.')[0]}"`)
+    }
+}
 
 for (const event of events) {
     const eventData = require(`${__dirname}/events/${event}`)
@@ -59,21 +81,29 @@ for (const event of events) {
     console.log(`Loaded the event "${event.split('.')[0]}"`)
 }
 
-for (const command of commands) {
-    const commandData = require(`${__dirname}/commands/${command}`)
+// for (const command of commands) {
+//     const commandData = require(`${__dirname}/commands/slash/${command}`)
     
-    client.commands.set(commandData.name, commandData)
+//     client.commands.set(commandData.name, commandData)
     
-    console.log(`Loaded the command "${command.split('.')[0]}"`)
-}
+//     console.log(`Loaded the command "${command.split('.')[0]}"`)
+// }
 
-for (const messageContextMenuCommand of messageContextMenuCommands) {
-    const commandData = require(`${__dirname}/messageCommands/${messageContextMenuCommand}`)
+// for (const messageContextMenuCommand of messageContextMenuCommands) {
+//     const commandData = require(`${__dirname}/commands/message/${messageContextMenuCommand}`)
     
-    client.messageCommands.set(commandData.name, commandData)
+//     client.messageCommands.set(commandData.name, commandData)
     
-    console.log(`Loaded the message command "${messageContextMenuCommand.split('.')[0]}"`)
-}
+//     console.log(`Loaded the message command "${messageContextMenuCommand.split('.')[0]}"`)
+// }
+
+// for (const userContextMenuCommand of userContextMenuCommands) {
+//     const commandData = require(`${__dirname}/commands/user/${userContextMenuCommand}`)
+    
+//     client.userCommands.set(commandData.name, commandData)
+    
+//     console.log(`Loaded the user command "${userContextMenuCommand.split('.')[0]}"`)
+// }
 
 client.login(client.config.token)
 

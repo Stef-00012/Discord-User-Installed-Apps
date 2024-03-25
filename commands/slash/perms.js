@@ -3,12 +3,20 @@ module.exports = {
     
     async autocomplete(client, int) {
         const value = int.options.getFocused()
-        const commands = client.commands
+        const cmds = Array.from(client.commands)
+        const messages = Array.from(client.messageCommands)
+        const users = Array.from(client.userCommands)
+
+        const commands = [
+            ...cmds,
+            ...messages,
+            ...users
+        ]
 
         const matches = commands
             .map(cmd => ({
-                name: cmd.name,
-                value: cmd.name
+                name: cmd[1].name,
+                value: cmd[1].name
             }))
             .filter(cmd => cmd.name.toLowerCase().startsWith(value.toLowerCase()))
 
