@@ -84,7 +84,7 @@ module.exports = {
                 'clearFields',
                 'send'
             ].includes(inter.customId),
-            time: 60 * 1000 * 10
+            time: 60e3 * 10
         })
 
         buttonCollector.on('collect', async (inter) => {
@@ -146,7 +146,7 @@ module.exports = {
 
                 await inter.awaitModalSubmit({
                     filter: (interaction) => interaction.customId == 'addField',
-                    time: 60 * 1000 * 5
+                    time: 60e3 * 5
                 }).then(async (interaction) => {
                     const fieldName = interaction.fields.getTextInputValue('name')
                     const fieldValue = interaction.fields.getTextInputValue('value')
