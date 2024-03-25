@@ -49,13 +49,15 @@ module.exports = {
             }
         }
 
+        const fields = []
+
         const addFieldButton = new ButtonBuilder()
             .setLabel('Add Field')
             .setStyle(ButtonStyle.Success)
             .setCustomId('addField')
     
         const clearFieldsButton = new ButtonBuilder()
-            .setLabel('CLear Fields')
+            .setLabel('Clear Fields')
             .setStyle(ButtonStyle.Danger)
             .setCustomId('clearFields')
 
@@ -89,6 +91,8 @@ module.exports = {
             if (inter.customId == 'send') {
                 buttonCollector.stop('sent')
                 
+                embed.setFields(fields)
+
                 try {
                     return inter.reply({
                         embeds: [embed]
@@ -116,36 +120,60 @@ module.exports = {
                     .setStyle(TextInputStyle.Paragraph)
 
                 const fieldValue = new TextInputBuilder()
-                    .setCustomId('name')
-                    .setLabel('Field Name')
+                    .setCustomId('value')
+                    .setLabel('Field Value')
                     .setMaxLength(1024)
                     .setRequired(true)
                     .setStyle(TextInputStyle.Paragraph)
 
-                const fieldRow = new ActionRowBuilder()
+                const fieldNameRow = new ActionRowBuilder()
                     .addComponents([
-                        fieldName,
+                        fieldName
+                    ])
+
+                const fieldValueRow = new ActionRowBuilder()
+                    .addComponents([
                         fieldValue
                     ])
 
                 fieldModal
                     .addComponents([
-                        fieldRow
+                        fieldNameRow,
+                        fieldValueRow
                     ])
 
                 await inter.showModal(fieldModal)
 
-                inter.awaitModalSubmit({
+                await inter.awaitModalSubmit({
                     filter: (interaction) => interaction.customId == 'addField',
                     time: 60 * 1000 * 5
                 }).then(async (interaction) => {
                     const fieldName = interaction.fields.getTextInputValue('name')
                     const fieldValue = interaction.fields.getTextInputValue('value')
 
-                    embed.addFields({
+                    fields.push({
                         name: fieldName,
                         value: fieldValue
                     })
+                    
+                    if (fields.length == 25) {
+                        const disabledAddRow = new ActionRowBuilder()
+                            .addComponents([
+                                addFieldButton.setDisabled(true),
+                                clearFieldsButton,
+                                sendButton
+                            ])
+
+                        return await interaction.update({
+                            content: `Successfully added the field (${fields.length}/25)`,
+                            components: [disabledAddRow]
+                        })
+                    } else {
+                        return await interaction.update({
+                            content: `Successfully added the field (${fields.length}/25)`,
+                            ephemeral: true
+                        })
+                    }
                 })
             }
         })
