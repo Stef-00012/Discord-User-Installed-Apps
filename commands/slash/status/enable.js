@@ -16,7 +16,7 @@ module.exports = async (client, int) => {
     
     if (commandData.requires.includes('mongo')) {
         if (!client.config.mongo) return int.reply({
-            content: 'You must add a MongoDB url in order to be able to enable this command',
+            content: '\x1b[31mYou must add a MongoDB url in order to be able to enable this command\x1b[0m',
             ephemeral: true
         })
 

@@ -1,10 +1,10 @@
 {
   "eval": true,
-  "tag": false,
+  "tag": true,
   "perms": true,
   "embed": true,
   "status": true,
-  "Save as Tag": false,
+  "Save as Tag": true,
   "Get Message JSON": true,
   "Get User JSON": true,
   "Get Member JSON": true,

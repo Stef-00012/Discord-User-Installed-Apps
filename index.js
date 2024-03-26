@@ -65,7 +65,7 @@ for (const dir of commandDirs) {
         const commandData = require(`${__dirname}/commands/${dir}/${command}`)
         
         if (commandData.requires.includes('mongo') && !client.config.mongo) {
-            console.log(`\x1b[32mYou must add a MongoDB url or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`)
+            console.log(`\x1b[31mYou must add a MongoDB url or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`)
             process.exit(1)
         }
         
