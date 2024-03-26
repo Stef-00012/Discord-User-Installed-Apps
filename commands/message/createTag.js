@@ -6,7 +6,7 @@ module.exports = {
     requires: 'mongo',
     
     async execute(client, int) {
-        if (!int.targetMessage.content || int.targetMessage.content?.length <= 0) return int.reply({
+        if (!int.targetMessage?.content || int.targetMessage?.content?.length <= 0) return int.reply({
             content: 'This message has no content',
             ephemeral: true
         })

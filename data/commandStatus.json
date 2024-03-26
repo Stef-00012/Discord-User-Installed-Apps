@@ -5,6 +5,7 @@
   "embed": true,
   "status": true,
   "qr": true,
+  "Convert to QR Code": true,
   "Save as Tag": true,
   "Get Message JSON": true,
   "Get User JSON": true,

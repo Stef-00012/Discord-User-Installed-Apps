@@ -44,6 +44,8 @@ module.exports = {
                 int.reply({
                     files: [attachment]
                 })
+
+                break;
             }
         }
     }

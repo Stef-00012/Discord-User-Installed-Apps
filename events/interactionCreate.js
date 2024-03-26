@@ -4,7 +4,7 @@ module.exports = async (client, int) => {
     const commandStatus = fs.readFileSync(`${__dirname}/../data/commandStatus.json`)
     const commandStatusJSON = JSON.parse(commandStatus)
     
-    if (!commandStatusJSON[int.commandName]) return int.reply({
+    if (!commandStatusJSON[int.commandName] && (int.isChatInputCommand() || int.isMessageContextMenuCommand() || int.isUserContextMenuCommand())) return int.reply({
         content: 'This command is disabled',
         ephemeral: true
     })

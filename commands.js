@@ -316,6 +316,12 @@ module.exports = [
         integration_types: [0, 1],
         contexts: [0, 1, 2],
     },
+    {
+        name: 'Convert to QR Code',
+        type: ApplicationCommandType.Message,
+        integration_types: [0, 1],
+        contexts: [0, 1, 2],
+    },
 
     // user commands
     {
