@@ -4,6 +4,7 @@
   "perms": true,
   "embed": true,
   "status": true,
+  "qr": true,
   "Save as Tag": true,
   "Get Message JSON": true,
   "Get User JSON": true,

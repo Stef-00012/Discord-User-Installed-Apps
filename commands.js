@@ -235,7 +235,7 @@ module.exports = [
     },
     {
         name: 'status',
-        description: 'changes the enabled statud of a command',
+        description: 'Changes the enabled statud of a command',
         type: ApplicationCommandType.ChatInput,
         integration_types: [0, 1],
         contexts: [0, 1, 2],
@@ -265,6 +265,38 @@ module.exports = [
                         type: ApplicationCommandOptionType.String,
                         autocomplete: true,
                         required: true
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        name: 'qr',
+        description: 'Create a QR code',
+        type: ApplicationCommandType.ChatInput,
+        integration_types: [0, 1],
+        contexts: [0, 1, 2],
+        options: [
+            {
+                name: 'text',
+                type: ApplicationCommandOptionType.String,
+                description: 'The text to convert to a QR code',
+                required: true,
+                max_length: 900
+            },
+            {
+                name: 'type',
+                type: ApplicationCommandOptionType.String,
+                description: 'QR code type',
+                required: false,
+                choices: [
+                    {
+                        name: 'Text',
+                        value: 'text'
+                    },
+                    {
+                        name: 'Image',
+                        value: 'image'
                     }
                 ]
             }
