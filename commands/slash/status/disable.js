@@ -2,7 +2,7 @@ const fs = require('fs')
 
 module.exports = async (client, int) => {
     const commandStatus = fs.readFileSync(`${__dirname}/../../../data/commandStatus.json`)
-    const commandStatusJSON = JSON.parse(commandPermissions)
+    const commandStatusJSON = JSON.parse(commandStatus)
     
     const commandName = int.options.getString('command')
     

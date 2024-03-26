@@ -1,13 +1,13 @@
 {
-    "eval": true,
-    "tag": false,
-    "perms": true,
-    "embed": true,
-    "status": true,
-    "Save as Tag": false,
-    "Get Message JSON": true,
-    "Get User JSON": true,
-    "Get Member JSON": true,
-    "Get User Avatar": true,
-    "Get Member Avatar": true
+  "eval": true,
+  "tag": false,
+  "perms": true,
+  "embed": true,
+  "status": true,
+  "Save as Tag": false,
+  "Get Message JSON": true,
+  "Get User JSON": true,
+  "Get Member JSON": true,
+  "Get User Avatar": true,
+  "Get Member Avatar": true
 }
