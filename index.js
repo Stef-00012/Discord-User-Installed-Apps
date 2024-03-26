@@ -5,7 +5,7 @@ const {
     Collection
 } = require('discord.js')
 const fs = require('fs')
-const mongoose = require('mongoose')
+const startMongo = require(`${__dirname}/mongo/start.js`)
 
 const client = new Client({
     intents: [
@@ -95,9 +95,5 @@ if (
     commandStatusJSON['tag'] ||
     commandStatusJSON['Save as Tag']
 ) {
-    mongoose.connect(client.config.mongo).then(() => {
-        console.log('\x1b[33mSuccessfully connected to the database (MongoDB)\x1b[0m')
-    }).catch((err) => {
-        console.log(err, '\x1b[31mThere was an error while connecting to the database (MongoDB)\x1b[0m')
-    })
+    startMongo(client)
 }

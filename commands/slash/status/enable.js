@@ -1,4 +1,5 @@
 const fs = require('fs')
+const startMongo = require(`${__dirname}/../../../mongo/start.js`)
 
 module.exports = async (client, int) => {
     const commandStatus = fs.readFileSync(`${__dirname}/../../../data/commandStatus.json`)
@@ -13,10 +14,14 @@ module.exports = async (client, int) => {
     
     const commandData = client.commands.get(commandName)
     
-    if (commandData.requires.includes('mongo') && !client.config.mongo) return int.reply({
-        content: 'You must add a MongoDB url in order to be able to enable this command',
-        ephemeral: true
-    })
+    if (commandData.requires.includes('mongo')) {
+        if (!client.config.mongo) return int.reply({
+            content: 'You must add a MongoDB url in order to be able to enable this command',
+            ephemeral: true
+        })
+
+        if (!client.mongo.isConnected()) startMongo(client)
+    }
     
     commandStatusJSON[commandName] = true
     
