@@ -14,11 +14,6 @@ module.exports = async (client, int) => {
         ephemeral: true
     })
     
-    // if (client.config.owners.includes(user)) return int.reply({
-    //     content:`\`${user}\` is one of the owners, you can't manage their permissions`,
-    //     ephemeral: true
-    // })
-    
     if (commandPermissionsJSON[commandName].includes(user)) return int.reply({
         content: `\`${user}\` is already allowed to use this command`,
         ephemeral: true

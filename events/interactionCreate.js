@@ -1,6 +1,14 @@
 const fs = require('fs')
 
 module.exports = async (client, int) => {
+    const commandStatus = fs.readFileSync(`${__dirname}/../data/commandStatus.json`)
+    const commandStatusJSON = JSON.parse(commandStatus)
+    
+    if (!commandStatusJSON[int.commandName]) return int.reply({
+        content: 'This command is disabled',
+        ephemeral: true
+    })
+    
     if (int.isChatInputCommand()) {
         const commandPermissions = fs.readFileSync(`${__dirname}/../data/commandPermissions.json`)
         const commandPermissionsJSON = JSON.parse(commandPermissions)

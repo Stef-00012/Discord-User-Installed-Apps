@@ -5,6 +5,7 @@ const util = require('util')
 
 module.exports = {
     name: 'eval',
+    requires: [],
     
     async execute(client, int) {
         const code = int.options.getString('code')

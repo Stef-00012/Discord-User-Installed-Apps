@@ -3,6 +3,7 @@ const { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ModalBuilder
 
 module.exports = {
     name: 'embed',
+    requires: [],
     
     async execute(client, int) {
         const embedTitle = int.options.getString('title') ?? null

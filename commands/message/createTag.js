@@ -3,6 +3,7 @@ const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = req
 
 module.exports = {
     name: 'Save as Tag',
+    requires: 'mongo',
     
     async execute(client, int) {
         if (!int.targetMessage.content || int.targetMessage.content?.length <= 0) return int.reply({

@@ -2,6 +2,7 @@ const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
     name: 'Get Message JSON',
+    requires: [],
     
     async execute(client, int) {
         const messageJSON = JSON.stringify(int.targetMessage, null, 2).replaceAll('`', '\\`')

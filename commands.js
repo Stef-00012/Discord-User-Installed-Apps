@@ -233,6 +233,43 @@ module.exports = [
             },
         ]
     },
+    {
+        name: 'status',
+        description: 'changes the enabled statud of a command',
+        type: ApplicationCommandType.ChatInput,
+        integration_types: [0, 1],
+        contexts: [0, 1, 2],
+        options: [
+            {
+                name: 'enable',
+                type: ApplicationCommandOptionType.Subcommand,
+                description: 'Enables a command',
+                options: [
+                    {
+                        name: 'command',
+                        description: 'The command to enable',
+                        type: ApplicationCommandOptionType.String,
+                        autocomplete: true,
+                        required: true
+                    }
+                ]
+            },
+            {
+                name: 'disable',
+                type: ApplicationCommandOptionType.Subcommand,
+                description: 'Disables a command',
+                options: [
+                    {
+                        name: 'command',
+                        description: 'The command to enable',
+                        type: ApplicationCommandOptionType.String,
+                        autocomplete: true,
+                        required: true
+                    }
+                ]
+            }
+        ]
+    },
 
     // message commands
     {

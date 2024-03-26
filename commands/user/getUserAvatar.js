@@ -2,6 +2,7 @@ const { EmbedBuilder } = require("discord.js")
 
 module.exports = {
     name: 'Get User Avatar',
+    requires: [],
     
     async execute(client, int) {
         if (!int.targetUser.avatar) return int.reply({

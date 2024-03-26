@@ -1,7 +1,5 @@
-const axios = require('axios')
-
 module.exports = {
-    name: 'perms',
+    name: 'status',
     requires: [],
     
     async autocomplete(client, int) {
@@ -22,6 +20,6 @@ module.exports = {
     async execute(client, int) {
         const subcommand = int.options.getSubcommand()
         
-        require(`./perms/${subcommand}.js`)(client, int)
+        require(`./status/${subcommand}.js`)(client, int)
     }
 }

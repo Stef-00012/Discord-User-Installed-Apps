@@ -55,11 +55,19 @@ const userContextMenuCommands = fs.readdirSync(`${__dirname}/commands/user`).fil
 
 const commandDirs = ['slash', 'message', 'user']
 
+const commandStatus = fs.readFileSync(`${__dirname}/data/commandStatus.json`)
+const commandStatusJSON = JSON.parse(commandStatus)
+
 for (const dir of commandDirs) {
     const commands = fs.readdirSync(`${__dirname}/commands/${dir}`).filter(file => file.endsWith('.js'))
 
     for (const command of commands) {
         const commandData = require(`${__dirname}/commands/${dir}/${command}`)
+        
+        if (commandData.requires.includes('mongo') && !client.config.mongo) {
+            console.log(`\x1b[32mYou must add a MongoDB url or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`)
+            process.exit(1)
+        }
         
         switch(dir) {
             case 'slash': client.commands.set(commandData.name, commandData)
@@ -83,8 +91,13 @@ for (const event of events) {
 
 client.login(client.config.token)
 
-mongoose.connect(client.config.mongo).then(() => {
-    console.log('\x1b[33mSuccessfully connected to the database (MongoDB)\x1b[0m')
-}).catch((err) => {
-    console.log(err, '\x1b[31mThere was an error while connecting to the database (MongoDB)\x1b[0m')
-})
+if (
+    commandStatusJSON['tag'] ||
+    commandStatusJSON['Save as Tag']
+) {
+    mongoose.connect(client.config.mongo).then(() => {
+        console.log('\x1b[33mSuccessfully connected to the database (MongoDB)\x1b[0m')
+    }).catch((err) => {
+        console.log(err, '\x1b[31mThere was an error while connecting to the database (MongoDB)\x1b[0m')
+    })
+}
