@@ -8,40 +8,20 @@
   "deploy": [
     "694986201739952229"
   ],
-  "tag": [
-    "694986201739952229"
-  ],
+  "tag": [],
   "embed": [
     "694986201739952229"
   ],
-  "Get Member Avatar": [
-    "694986201739952229"
-  ],
-  "Get Member JSON": [
-    "694986201739952229"
-  ],
-  "Get User Avatar": [
-    "694986201739952229"
-  ],
-  "Get User Guild Avatar": [
-    "694986201739952229"
-  ],
-  "Get User JSON": [
-    "694986201739952229"
-  ],
-  "Get Message JSON": [
-    "694986201739952229"
-  ],
-  "Save as Tag": [
-    "694986201739952229"
-  ],
+  "Get Member Avatar": [],
+  "Get Member JSON": [],
+  "Get User Avatar": [],
+  "Get User Guild Avatar": [],
+  "Get User JSON": [],
+  "Get Message JSON": [],
+  "Save as Tag": [],
   "status": [
     "694986201739952229"
   ],
-  "qr": [
-    "694986201739952229"
-  ],
-  "Convert to QR Code": [
-    "694986201739952229"
-  ]
+  "qr": [],
+  "Convert to QR Code": []
 }

@@ -9,3 +9,7 @@
 - replace `<BOT_TOKEN>` with your bot token ID
 - replace `<YOUR_ID>` with your account ID
 - replace `<MONGO_URI>` with your mongodb database connection string
+
+# Hosted
+
+If you can not selfhost the bot, you can use the hosted version [here](https://discord.com/oauth2/authorize?client_id=1219574606294417499)
