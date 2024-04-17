@@ -3,3 +3,4 @@ config.js
 *.zip
 .npm
 *.sh
+.gitconfig
