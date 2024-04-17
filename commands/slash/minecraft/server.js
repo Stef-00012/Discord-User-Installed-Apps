@@ -40,7 +40,7 @@ module.exports = async (client, int) => {
                                 value: `\`\`\`txt\n${status.motd.clean}\n\`\`\``
                             },
                             {
-                                name: 'Blocked by EULA',
+                                name: 'EULA Blocked?',
                                 value: status.eula_blocked ? 'Yes' : 'No'
                             }
                         ])
