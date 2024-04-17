@@ -235,7 +235,7 @@ module.exports = [
     },
     {
         name: 'status',
-        description: 'Changes the enabled statud of a command',
+        description: 'Changes the enabled status of a command',
         type: ApplicationCommandType.ChatInput,
         integration_types: [0, 1],
         contexts: [0, 1, 2],
@@ -261,7 +261,7 @@ module.exports = [
                 options: [
                     {
                         name: 'command',
-                        description: 'The command to enable',
+                        description: 'The command to disable',
                         type: ApplicationCommandOptionType.String,
                         autocomplete: true,
                         required: true
@@ -297,6 +297,71 @@ module.exports = [
                     {
                         name: 'Image',
                         value: 'image'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        name: 'minecraft',
+        description: "Get the data of a minecarft server or a player's skin",
+        type: ApplicationCommandType.ChatInput,
+        integration_types: [0, 1],
+        contexts: [0, 1, 2],
+        options: [
+            {
+                name: 'server',
+                type: ApplicationCommandOptionType.Subcommand,
+                description: 'Get data about a minecraft server',
+                options: [
+                    {
+                        name: 'version',
+                        description: 'The server version',
+                        type: ApplicationCommandOptionType.String,
+                        choices: [
+                            {
+                                name: 'Java',
+                                value: 'java'
+                            },
+                            {
+                                name: 'Bedrock',
+                                value: 'bedrock'
+                            }
+                        ],
+                        required: true
+                    },
+                    {
+                        name: 'address',
+                        description: 'The server address',
+                        type: ApplicationCommandOptionType.String,
+                        required: true
+                    }
+                ]
+            },
+            {
+                name: 'skin',
+                type: ApplicationCommandOptionType.Subcommand,
+                description: 'Get the skin of a player',
+                options: [
+                    {
+                        name: 'player',
+                        description: 'The player name or UUID',
+                        type: ApplicationCommandOptionType.String,
+                        required: true
+                    },
+                    {
+                        name: 'render-type',
+                        description: 'How to render the player skin',
+                        type: ApplicationCommandOptionType.String,
+                        autocomplete: true,
+                        required: true
+                    },
+                    {
+                        name: 'crop-type',
+                        description: 'How to crop the rendered player skin',
+                        type: ApplicationCommandOptionType.String,
+                        autocomplete: true,
+                        required: true
                     }
                 ]
             }

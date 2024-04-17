@@ -43,6 +43,7 @@ const client = new Client({
 })
 
 client.config = require(`${__dirname}/config.js`)
+client.functions = require(`${__dirname}/data/functions.js`)
 client.commands = new Collection()
 client.messageCommands = new Collection()
 client.userCommands = new Collection()

@@ -8,7 +8,7 @@ module.exports = {
         const value = int.options.getFocused()
         const commands = client.commands
 
-        const matches = commands
+        let matches = commands
             .map(cmd => ({
                 name: cmd.name,
                 value: cmd.name

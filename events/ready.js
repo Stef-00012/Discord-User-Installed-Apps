@@ -2,7 +2,7 @@ const axios = require('axios')
 const fs = require('fs')
 
 module.exports = async (client) => {
-    console.log("The app is online")
+    console.log(`The app is online (logged as ${client.user.tag})`)
 
     const commands = await client.application.commands.fetch()
 
