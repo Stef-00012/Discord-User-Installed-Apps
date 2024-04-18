@@ -12,5 +12,6 @@
   "Get Member JSON": true,
   "Get User Avatar": true,
   "Get Member Avatar": true,
-  "minecraft": true
+  "minecraft": true,
+  "8ball": true
 }

@@ -367,6 +367,22 @@ module.exports = [
             }
         ]
     },
+    {
+        name: '8ball',
+        description: 'Ask a question to the 8ball',
+        type: ApplicationCommandType.ChatInput,
+        integration_types: [0, 1],
+        contexts: [0, 1, 2],
+        options: [
+            {
+                name: 'question',
+                type: ApplicationCommandOptionType.String,
+                description: 'The question to ask',
+                required: true,
+                max_length: 1900
+            }
+        ]
+    },
 
     // message commands
     {
