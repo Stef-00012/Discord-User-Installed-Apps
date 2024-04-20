@@ -18,8 +18,18 @@ module.exports = {
         const embedAuthorName = int.options.getString('author-name') ?? null
         const embedAuthorIcon = int.options.getString('author-icon') ?? null
         const embedFields = int.options.getBoolean('fields') ?? false
+        let embedJSON = int.options.getString('json') ?? '{}'
 
-        const embed = new EmbedBuilder()
+        try {
+            embedJSON = JSON.parse(embedJSON)
+        } catch(e) {
+            return int.reply({
+                content: 'Invalid JSON',
+                ephemeral: true
+            })
+        }
+
+        let embed = new EmbedBuilder()
 
         if (embedTitle) embed.setTitle(embedTitle)
         if (embedDescription) embed.setDescription(embedDescription)
@@ -38,6 +48,11 @@ module.exports = {
         })
 
         if (!embedFields) {
+            embed = EmbedBuilder.from({
+                ...embed.toJSON(),
+                ...embedJSON
+            })
+            
             try {
                 return int.reply({
                     embeds: [embed]
@@ -93,6 +108,11 @@ module.exports = {
                 buttonCollector.stop('sent')
                 
                 embed.setFields(fields)
+
+                embed = EmbedBuilder.from({
+                    ...embed.toJSON(),
+                    ...embedJSON
+                })
 
                 try {
                     return inter.reply({
