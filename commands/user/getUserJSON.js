@@ -1,18 +1,24 @@
-const { EmbedBuilder } = require('discord.js')
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
-    name: 'Get User JSON',
-    requires: [],
-    
-    async execute(client, int) {
-        const userJSON = JSON.stringify(int.targetUser, null, 2).replaceAll('`', '\\`')
+	name: "Get User JSON",
+	requires: [],
 
-        const embed = new EmbedBuilder()
-            .setDescription(`\`\`\`json\n${userJSON.length > 4081 ? `${userJSON.substr(0, 4081)}...` : userJSON}\n\`\`\``)
+	async execute(client, int) {
+		const userJSON = JSON.stringify(int.targetUser, null, 2).replaceAll(
+			"`",
+			"\\`",
+		);
 
-        int.reply({
-            embeds: [embed],
-            ephemeral: true
-        })
-    }
-}
+		const embed = new EmbedBuilder().setDescription(
+			`\`\`\`json\n${
+				userJSON.length > 4081 ? `${userJSON.substr(0, 4081)}...` : userJSON
+			}\n\`\`\``,
+		);
+
+		int.reply({
+			embeds: [embed],
+			ephemeral: true,
+		});
+	},
+};

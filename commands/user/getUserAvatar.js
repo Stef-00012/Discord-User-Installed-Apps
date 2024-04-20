@@ -1,25 +1,26 @@
-const { EmbedBuilder } = require("discord.js")
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
-    name: 'Get User Avatar',
-    requires: [],
-    
-    async execute(client, int) {
-        if (!int.targetUser.avatar) return int.reply({
-            content: "The user doesn't have any avatar",
-            ephemeral: true
-        })
+	name: "Get User Avatar",
+	requires: [],
 
-        const url = int.targetUser.displayAvatarURL()
+	async execute(client, int) {
+		if (!int.targetUser.avatar)
+			return int.reply({
+				content: "The user doesn't have any avatar",
+				ephemeral: true,
+			});
 
-        const embed = new EmbedBuilder()
-            .setTitle('User Avatar')
-            .setDescription(url)
-            .setImage(url)
+		const url = int.targetUser.displayAvatarURL();
 
-        await int.reply({
-            embeds: [embed],
-            ephemeral: true
-        })
-    }
-}
+		const embed = new EmbedBuilder()
+			.setTitle("User Avatar")
+			.setDescription(url)
+			.setImage(url);
+
+		await int.reply({
+			embeds: [embed],
+			ephemeral: true,
+		});
+	},
+};

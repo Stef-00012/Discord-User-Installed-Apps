@@ -1,52 +1,60 @@
-const qrcode = require('qrcode-terminal')
-const axios = require('axios')
-const { AttachmentBuilder } = require('discord.js')
+const qrcode = require("qrcode-terminal");
+const axios = require("axios");
+const { AttachmentBuilder } = require("discord.js");
 
 module.exports = {
-    name: 'qr',
-    requires: [],
-    
-    async execute(client, int) {
-        const text = int.options.getString('text')
-        const type = int.options.getString('type') || 'text'
+	name: "qr",
+	requires: [],
 
-        switch(type) {
-            case 'text': {
-                let qr;
+	async execute(client, int) {
+		const text = int.options.getString("text");
+		const type = int.options.getString("type") || "text";
 
-                qrcode.generate(text, {
-                    small: true
-                }, (code) => {
-                    qr = code
-                })
+		switch (type) {
+			case "text": {
+				let qr;
 
-                int.reply({
-                    content: `\`\`\`txt\n${qr}\n\`\`\``
-                })
+				qrcode.generate(
+					text,
+					{
+						small: true,
+					},
+					(code) => {
+						qr = code;
+					},
+				);
 
-                break;
-            }
+				int.reply({
+					content: `\`\`\`txt\n${qr}\n\`\`\``,
+				});
 
-            case 'image': {
-                const encodedText = encodeURIComponent(text)
+				break;
+			}
 
-                const req = await axios.get(`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodedText}`, {
-                    responseType: 'arraybuffer'
-                })
+			case "image": {
+				const encodedText = encodeURIComponent(text);
 
-                if (!req.data) return int.reply({
-                    content: 'The API did not return any QR code',
-                    ephemeral: true
-                })
+				const req = await axios.get(
+					`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodedText}`,
+					{
+						responseType: "arraybuffer",
+					},
+				);
 
-                const attachment = new AttachmentBuilder().setFile(req.data)
+				if (!req.data)
+					return int.reply({
+						content: "The API did not return any QR code",
+						ephemeral: true,
+					});
 
-                int.reply({
-                    files: [attachment]
-                })
+				const attachment = new AttachmentBuilder().setFile(req.data);
 
-                break;
-            }
-        }
-    }
-}
+				int.reply({
+					files: [attachment],
+				});
+
+				break;
+			}
+		}
+	},
+};
