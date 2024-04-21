@@ -235,6 +235,12 @@ module.exports = [
 				description: "Embed fields",
 				required: false,
 			},
+			{
+				name: "json",
+				type: ApplicationCommandOptionType.Boolean,
+				description: "Embed json",
+				required: false,
+			},
 		],
 	},
 	{
