@@ -237,7 +237,7 @@ module.exports = [
 			},
 			{
 				name: "json",
-				type: ApplicationCommandOptionType.Boolean,
+				type: ApplicationCommandOptionType.String,
 				description: "Embed json",
 				required: false,
 			},
