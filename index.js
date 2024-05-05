@@ -57,14 +57,14 @@ for (const dir of commandDirs) {
 	for (const command of commands) {
 		const commandData = require(`${__dirname}/commands/${dir}/${command}`);
 
-		if (commandData.requires.includes("mongo") && !client.config.mongo) {
+		if (commandStatusJSON[command.name] && commandData.requires.includes("mongo") && !client.config.mongo) {
 			console.log(
 				`\x1b[31mYou must add a MongoDB url or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
 			);
 			process.exit(1);
 		}
 
-		if (commandData.requires.includes('zipline') && [
+		if (commandStatusJSON[command.name] && commandData.requires.includes('zipline') && [
 			'token',
 			'url',
 			'chunkSize',
