@@ -1,6 +1,6 @@
 {
   "eval": true,
-  "tag": false,
+  "tag": true,
   "perms": true,
   "embed": true,
   "status": true,
@@ -14,6 +14,6 @@
   "Get Member Avatar": true,
   "minecraft": true,
   "8ball": true,
-  "upload": false,
-  "shorten": false
+  "upload": true,
+  "shorten": true
 }
