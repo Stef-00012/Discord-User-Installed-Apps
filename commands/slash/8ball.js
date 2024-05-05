@@ -1,14 +1,3 @@
-const axios = require("axios");
-const {
-	EmbedBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-	ActionRowBuilder,
-	ModalBuilder,
-	TextInputBuilder,
-	TextInputStyle,
-} = require("discord.js");
-
 module.exports = {
 	name: "8ball",
 	requires: [],

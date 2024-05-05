@@ -23,22 +23,13 @@ const client = new Client({
 		GatewayIntentBits.GuildScheduledEvents,
 		GatewayIntentBits.AutoModerationConfiguration,
 		GatewayIntentBits.DirectMessages,
-		GatewayIntentBits.DirectMessageReactions,
-
-		// GatewayIntentBits.GuildPresences,
-		// GatewayIntentBits.GuildMessageTyping,
-		// GatewayIntentBits.DirectMessageTyping,
-		// GatewayIntentBits.AutoModerationExecution
+		GatewayIntentBits.DirectMessageReactions
 	],
 	partials: [
 		Partials.Channel,
 		Partials.Reaction,
 		Partials.Message,
-		Partials.User,
-
-		// Partials.GuildMember,
-		// Partials.GuildScheduledEvent,
-		// Partials.ThreadMember,
+		Partials.User
 	],
 });
 
@@ -51,15 +42,6 @@ client.mongo = require(`${__dirname}/mongo/schemas.js`);
 
 const events = fs
 	.readdirSync(`${__dirname}/events`)
-	.filter((file) => file.endsWith(".js"));
-const commands = fs
-	.readdirSync(`${__dirname}/commands/slash`)
-	.filter((file) => file.endsWith(".js"));
-const messageContextMenuCommands = fs
-	.readdirSync(`${__dirname}/commands/message`)
-	.filter((file) => file.endsWith(".js"));
-const userContextMenuCommands = fs
-	.readdirSync(`${__dirname}/commands/user`)
 	.filter((file) => file.endsWith(".js"));
 
 const commandDirs = ["slash", "message", "user"];
@@ -78,6 +60,18 @@ for (const dir of commandDirs) {
 		if (commandData.requires.includes("mongo") && !client.config.mongo) {
 			console.log(
 				`\x1b[31mYou must add a MongoDB url or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
+			);
+			process.exit(1);
+		}
+
+		if (commandData.requires.includes('zipline') && [
+			'token',
+			'url',
+			'chunkSize',
+			'maxFileSize'
+		].some(cfg => !client.config.zipline?.[cfg])) {
+			console.log(
+				`\x1b[31mYou must add your zipline token, url and chunk size or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
 			);
 			process.exit(1);
 		}

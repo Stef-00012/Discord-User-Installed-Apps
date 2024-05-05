@@ -393,6 +393,67 @@ module.exports = [
 			},
 		],
 	},
+	{
+		name: "upload",
+		description: "Upload a file to your zipline server",
+		type: ApplicationCommandType.ChatInput,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+		options: [
+			{
+				name: "file",
+				type: ApplicationCommandOptionType.Attachment,
+				description: "The file to upload",
+				required: true
+			},
+			{
+				name: 'filename',
+				description: 'Override the filename of the file',
+				type: ApplicationCommandOptionType.String,
+				max_length: 50,
+				required: false
+			},
+			{
+				name: 'chunked',
+				description: 'Wether to upload the file in chunks',
+				type: ApplicationCommandOptionType.Boolean,
+				required: false
+			},
+			{
+				name: 'ephemeral',
+				description: 'Wether send an ephemeral reponse',
+				type: ApplicationCommandOptionType.Boolean,
+				required: false
+			}
+		],
+	},
+	{
+		name: "shorten",
+		description: "Shorten a URL with zipline",
+		type: ApplicationCommandType.ChatInput,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+		options: [
+			{
+				name: "url",
+				type: ApplicationCommandOptionType.String,
+				description: "The URL to shorten",
+				required: true
+			},
+			{
+				name: 'vanity',
+				type: ApplicationCommandOptionType.String,
+				description: 'Custom vanity URL',
+				required: false
+			},
+			{
+				name: 'ephemeral',
+				description: 'Wether send an ephemeral reponse',
+				type: ApplicationCommandOptionType.Boolean,
+				required: false
+			}
+		],
+	},
 
 	// message commands
 	{
