@@ -141,7 +141,7 @@ module.exports = {
 				content: "Something went wrong...",
 			});
 
-			// fs.unlinkSync(filePath);
+			fs.unlinkSync(filePath);
 		}
 	},
 };
