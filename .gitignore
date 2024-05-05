@@ -5,3 +5,4 @@ config.js
 *.sh
 .gitconfig
 biome.json
+tmp

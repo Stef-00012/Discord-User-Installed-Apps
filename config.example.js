@@ -8,4 +8,7 @@ module.exports = {
 		chunkSize: 20, // in mb
 		maxFileSize: 100, // in mb
 	},
+	autocomplete: {
+		tag: true // wether tag command should have autocomplete
+	}
 };

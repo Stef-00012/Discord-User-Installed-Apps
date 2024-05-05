@@ -2,6 +2,8 @@ const {
 	ApplicationCommandType,
 	ApplicationCommandOptionType,
 } = require("discord.js");
+const config = require('./config.js');
+const { autocomplete } = require("./config.example");
 
 module.exports = [
 	// slash commands
@@ -63,6 +65,7 @@ module.exports = [
 						description: "The name of the tag",
 						type: ApplicationCommandOptionType.String,
 						required: true,
+						autocomplete: config.autocomplete?.tag || false
 					},
 				],
 			},
@@ -76,6 +79,7 @@ module.exports = [
 						description: "The name of the tag",
 						type: ApplicationCommandOptionType.String,
 						required: true,
+						autocomplete: config.autocomplete?.tag || false
 					},
 					{
 						name: "ephemeral",
