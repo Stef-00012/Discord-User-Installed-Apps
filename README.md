@@ -12,4 +12,7 @@
 
 # Hosted
 
-If you can not selfhost the bot, you can use the hosted version [here](https://discord.com/oauth2/authorize?client_id=1219574606294417499)
+If you can not selfhost the bot, you can use the already hosted versions
+
+- By [Stef-00012](https://github.com/Stef-00012) (me) - [here](https://discord.com/oauth2/authorize?client_id=1219574606294417499)
+- By [CreeperITA104](https://github.com/Creeperita09) - [here](https://discord.com/oauth2/authorize?client_id=1222184630581592107)
