@@ -7,12 +7,15 @@ module.exports = async (client, int) => {
 	const serverAddress = int.options.getString("address");
 
 	await int.deferReply();
+	
+    const randomNum = Math.floor(Math.random() * 99999)
 
 	switch (serverVersion) {
 		case "java": {
 			try {
 				const status =
 					await client.functions.getMCJavaServerStatus(serverAddress);
+
 
 				const embed = new EmbedBuilder()
 					.setTitle(
@@ -21,8 +24,8 @@ module.exports = async (client, int) => {
 					.setAuthor({
 						name: "Minecraft Java Server",
 					})
-					.setThumbnail(`https://api.mcstatus.io/v2/icon/${serverAddress}`)
-					.setImage(`https://api.mcstatus.io/v2/widget/java/${serverAddress}`)
+					.setThumbnail(`https://api.mcstatus.io/v2/icon/${serverAddress}#${randomNum}`)
+					.setImage(`https://api.mcstatus.io/v2/widget/java/${serverAddress}#${randomNum}`)
 					.addFields([
 						{
 							name: "Status",
@@ -77,7 +80,7 @@ module.exports = async (client, int) => {
 					.setAuthor({
 						name: "Minecraft Bedrock Server",
 					})
-					.setThumbnail(`https://api.mcstatus.io/v2/icon/${serverAddress}`)
+					.setThumbnail(`https://api.mcstatus.io/v2/icon/${serverAddress}#${randomNum}`)
 					.addFields([
 						{
 							name: "Status",
