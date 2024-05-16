@@ -10,5 +10,9 @@ module.exports = {
 	},
 	autocomplete: {
 		tag: true // wether tag command should have autocomplete
+	},
+	naviac: {
+	    username: '<NAVIAC_USERNAME>',
+	    token: '<NAVIAC_TOKEN>'
 	}
 };

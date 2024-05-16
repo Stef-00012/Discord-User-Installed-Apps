@@ -15,5 +15,6 @@
   "minecraft": true,
   "8ball": true,
   "upload": true,
-  "shorten": true
+  "shorten": true,
+  "ask": true
 }

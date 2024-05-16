@@ -458,6 +458,27 @@ module.exports = [
 			}
 		],
 	},
+	{
+		name: "ask",
+		description: "Ask a question to N.A.V.I.A.C.",
+		type: ApplicationCommandType.ChatInput,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+		options: [
+			{
+				name: "question",
+				type: ApplicationCommandOptionType.String,
+				description: "The question to ask",
+				required: true,
+			},
+			{
+				name: "personal",
+				type: ApplicationCommandOptionType.Boolean,
+				description: "If hide the output or not",
+				required: false,
+			},
+		],
+	},
 
 	// message commands
 	{
