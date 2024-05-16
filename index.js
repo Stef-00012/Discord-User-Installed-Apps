@@ -64,7 +64,10 @@ for (const dir of commandDirs) {
 			process.exit(1);
 		}
 		
-		if (commandStatusJSON[command.name] && commandData.requires.includes("naviac") && !client.config.mongo) {
+		if (commandStatusJSON[command.name] && commandData.requires.includes("naviac") && [
+		    'username',
+		    'token'
+		].some(cfg => !client.config.naviac?.[cfg])) {
 			console.log(
 				`\x1b[31mYou must add a NAVIAC username and token or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
 			);
