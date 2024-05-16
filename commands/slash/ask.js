@@ -3,7 +3,7 @@ const axios = require("axios");
 
 module.exports = {
 	name: "ask",
-	requires: [],
+	requires: ['naviac'],
 
 	async execute(client, int) {
 		const question = int.options.getString("question");

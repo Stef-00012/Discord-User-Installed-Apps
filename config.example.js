@@ -1,18 +1,18 @@
 module.exports = {
-	token: "<BOT_TOKEN>",
-	owners: ["<YOUR_ID>"],
-	mongo: "<MONGO_URI>",
+	token: null, // string
+	owners: [], // array<string> (user ID)
+	mongo: null, // string
 	zipline: {
-		token: "<ZIPLINE_TOKEN>",
-		url: "<ZIPLINE_URL>", // it should look like https://example.com
-		chunkSize: 20, // in mb
-		maxFileSize: 100, // in mb
+		token: null, // string
+		url: null, // string (it should look like https://example.com)
+		chunkSize: null, // number (in mb)
+		maxFileSize: null, // number (in mb)
 	},
 	autocomplete: {
 		tag: true // wether tag command should have autocomplete
 	},
 	naviac: {
-	    username: '<NAVIAC_USERNAME>',
-	    token: '<NAVIAC_TOKEN>'
+	    username: null, // string
+	    token: null // string
 	}
 };
