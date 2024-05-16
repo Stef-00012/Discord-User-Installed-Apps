@@ -56,25 +56,27 @@ for (const dir of commandDirs) {
 
 	for (const command of commands) {
 		const commandData = require(`${__dirname}/commands/${dir}/${command}`);
-
-		if (commandStatusJSON[command.name] && commandData.requires.includes("mongo") && !client.config.mongo) {
+		
+		if (commandStatusJSON[commandData.name] && commandData.requires.includes("mongo") && !client.config.mongo) {
 			console.log(
 				`\x1b[31mYou must add a MongoDB url or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
 			);
+			
 			process.exit(1);
 		}
 		
-		if (commandStatusJSON[command.name] && commandData.requires.includes("naviac") && [
+		if (commandStatusJSON[commandData.name] && commandData.requires.includes("naviac") && [
 		    'username',
 		    'token'
 		].some(cfg => !client.config.naviac?.[cfg])) {
 			console.log(
 				`\x1b[31mYou must add a NAVIAC username and token or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
 			);
+			
 			process.exit(1);
 		}
 
-		if (commandStatusJSON[command.name] && commandData.requires.includes('zipline') && [
+		if (commandStatusJSON[commandData.name] && commandData.requires.includes('zipline') && [
 			'token',
 			'url',
 			'chunkSize',
@@ -83,6 +85,7 @@ for (const dir of commandDirs) {
 			console.log(
 				`\x1b[31mYou must add your zipline token, url and chunk size or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
 			);
+			
 			process.exit(1);
 		}
 
