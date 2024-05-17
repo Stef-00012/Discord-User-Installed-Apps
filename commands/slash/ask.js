@@ -40,7 +40,7 @@ module.exports = {
 		        content: 'Something went wrong...'
 		    })
 		    
-		    console.log(e)
+		    console.log(`\x1b[31mThe N.A.V.I.A.C. API request failed with status ${e.response.status} (${e.response.statusText})\x1b[0m`)
 		}
 	},
 };
