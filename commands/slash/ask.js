@@ -27,15 +27,30 @@ module.exports = {
             
             const response = res.data.response
             
+            
             const embed = new EmbedBuilder()
                 .setTitle("N.A.V.I.A.C.'s response")
-                .setDescription(response)
                 .setThumbnail('https://cdn.discordapp.com/avatars/975365560298795008/632ac9e6edf7517fa9378454c8600bdf.png?size=4096')
 
+            const regex = /\[Image generated with the help of Pollinations AI's services\]\((.*?)\)/;
+            
+            const match = response.match(regex)
+            
+            if (match) {
+                embed.setImage(match[1])
+                    .setFooter({
+                        text: 'Image generated with the help of Pollinations AI\'s services'
+                    })
+                    if (response.replace(regex, '').length > 0) embed.setDescription(response.replace(regex, ''))
+            } else {
+                embed.setDescription(response)
+            }
+            
             await int.editReply({
                 embeds: [embed]
             })
 		} catch(e) {
+		  //  console.log(e)
 		    int.editReply({
 		        content: 'Something went wrong...'
 		    })
