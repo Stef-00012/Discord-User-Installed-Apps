@@ -30,7 +30,6 @@ module.exports = {
             
             const embed = new EmbedBuilder()
                 .setTitle("N.A.V.I.A.C.'s response")
-                .setThumbnail('https://cdn.discordapp.com/avatars/975365560298795008/632ac9e6edf7517fa9378454c8600bdf.png?size=4096')
 
             const regex = /\[Image generated with the help of Pollinations AI's services\]\((.*?)\)/;
             
@@ -39,11 +38,13 @@ module.exports = {
             if (match) {
                 embed.setImage(match[1])
                     .setFooter({
-                        text: 'Image generated with the help of Pollinations AI\'s services'
+                        text: 'Image generated with the help of Pollinations AI\'s services',
+                        icon: 'https://cdn.discordapp.com/avatars/975365560298795008/632ac9e6edf7517fa9378454c8600bdf.png?size=4096'
                     })
                     if (response.replace(regex, '').length > 0) embed.setDescription(response.replace(regex, ''))
             } else {
                 embed.setDescription(response)
+                    .setThumbnail('https://cdn.discordapp.com/avatars/975365560298795008/632ac9e6edf7517fa9378454c8600bdf.png?size=4096')
             }
             
             await int.editReply({
