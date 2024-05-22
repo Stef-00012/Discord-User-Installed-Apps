@@ -104,7 +104,10 @@ for (const dir of commandDirs) {
 
 		console.log(`Loaded the ${dir} command "${command.split(".")[0]}"`);
 	}
+	
 }
+
+client.functions.init(client)
 
 for (const event of events) {
 	const eventData = require(`${__dirname}/events/${event}`);

@@ -6,3 +6,5 @@ config.js
 .gitconfig
 biome.json
 tmp
+data/commandPermissions.json
+data/commandStatus.json
