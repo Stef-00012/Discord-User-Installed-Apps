@@ -1,5 +1,5 @@
 const fs = require('fs')
-const commands = require('../../commands.js')
+const cmds = require('../../commands.js')
 const config = require('../../config.js')
 
 module.exports = () => {
@@ -14,7 +14,7 @@ module.exports = () => {
     }
     
     if (!fs.existsSync(`${__dirname}/../commandStatus.json`)) {
-        const commands = commands.map(cmd => cmd.name)
+        const commands = cmds.map(cmd => cmd.name)
         
         let commandStatus = {}
         
