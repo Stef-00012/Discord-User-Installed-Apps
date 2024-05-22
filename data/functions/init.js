@@ -10,7 +10,7 @@ module.exports = () => {
             status: config.owners
         }
         
-        fs.writeFileSync(`${__dirname}/../commandPermissions.json`, JSON.stringify(commandPermissions))
+        fs.writeFileSync(`${__dirname}/../commandPermissions.json`, JSON.stringify(commandPermissions, null, 4))
     }
     
     if (!fs.existsSync(`${__dirname}/../commandStatus.json`)) {
@@ -29,6 +29,6 @@ module.exports = () => {
             shorten: false
         }
         
-        fs.writeFileSync(`${__dirname}/../commandStatus.json`, JSON.stringify(commandStatus))
+        fs.writeFileSync(`${__dirname}/../commandStatus.json`, JSON.stringify(commandStatus, null, 4))
     }
 }
