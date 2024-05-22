@@ -14,7 +14,7 @@ module.exports = () => {
     }
     
     if (!fs.existsSync(`${__dirname}/../commandStatus.json`)) {
-        const commands = client.commands.map(cmd => cmd.name)
+        const commands = commands.map(cmd => cmd.name)
         
         let commandStatus = {}
         
