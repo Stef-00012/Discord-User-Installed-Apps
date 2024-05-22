@@ -1,6 +1,7 @@
 const fs = require('fs')
+const commands = require('../../commands.js')
 
-module.exports = (client) => {
+module.exports = () => {
     if (!fs.existsSync(`${__dirname}/../commandPermissions.json`)) {
         const commandPermissions = {
             eval: config.owners,

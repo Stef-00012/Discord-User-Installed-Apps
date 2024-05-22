@@ -40,6 +40,8 @@ client.messageCommands = new Collection();
 client.userCommands = new Collection();
 client.mongo = require(`${__dirname}/mongo/schemas.js`);
 
+client.functions.init()
+
 const events = fs
 	.readdirSync(`${__dirname}/events`)
 	.filter((file) => file.endsWith(".js"));
@@ -106,8 +108,6 @@ for (const dir of commandDirs) {
 	}
 	
 }
-
-client.functions.init(client)
 
 for (const event of events) {
 	const eventData = require(`${__dirname}/events/${event}`);
