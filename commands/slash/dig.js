@@ -1,5 +1,6 @@
 const { exec } = require('child_process')
 const { EmbedBuilder } = require('discord.js')
+const fs = require('fs')
 
 module.exports = {
 	name: "dig",
