@@ -70,7 +70,7 @@ module.exports = {
         
         exec(command, async (error, stdout, stderr) => {
             if (error || stderr) {
-                if (error?.includes('command not found') || stderr?.includes('command not found')) return int.editReply({
+                if ((typeof error == 'string' && error.includes('command not found')) || (typeof stderr == 'string' && stderr.includes('command not found'))) return int.editReply({
                     content: '`dig` is not installed on the system'
                 })
                 
