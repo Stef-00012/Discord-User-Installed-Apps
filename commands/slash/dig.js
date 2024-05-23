@@ -1,6 +1,5 @@
 const { exec } = require('child_process')
 const { EmbedBuilder } = require('discord.js')
-const fs = require('fs')
 
 module.exports = {
 	name: "dig",
@@ -68,10 +67,13 @@ module.exports = {
         await int.deferReply()
         
         const command = `dig ${domain} ${recordType} @${provider} +noall +answer${short ? ' +short' : ''}${cdflag ? ' +cdflag' : ''}`
-        const fullCommand = `${fs.existsSync('/usr/bin/dig') ? '/usr/bin/dig' : `${__dirname}/dig/dig`} ${domain} ${recordType} @${provider} +noall +answer${short ? ' +short' : ''}${cdflag ? ' +cdflag' : ''}`
         
-        exec(fullCommand, async (error, stdout, stderr) => {
+        exec(command, async (error, stdout, stderr) => {
             if (error || stderr) {
+                if (error.includes('command not found') || stderr.includes('command not found')) return int.editReply({
+                    content: '`dig` is not installed on the system'
+                })
+                
                 if (error) console.log(error)
                 if (stderr) console.log(stderr)
                 
