@@ -49,6 +49,10 @@ module.exports = {
                         name: 'Response',
                         value: response.replace(regex, '')
                     }])
+                    else embed.addFields([{
+                        name: 'Response',
+                        value: '`[If there is no image, please wait as discord caches/loads it]`'
+                    }])
             } else {
                 embed.addFields([{
                     name: 'Response',
