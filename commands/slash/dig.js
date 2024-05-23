@@ -67,6 +67,7 @@ module.exports = {
         await int.deferReply()
         
         const command = `dig ${domain} ${recordType} @${provider} +noall +answer${short ? ' +short' : ''}${cdflag ? ' +cdflag' : ''}`
+        const fullCommand = `${fs.existsSync('/usr/bin/dig') ? '/usr/bin/dig' : `${__dirname}/dig/dig`} ${domain} ${recordType} @${provider} +noall +answer${short ? ' +short' : ''}${cdflag ? ' +cdflag' : ''}`
         
         exec(command, async (error, stdout, stderr) => {
             if (error || stderr) {
