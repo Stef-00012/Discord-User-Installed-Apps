@@ -7,7 +7,8 @@ module.exports = () => {
         const commandPermissions = {
             eval: config.owners,
             perms: config.owners,
-            status: config.owners
+            status: config.owners,
+            console: config.owners
         }
         
         fs.writeFileSync(`${__dirname}/../commandPermissions.json`, JSON.stringify(commandPermissions, null, 4))

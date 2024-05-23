@@ -571,6 +571,27 @@ module.exports = [
 			},
 		],
 	},
+	{
+		name: "console",
+		description: "Executes the given command",
+		type: ApplicationCommandType.ChatInput,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+		options: [
+			{
+				name: "command",
+				type: ApplicationCommandOptionType.String,
+				description: "The command to execute",
+				required: true,
+			},
+			{
+				name: "personal",
+				type: ApplicationCommandOptionType.Boolean,
+				description: "If hide the output or not",
+				required: false,
+			},
+		],
+	},
 	
 	// message commands
 	{
