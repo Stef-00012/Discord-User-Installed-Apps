@@ -30,6 +30,10 @@ module.exports = {
             
             const embed = new EmbedBuilder()
                 .setTitle("N.A.V.I.A.C.'s response")
+                .addFields([{
+                    name: 'Prompt',
+                    value: `> ${question}`
+                }])
 
             const regex = /\[Image generated with the help of Pollinations AI's services\]\((.*?)\)/;
             
@@ -41,9 +45,15 @@ module.exports = {
                         text: 'Image generated with the help of Pollinations AI\'s services',
                         icon: 'https://cdn.discordapp.com/avatars/975365560298795008/632ac9e6edf7517fa9378454c8600bdf.png?size=4096'
                     })
-                    if (response.replace(regex, '').length > 0) embed.setDescription(response.replace(regex, ''))
+                    if (response.replace(regex, '').length > 0) embed.addFields([{
+                        name: 'Response',
+                        value: response.replace(regex, '')
+                    }])
             } else {
-                embed.setDescription(response)
+                embed.addFields([{
+                    name: 'Response',
+                    value: response
+                }])
                     .setThumbnail('https://cdn.discordapp.com/avatars/975365560298795008/632ac9e6edf7517fa9378454c8600bdf.png?size=4096')
             }
             
