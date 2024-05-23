@@ -69,9 +69,14 @@ module.exports = {
         const command = `dig ${domain} ${recordType} @${provider} +noall +answer${short ? ' +short' : ''}${cdflag ? ' +cdflag' : ''}`
         
         exec(command, async (error, stdout, stderr) => {
-            if (error || stderr) return int.editReply({
-                content: 'Something went wrong...'
-            })
+            if (error || stderr) {
+                if (error) console.log(error)
+                if (stderr) console.log(stderr)
+                
+                return int.editReply({
+                    content: 'Something went wrong...'
+                })
+            }
             
             const embed = new EmbedBuilder()
                 .setDescription(`\`${command}\`\n\`\`\`txt\n${stdout}\n\`\`\``)
