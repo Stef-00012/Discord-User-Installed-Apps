@@ -18,7 +18,7 @@ module.exports = {
         const fields = [
             {
                 name: 'Command:',
-                value: `\`\`\`js\n${cmd}\n\`\`\``
+                value: `\`\`\`ansi\n${cmd}\n\`\`\``
             }
         ]
         
@@ -30,7 +30,7 @@ module.exports = {
                     error.message = error.message.substr(0, 1000)
                 }
 
-                fields.push({ name: 'Error:', value: `\`\`\`js\n${error.message}\n\`\`\``})
+                fields.push({ name: 'Error:', value: `\`\`\`ansi\n${error.message}\n\`\`\``})
             }
             if (stderr) {
                 if (stderr.length > 1000) {
@@ -39,7 +39,7 @@ module.exports = {
                     stderr = stderr.substr(0, 1000)
                 }
 
-                fields.push({ name: 'StdErr:', value: `\`\`\`js\n${stderr}\n\`\`\`` })
+                fields.push({ name: 'StdErr:', value: `\`\`\`ansi\n${stderr}\n\`\`\`` })
             }
             if (stdout) {
                 if (stdout.length > 1000) {
@@ -48,7 +48,7 @@ module.exports = {
                     stdout = stdout.substr(0, 1000)
                 }
 
-                fields.push({ name: 'StdOut:', value: `\`\`\`js\n${stdout}\n\`\`\`` })
+                fields.push({ name: 'StdOut:', value: `\`\`\`ansi\n${stdout}\n\`\`\`` })
             }
 
             embed
