@@ -25,15 +25,12 @@ module.exports = {
                 }
             })
             
+            const prompt = `**Prompt**\n> ${question.split('\n').join('\n> ')}`
             const response = res.data.response
-            
             
             const embed = new EmbedBuilder()
                 .setTitle("N.A.V.I.A.C.'s response")
-                .addFields([{
-                    name: 'Prompt',
-                    value: `> ${question}`
-                }])
+                .setDescription(prompt)
 
             const regex = /\[Image generated with the help of Pollinations AI's services\]\((.*?)\)/;
             
@@ -45,19 +42,22 @@ module.exports = {
                         text: 'Image generated with the help of Pollinations AI\'s services',
                         icon: 'https://cdn.discordapp.com/avatars/975365560298795008/632ac9e6edf7517fa9378454c8600bdf.png?size=4096'
                     })
-                    if (response.replace(regex, '').length > 0) embed.addFields([{
-                        name: 'Response',
-                        value: response.replace(regex, '')
-                    }])
-                    else embed.addFields([{
-                        name: 'Response',
-                        value: '`[If there is no image, please wait as discord caches/loads it]`'
-                    }])
+                    if (response.replace(regex, '').length > 0) embed
+                        .setDescription(
+                            embed.data.description +
+                            `\n\n**Response**\n${response.replace(regex, '')}`
+                        )
+                    else embed
+                        .setDescription(
+                            embed.data.description +
+                            '\n\n**Response**\n`[If there is no image, please wait as discord caches/loads it]`'
+                        )
             } else {
-                embed.addFields([{
-                    name: 'Response',
-                    value: response
-                }])
+                embed
+                    .setDescription(
+                        embed.data.description +
+                        `\n\n**Response**\n${response}`
+                    )
                     .setThumbnail('https://cdn.discordapp.com/avatars/975365560298795008/632ac9e6edf7517fa9378454c8600bdf.png?size=4096')
             }
             
