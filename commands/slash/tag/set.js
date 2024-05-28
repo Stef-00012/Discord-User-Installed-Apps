@@ -10,16 +10,22 @@ module.exports = async (client, int) => {
 		});
 
 	const tagName = int.options.getString("name");
-	const tagContent = int.options.getString("content");
+	const tagContent = int.options.getString("content") || null;
+	const hasEmbeds = int.options.getBoolean("embeds") || false;
 
 	const tags = [...userData.tags];
 
 	const existingTag = tags.find((tag) => tag.name === tagName);
+	
+	const tagData = {
+	    content: tagContent || null,
+	    embeds: null
+	}
 
 	if (existingTag) {
 		const tagIndex = tags.findIndex((tag) => tag.name === tagName);
 
-		tags[tagIndex].value = tagContent;
+		tags[tagIndex].data = tagData;
 
 		int.reply({
 			content: `Successfully replaced the tag \`${tagName}\` with the content:\n>>> ${
@@ -32,7 +38,7 @@ module.exports = async (client, int) => {
 	} else {
 		tags.push({
 			name: tagName,
-			value: tagContent,
+			data: tagData,
 		});
 
 		int.reply({

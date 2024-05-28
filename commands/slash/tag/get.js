@@ -23,7 +23,7 @@ module.exports = async (client, int) => {
 		});
 
 	int.reply({
-		content: existingTag.value,
+		...existingTag.data,
 		ephemeral,
 	});
 };
