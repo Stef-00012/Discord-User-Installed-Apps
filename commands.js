@@ -36,8 +36,8 @@ module.exports = [
 		contexts: [0, 1, 2],
 		options: [
 			{
-				name: "set",
-				description: "Set or replace a tag",
+				name: "content",
+				description: "Set or replace the content of a tag",
 				type: ApplicationCommandOptionType.Subcommand,
 				options: [
 					{
@@ -50,7 +50,13 @@ module.exports = [
 						name: "content",
 						description: "The content of the tag",
 						type: ApplicationCommandOptionType.String,
-						required: true,
+						required: false,
+					},
+					{
+						name: "remove",
+						description: "Whether remove the content of the tag",
+						type: ApplicationCommandOptionType.Boolean,
+						required: false,
 						max_length: 2000,
 					},
 				],
@@ -94,6 +100,109 @@ module.exports = [
 				description: "List your tags",
 				type: ApplicationCommandOptionType.Subcommand,
 			},
+			{
+				name: "embed",
+				description: "Add or remove an embed from a tag",
+				type: ApplicationCommandOptionType.Subcommand,
+				options: [
+					{
+						name: "name",
+						description: "The name of the tag",
+						type: ApplicationCommandOptionType.String,
+						required: true,
+					},
+					{
+					    name: "remove-index",
+						description: "The index of the embed to remove",
+						type: ApplicationCommandOptionType.Integer,
+						required: false,
+					},
+					{
+        				name: "title",
+        				type: ApplicationCommandOptionType.String,
+        				description: "Embed title",
+        				required: false,
+        				max_length: 256,
+        			},
+        			{
+        				name: "description",
+        				type: ApplicationCommandOptionType.String,
+        				description: "Embed description",
+        				required: false,
+        				max_length: 4096,
+        			},
+        			{
+        				name: "url",
+        				type: ApplicationCommandOptionType.String,
+        				description: "Embed URL",
+        				required: false,
+        			},
+        			{
+        				name: "timetstamp",
+        				type: ApplicationCommandOptionType.Boolean,
+        				description: "Embed timestamp",
+        				required: false,
+        			},
+        			{
+        				name: "color",
+        				type: ApplicationCommandOptionType.String,
+        				description: "Embed color",
+        				required: false,
+        				max_length: 4096,
+        			},
+        			{
+        				name: "footer-text",
+        				type: ApplicationCommandOptionType.String,
+        				description: "Embed footer text",
+        				required: false,
+        				max_length: 2048,
+        			},
+        			{
+        				name: "footer-icon",
+        				type: ApplicationCommandOptionType.String,
+        				description: "Embed footer icon",
+        				required: false,
+        			},
+        			{
+        				name: "image",
+        				type: ApplicationCommandOptionType.String,
+        				description: "Embed image",
+        				required: false,
+        			},
+        			{
+        				name: "thumbnail",
+        				type: ApplicationCommandOptionType.String,
+        				description: "Embed thumbnail",
+        				required: false,
+        				max_length: 4096,
+        			},
+        			{
+        				name: "author-name",
+        				type: ApplicationCommandOptionType.String,
+        				description: "Embed author name",
+        				required: false,
+        				max_length: 256,
+        			},
+        			{
+        				name: "author-icon",
+        				type: ApplicationCommandOptionType.String,
+        				description: "Embed author icon",
+        				required: false,
+        			},
+        			{
+        				name: "fields",
+        				type: ApplicationCommandOptionType.Boolean,
+        				description: "Embed fields",
+        				required: false,
+        			},
+        			{
+        				name: "json",
+        				type: ApplicationCommandOptionType.String,
+        				description: "Embed json",
+        				required: false,
+        			}
+				],
+			}
 		],
 	},
 	{
@@ -182,7 +291,7 @@ module.exports = [
 				required: false,
 			},
 			{
-				name: "timetstamp",
+				name: "timestamp",
 				type: ApplicationCommandOptionType.Boolean,
 				description: "Embed timestamp",
 				required: false,
