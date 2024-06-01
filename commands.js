@@ -2,7 +2,7 @@ const {
 	ApplicationCommandType,
 	ApplicationCommandOptionType,
 } = require("discord.js");
-const config = require('./config.js');
+const config = require("./config.js");
 const { autocomplete } = require("./config.example");
 
 module.exports = [
@@ -71,7 +71,7 @@ module.exports = [
 						description: "The name of the tag",
 						type: ApplicationCommandOptionType.String,
 						required: true,
-						autocomplete: config.autocomplete?.tag || false
+						autocomplete: config.autocomplete?.tag || false,
 					},
 				],
 			},
@@ -85,7 +85,7 @@ module.exports = [
 						description: "The name of the tag",
 						type: ApplicationCommandOptionType.String,
 						required: true,
-						autocomplete: config.autocomplete?.tag || false
+						autocomplete: config.autocomplete?.tag || false,
 					},
 					{
 						name: "ephemeral",
@@ -112,97 +112,97 @@ module.exports = [
 						required: true,
 					},
 					{
-					    name: "remove-index",
+						name: "remove-index",
 						description: "The index of the embed to remove",
 						type: ApplicationCommandOptionType.Integer,
 						required: false,
 					},
 					{
-        				name: "title",
-        				type: ApplicationCommandOptionType.String,
-        				description: "Embed title",
-        				required: false,
-        				max_length: 256,
-        			},
-        			{
-        				name: "description",
-        				type: ApplicationCommandOptionType.String,
-        				description: "Embed description",
-        				required: false,
-        				max_length: 4096,
-        			},
-        			{
-        				name: "url",
-        				type: ApplicationCommandOptionType.String,
-        				description: "Embed URL",
-        				required: false,
-        			},
-        			{
-        				name: "timetstamp",
-        				type: ApplicationCommandOptionType.Boolean,
-        				description: "Embed timestamp",
-        				required: false,
-        			},
-        			{
-        				name: "color",
-        				type: ApplicationCommandOptionType.String,
-        				description: "Embed color",
-        				required: false,
-        				max_length: 4096,
-        			},
-        			{
-        				name: "footer-text",
-        				type: ApplicationCommandOptionType.String,
-        				description: "Embed footer text",
-        				required: false,
-        				max_length: 2048,
-        			},
-        			{
-        				name: "footer-icon",
-        				type: ApplicationCommandOptionType.String,
-        				description: "Embed footer icon",
-        				required: false,
-        			},
-        			{
-        				name: "image",
-        				type: ApplicationCommandOptionType.String,
-        				description: "Embed image",
-        				required: false,
-        			},
-        			{
-        				name: "thumbnail",
-        				type: ApplicationCommandOptionType.String,
-        				description: "Embed thumbnail",
-        				required: false,
-        				max_length: 4096,
-        			},
-        			{
-        				name: "author-name",
-        				type: ApplicationCommandOptionType.String,
-        				description: "Embed author name",
-        				required: false,
-        				max_length: 256,
-        			},
-        			{
-        				name: "author-icon",
-        				type: ApplicationCommandOptionType.String,
-        				description: "Embed author icon",
-        				required: false,
-        			},
-        			{
-        				name: "fields",
-        				type: ApplicationCommandOptionType.Boolean,
-        				description: "Embed fields",
-        				required: false,
-        			},
-        			{
-        				name: "json",
-        				type: ApplicationCommandOptionType.String,
-        				description: "Embed json",
-        				required: false,
-        			}
+						name: "title",
+						type: ApplicationCommandOptionType.String,
+						description: "Embed title",
+						required: false,
+						max_length: 256,
+					},
+					{
+						name: "description",
+						type: ApplicationCommandOptionType.String,
+						description: "Embed description",
+						required: false,
+						max_length: 4096,
+					},
+					{
+						name: "url",
+						type: ApplicationCommandOptionType.String,
+						description: "Embed URL",
+						required: false,
+					},
+					{
+						name: "timetstamp",
+						type: ApplicationCommandOptionType.Boolean,
+						description: "Embed timestamp",
+						required: false,
+					},
+					{
+						name: "color",
+						type: ApplicationCommandOptionType.String,
+						description: "Embed color",
+						required: false,
+						max_length: 4096,
+					},
+					{
+						name: "footer-text",
+						type: ApplicationCommandOptionType.String,
+						description: "Embed footer text",
+						required: false,
+						max_length: 2048,
+					},
+					{
+						name: "footer-icon",
+						type: ApplicationCommandOptionType.String,
+						description: "Embed footer icon",
+						required: false,
+					},
+					{
+						name: "image",
+						type: ApplicationCommandOptionType.String,
+						description: "Embed image",
+						required: false,
+					},
+					{
+						name: "thumbnail",
+						type: ApplicationCommandOptionType.String,
+						description: "Embed thumbnail",
+						required: false,
+						max_length: 4096,
+					},
+					{
+						name: "author-name",
+						type: ApplicationCommandOptionType.String,
+						description: "Embed author name",
+						required: false,
+						max_length: 256,
+					},
+					{
+						name: "author-icon",
+						type: ApplicationCommandOptionType.String,
+						description: "Embed author icon",
+						required: false,
+					},
+					{
+						name: "fields",
+						type: ApplicationCommandOptionType.Boolean,
+						description: "Embed fields",
+						required: false,
+					},
+					{
+						name: "json",
+						type: ApplicationCommandOptionType.String,
+						description: "Embed json",
+						required: false,
+					},
 				],
-			}
+			},
 		],
 	},
 	{
@@ -517,27 +517,27 @@ module.exports = [
 				name: "file",
 				type: ApplicationCommandOptionType.Attachment,
 				description: "The file to upload",
-				required: true
+				required: true,
 			},
 			{
-				name: 'filename',
-				description: 'Override the filename of the file',
+				name: "filename",
+				description: "Override the filename of the file",
 				type: ApplicationCommandOptionType.String,
 				max_length: 50,
-				required: false
+				required: false,
 			},
 			{
-				name: 'chunked',
-				description: 'Wether to upload the file in chunks',
+				name: "chunked",
+				description: "Wether to upload the file in chunks",
 				type: ApplicationCommandOptionType.Boolean,
-				required: false
+				required: false,
 			},
 			{
-				name: 'ephemeral',
-				description: 'Wether send an ephemeral reponse',
+				name: "ephemeral",
+				description: "Wether send an ephemeral reponse",
 				type: ApplicationCommandOptionType.Boolean,
-				required: false
-			}
+				required: false,
+			},
 		],
 	},
 	{
@@ -551,20 +551,20 @@ module.exports = [
 				name: "url",
 				type: ApplicationCommandOptionType.String,
 				description: "The URL to shorten",
-				required: true
+				required: true,
 			},
 			{
-				name: 'vanity',
+				name: "vanity",
 				type: ApplicationCommandOptionType.String,
-				description: 'Custom vanity URL',
-				required: false
+				description: "Custom vanity URL",
+				required: false,
 			},
 			{
-				name: 'ephemeral',
-				description: 'Wether send an ephemeral reponse',
+				name: "ephemeral",
+				description: "Wether send an ephemeral reponse",
 				type: ApplicationCommandOptionType.Boolean,
-				required: false
-			}
+				required: false,
+			},
 		],
 	},
 	{
@@ -601,14 +601,15 @@ module.exports = [
 				description: "HTTP status code type",
 				required: true,
 				choices: [
-				    {
-				        name: 'Cat',
-				        value: 'cat'
-				    },
-				    {
-				        name: 'Dog',
-				        value: 'dog'				    }
-				]
+					{
+						name: "Cat",
+						value: "cat",
+					},
+					{
+						name: "Dog",
+						value: "dog",
+					},
+				],
 			},
 			{
 				name: "status",
@@ -618,25 +619,25 @@ module.exports = [
 			},
 		],
 	},
-    {
+	{
 		name: "dig",
 		description: "Dig a domain",
 		type: ApplicationCommandType.ChatInput,
 		integration_types: [0, 1],
 		contexts: [0, 1, 2],
 		options: [
-		    {
+			{
 				name: "domain",
 				type: ApplicationCommandOptionType.String,
 				description: "Domain to dig",
-				required: true
+				required: true,
 			},
 			{
 				name: "record",
 				type: ApplicationCommandOptionType.String,
 				description: "Record type to dig",
 				required: false,
-				autocomplete: true
+				autocomplete: true,
 			},
 			{
 				name: "short",
@@ -650,27 +651,27 @@ module.exports = [
 				description: "DNS provider to use",
 				required: false,
 				choices: [
-				    {
-				        name: '1.1.1.1 (Cloudflare)',
-				        value: '1.1.1.1'
-				    },
-				    {
-				        name: '1.1.1.2 (Cloudflare Malware Blocking)',
-				        value: '1.1.1.2'
-				    },
-				    {
-				        name: '1.1.1.3 (Cloudflare Malware Blocking + Adult Content Blocking)',
-				        value: '1.1.1.3'
-				    },
-				    {
-				        name: '8.8.8.8 (Google)',
-				        value: '8.8.8.8'
-				    },
-				    {
-				        name: '9.9.9.9 (Quad9)',
-				        value: '9.9.9.9'
-				    }
-				]
+					{
+						name: "1.1.1.1 (Cloudflare)",
+						value: "1.1.1.1",
+					},
+					{
+						name: "1.1.1.2 (Cloudflare Malware Blocking)",
+						value: "1.1.1.2",
+					},
+					{
+						name: "1.1.1.3 (Cloudflare Malware Blocking + Adult Content Blocking)",
+						value: "1.1.1.3",
+					},
+					{
+						name: "8.8.8.8 (Google)",
+						value: "8.8.8.8",
+					},
+					{
+						name: "9.9.9.9 (Quad9)",
+						value: "9.9.9.9",
+					},
+				],
 			},
 			{
 				name: "cdflag",
@@ -701,7 +702,7 @@ module.exports = [
 			},
 		],
 	},
-	
+
 	// message commands
 	{
 		name: "Save as Tag",

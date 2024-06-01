@@ -12,15 +12,15 @@ const tags = mongoose.model(
 					type: String,
 				},
 				data: {
-				    content: {
-				        type: String,
-				        nullable: true
-				    },
-				    embeds: {
-				        type: Object,
-				        nullable: true
-				    }
-				}
+					content: {
+						type: String,
+						nullable: true,
+					},
+					embeds: {
+						type: Object,
+						nullable: true,
+					},
+				},
 			},
 		],
 	}),

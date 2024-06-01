@@ -22,7 +22,10 @@ module.exports = async (client, int) => {
 			ephemeral: true,
 		});
 
-	if (existingTag.data?.embeds) existingTag.data.embeds = existingTag.data.embeds.filter(embed => Object.entries(embed).length > 0)
+	if (existingTag.data?.embeds)
+		existingTag.data.embeds = existingTag.data.embeds.filter(
+			(embed) => Object.entries(embed).length > 0,
+		);
 
 	int.reply({
 		...existingTag.data,

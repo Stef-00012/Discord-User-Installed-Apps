@@ -9,10 +9,10 @@ module.exports = {
 		maxFileSize: null, // number (in mb)
 	},
 	autocomplete: {
-		tag: true // whether tag command should have autocomplete
+		tag: true, // whether tag command should have autocomplete
 	},
 	naviac: {
-	    username: null, // string
-	    token: null // string
-	}
+		username: null, // string
+		token: null, // string
+	},
 };

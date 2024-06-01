@@ -1,13 +1,15 @@
-const fs = require('fs')
+const fs = require("node:fs");
 
-const functions = {}
+const functions = {};
 
-const funcs = fs.readdirSync(`${__dirname}/functions`).filter(file => file.endsWith('.js'))
+const funcs = fs
+	.readdirSync(`${__dirname}/functions`)
+	.filter((file) => file.endsWith(".js"));
 
 for (const func of funcs) {
-    const funcData = require(`${__dirname}/functions/${func}`)
-    
-    functions[func.split('.')[0]] = funcData
+	const funcData = require(`${__dirname}/functions/${func}`);
+
+	functions[func.split(".")[0]] = funcData;
 }
 
-module.exports = functions
+module.exports = functions;

@@ -42,24 +42,21 @@ module.exports = {
             if (match) {
                 embed.setImage(match[1])
                     .setFooter({
-                        text: embed.data.footer.text + ' | Image generated with the help of Pollinations AI\'s services',
+                        text: `${embed.data.footer.text} | Image generated with the help of Pollinations AI\'s services`,
                         icon: 'https://cdn.discordapp.com/avatars/975365560298795008/632ac9e6edf7517fa9378454c8600bdf.png?size=4096'
                     })
                     if (response.replace(regex, '').length > 0) embed
                         .setDescription(
-                            embed.data.description +
-                            `\n\n**Response**\n${response.replace(regex, '')}`
+                            `${embed.data.description}\n\n**Response**\n${response.replace(regex, '')}`
                         )
                     else embed
                         .setDescription(
-                            embed.data.description +
-                            '\n\n**Response**\n`[If there is no image, please wait as discord caches/loads it]`'
+                            `${embed.data.description}\n\n**Response**\n`[If there is no image, please wait as discord caches/loads it]``
                         )
             } else {
                 embed
                     .setDescription(
-                        embed.data.description +
-                        `\n\n**Response**\n${response}`
+                        `${embed.data.description}\n\n**Response**\n${response}`
                     )
                     .setThumbnail('https://cdn.discordapp.com/avatars/975365560298795008/632ac9e6edf7517fa9378454c8600bdf.png?size=4096')
             }

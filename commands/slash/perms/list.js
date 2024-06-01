@@ -1,6 +1,4 @@
-const {
-	EmbedBuilder
-} = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const fs = require("node:fs");
 
 module.exports = async (client, int) => {

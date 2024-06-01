@@ -23,13 +23,13 @@ const client = new Client({
 		GatewayIntentBits.GuildScheduledEvents,
 		GatewayIntentBits.AutoModerationConfiguration,
 		GatewayIntentBits.DirectMessages,
-		GatewayIntentBits.DirectMessageReactions
+		GatewayIntentBits.DirectMessageReactions,
 	],
 	partials: [
 		Partials.Channel,
 		Partials.Reaction,
 		Partials.Message,
-		Partials.User
+		Partials.User,
 	],
 });
 
@@ -40,7 +40,7 @@ client.messageCommands = new Collection();
 client.userCommands = new Collection();
 client.mongo = require(`${__dirname}/mongo/schemas.js`);
 
-client.functions.init()
+client.functions.init();
 
 const events = fs
 	.readdirSync(`${__dirname}/events`)
@@ -58,36 +58,42 @@ for (const dir of commandDirs) {
 
 	for (const command of commands) {
 		const commandData = require(`${__dirname}/commands/${dir}/${command}`);
-		
-		if (commandStatusJSON[commandData.name] && commandData.requires.includes("mongo") && !client.config.mongo) {
+
+		if (
+			commandStatusJSON[commandData.name] &&
+			commandData.requires.includes("mongo") &&
+			!client.config.mongo
+		) {
 			console.log(
 				`\x1b[31mYou must add a MongoDB url or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
 			);
-			
-			process.exit(1);
-		}
-		
-		if (commandStatusJSON[commandData.name] && commandData.requires.includes("naviac") && [
-		    'username',
-		    'token'
-		].some(cfg => !client.config.naviac?.[cfg])) {
-			console.log(
-				`\x1b[31mYou must add a NAVIAC username and token or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
-			);
-			
+
 			process.exit(1);
 		}
 
-		if (commandStatusJSON[commandData.name] && commandData.requires.includes('zipline') && [
-			'token',
-			'url',
-			'chunkSize',
-			'maxFileSize'
-		].some(cfg => !client.config.zipline?.[cfg])) {
+		if (
+			commandStatusJSON[commandData.name] &&
+			commandData.requires.includes("naviac") &&
+			["username", "token"].some((cfg) => !client.config.naviac?.[cfg])
+		) {
+			console.log(
+				`\x1b[31mYou must add a NAVIAC username and token or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
+			);
+
+			process.exit(1);
+		}
+
+		if (
+			commandStatusJSON[commandData.name] &&
+			commandData.requires.includes("zipline") &&
+			["token", "url", "chunkSize", "maxFileSize"].some(
+				(cfg) => !client.config.zipline?.[cfg],
+			)
+		) {
 			console.log(
 				`\x1b[31mYou must add your zipline token, url and chunk size or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
 			);
-			
+
 			process.exit(1);
 		}
 
@@ -106,7 +112,6 @@ for (const dir of commandDirs) {
 
 		console.log(`Loaded the ${dir} command "${command.split(".")[0]}"`);
 	}
-	
 }
 
 for (const event of events) {

@@ -1,7 +1,7 @@
 const axios = require("axios");
 const fs = require("node:fs");
 const path = require("node:path");
-const streamToBlob = require('stream-to-blob')
+const streamToBlob = require("stream-to-blob");
 
 module.exports = {
 	name: "upload",
@@ -31,13 +31,13 @@ module.exports = {
 			if (attachment.size > 95 * 1024 * 1024 && !chunked)
 				return await int.reply({
 					content: "Your file is too big, non-chunked files can be max 95mb",
-					ephemeral: true
+					ephemeral: true,
 				});
 
 			if (attachment.size > maxFileSize * 1024 * 1024)
 				return int.reply({
 					content: `Your file is too big, max file size ${maxFileSize}mb`,
-					ephemeral: true
+					ephemeral: true,
 				});
 
 			await int.deferReply({
@@ -58,7 +58,7 @@ module.exports = {
 				const file = fs.createReadStream(filePath);
 				const form = new FormData();
 
-				form.append("file", (await streamToBlob(file, attachment.contentType)), {
+				form.append("file", await streamToBlob(file, attachment.contentType), {
 					filename: fileName,
 					contentType: attachment.contentType,
 					knownLength: attachment.size,
@@ -70,7 +70,7 @@ module.exports = {
 						"content-type": "multipart/form-data",
 						Format: "random",
 						Embed: "true",
-						"Original-Name": "true"
+						"Original-Name": "true",
 					},
 				});
 
@@ -100,11 +100,15 @@ module.exports = {
 				});
 				const formData = new FormData();
 
-				formData.append("file", (await streamToBlob(chunk, attachment.contentType)), {
-					filename: fileName,
-					contentType: attachment.contentType,
-					knownLength: end - start,
-				});
+				formData.append(
+					"file",
+					await streamToBlob(chunk, attachment.contentType),
+					{
+						filename: fileName,
+						contentType: attachment.contentType,
+						knownLength: end - start,
+					},
+				);
 
 				axios
 					.post(`${domain}/api/upload`, formData, {
@@ -118,7 +122,7 @@ module.exports = {
 							"X-Zipline-Partial-Mimetype": attachment.contentType,
 							Format: "random",
 							Embed: "true",
-							"Original-Name": "true"
+							"Original-Name": "true",
 						},
 					})
 					.then(async (response) => {

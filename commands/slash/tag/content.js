@@ -11,26 +11,31 @@ module.exports = async (client, int) => {
 
 	const tagName = int.options.getString("name");
 	const tagContent = int.options.getString("content") || null;
-	const removeContent = int.options.getBoolean("remove") || false
+	const removeContent = int.options.getBoolean("remove") || false;
 
 	const tags = [...userData.tags];
 
 	const existingTag = tags.find((tag) => tag.name === tagName);
-	
+
 	const tagData = {
-	    content: removeContent ? null : tagContent || null,
-	    embeds: existingTag?.data?.embeds || null
-	}
+		content: removeContent ? null : tagContent || null,
+		embeds: existingTag?.data?.embeds || null,
+	};
 
-	if ((!tagData.content || tagData.content?.length <= 0) && (!tagData.embeds || tagData.embeds?.length <= 0)) return int.reply({
-		content: "A tag can not be empty",
-		ephemeral: true
-	})
+	if (
+		(!tagData.content || tagData.content?.length <= 0) &&
+		(!tagData.embeds || tagData.embeds?.length <= 0)
+	)
+		return int.reply({
+			content: "A tag can not be empty",
+			ephemeral: true,
+		});
 
-	if (removeContent && !existingTag) return int.reply({
-		content: "This tag doesn't exist",
-		ephemeral: true
-	})
+	if (removeContent && !existingTag)
+		return int.reply({
+			content: "This tag doesn't exist",
+			ephemeral: true,
+		});
 
 	if (removeContent) {
 		const tagIndex = tags.findIndex((tag) => tag.name === tagName);

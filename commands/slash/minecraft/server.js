@@ -1,6 +1,4 @@
-const {
-	EmbedBuilder
-} = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = async (client, int) => {
 	const serverVersion = int.options.getString("version");
@@ -13,7 +11,6 @@ module.exports = async (client, int) => {
 			try {
 				const status =
 					await client.functions.getMCJavaServerStatus(serverAddress);
-
 
 				const embed = new EmbedBuilder()
 					.setTitle(

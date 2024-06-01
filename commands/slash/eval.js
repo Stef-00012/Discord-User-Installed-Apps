@@ -27,12 +27,15 @@ module.exports = {
 
 		try {
 			let evaluatedCode = await eval(code);
-			
-			if (typeof evaluatedCode != 'string' && typeof evaluatedCode?.then == 'function') {
-                evaluatedCode.then(res => {
-                    evaluatedCode = res
-                })
-            }
+
+			if (
+				typeof evaluatedCode !== "string" &&
+				typeof evaluatedCode?.then === "function"
+			) {
+				evaluatedCode.then((res) => {
+					evaluatedCode = res;
+				});
+			}
 
 			if (typeof evaluatedCode !== "string") {
 				evaluatedCode = util.inspect(evaluatedCode);
