@@ -9,19 +9,6 @@ const startMongo = require(`${__dirname}/mongo/start.js`);
 
 const client = new Client({
 	intents: [
-		GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMembers,
-		GatewayIntentBits.GuildModeration,
-		GatewayIntentBits.GuildEmojisAndStickers,
-		GatewayIntentBits.GuildIntegrations,
-		GatewayIntentBits.GuildWebhooks,
-		GatewayIntentBits.GuildInvites,
-		GatewayIntentBits.GuildVoiceStates,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.GuildMessageReactions,
-		GatewayIntentBits.MessageContent,
-		GatewayIntentBits.GuildScheduledEvents,
-		GatewayIntentBits.AutoModerationConfiguration,
 		GatewayIntentBits.DirectMessages,
 		GatewayIntentBits.DirectMessageReactions,
 	],
