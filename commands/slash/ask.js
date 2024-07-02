@@ -17,7 +17,7 @@ module.exports = {
 
 		try {
 			const res = await axios.put(
-				"https://avsac-api.onrender.com/generate-response",
+				"https://naviac-api.onrender.com/generate-response",
 				{
 					text: question,
 				},

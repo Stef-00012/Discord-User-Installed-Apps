@@ -138,7 +138,7 @@ module.exports = [
 						required: false,
 					},
 					{
-						name: "timetstamp",
+						name: "timestamp",
 						type: ApplicationCommandOptionType.Boolean,
 						description: "Embed timestamp",
 						required: false,
