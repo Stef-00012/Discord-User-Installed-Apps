@@ -702,6 +702,39 @@ module.exports = [
 			},
 		],
 	},
+	{
+		name: "animal",
+		description: "Get an animap pic",
+		type: ApplicationCommandType.ChatInput,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+		options: [
+			{
+				name: "type",
+				type: ApplicationCommandOptionType.String,
+				description: "The animal type to get",
+				required: false,
+				choices: [
+					{
+						name: "Cat",
+						value: "cat"
+					},
+					{
+						name: "Dog",
+						value: "dog"
+					},
+					{
+						name: "Fox",
+						value: "fox"
+					},
+					{
+						name: "Duck",
+						value: "duck"
+					}
+				]
+			},
+		],
+	},
 
 	// message commands
 	{
