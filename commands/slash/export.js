@@ -22,6 +22,7 @@ module.exports = {
 		await int.deferReply()
 		
 		int.editReply({
+		    content: `<https://github.com/stef-00012/discord-user-installed-apps/blob/main/${inputPath.startsWith('/') ? inputPath.replace('/', '') : inputPath}>`,
 		    files: [attachment]
 		})
 	},
