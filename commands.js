@@ -735,6 +735,21 @@ module.exports = [
 			},
 		],
 	},
+	{
+		name: "define",
+		description: "Define a term",
+		type: ApplicationCommandType.ChatInput,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+		options: [
+			{
+				name: "term",
+				type: ApplicationCommandOptionType.String,
+				description: "The term to define",
+				required: true,
+			},
+		],
+	},
 
 	// message commands
 	{
