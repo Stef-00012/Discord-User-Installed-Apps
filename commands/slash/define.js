@@ -7,7 +7,7 @@ module.exports = {
 
 	async execute(client, int) {
 		const term = int.options.getString("term");
-		int.deferReply()
+		await int.deferReply()
 
         try {
     		const data = await ubdict.define(term)
