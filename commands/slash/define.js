@@ -15,7 +15,7 @@ module.exports = {
 		const embed = new EmbedBuilder()
 		    .setTitle(`Definition: ${term}`)
 		    .setURL(definition.permalink)
-		    .setTimestamp(definition.written_on)
+		    .setTimestamp(new Date(definition.written_on))
 		    .setFooter(`By ${definition.author} | ${definition.thumbs_up} :+1: | ${definition.defid}`)
 		    .setFields([
 		        {
