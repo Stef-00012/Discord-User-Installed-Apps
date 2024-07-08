@@ -17,13 +17,13 @@ module.exports = {
     		const definitionData = data[0]
     		
     		const definition = definitionData.definition.replace(wordRegex, async (_, word) => {
-    		    const wordDefinition = ubdict.define(word)
+    		    const wordDefinition = await ubdict.define(word)
     		    
     		    return wordDefinition.permalink
     		})
     		
     		const example = definitionData.example.replace(wordRegex, async (_, word) => {
-    		    const wordDefinition = ubdict.define(word)
+    		    const wordDefinition = await ubdict.define(word)
     		    
     		    return wordDefinition.permalink
     		})
