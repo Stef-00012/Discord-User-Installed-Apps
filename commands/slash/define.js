@@ -1,5 +1,6 @@
 const ubdict = require('@dmzoneill/urban-dictionary')
 const { EmbedBuilder } = require('discord.js')
+const replace = require('string-replace-async')
 
 module.exports = {
 	name: "define",
@@ -16,13 +17,13 @@ module.exports = {
     		
     		const definitionData = data[0]
     		
-    		const definition = definitionData.definition.replace(wordRegex, async (_, word) => {
+    		const definition = await replace(definitionData.definition, wordRegex, async (_, word) => {
     		    const wordDefinition = await ubdict.define(word)
     		    
     		    return wordDefinition.permalink
     		})
     		
-    		const example = definitionData.example.replace(wordRegex, async (_, word) => {
+    		const example = await replace(definitionData.example, wordRegex, async (_, word) => {
     		    const wordDefinition = await ubdict.define(word)
     		    
     		    return wordDefinition.permalink
