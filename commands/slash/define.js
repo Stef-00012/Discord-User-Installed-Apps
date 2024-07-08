@@ -19,7 +19,7 @@ module.exports = {
     		    .setURL(definition.permalink)
     		    .setTimestamp(new Date(definition.written_on))
     		    .setFooter({
-    		        text: `By ${definition.author} | ${definition.thumbs_up} like${definition.thumbs_up > 1 ? 's' : ''} | ${definition.defid}`
+    		        text: `By ${definition.author} | ${definition.defid}`
     		    })
     		    .setFields([
     		        {
@@ -29,6 +29,10 @@ module.exports = {
     		        {
     		            name: 'Example:',
     		            value: definition.example
+    		        },
+    		        {
+    		            name: 'Votes',
+    		            value: `${definition.thumbs_up} like${definition.thumbs_up > 1 ? 's' : ''} :+1: | ${definition.thumbs_down} like${definition.thumbs_down > 1 ? 's' : ''} :-1:`
     		        }
     		    ])
     
