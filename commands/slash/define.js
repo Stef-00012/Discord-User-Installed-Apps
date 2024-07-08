@@ -7,31 +7,38 @@ module.exports = {
 
 	async execute(client, int) {
 		const term = int.options.getString("term");
+		int.deferReply()
 
-		const data = await ubdict.define(term)
-		
-		const definition = data[0]
-		
-		const embed = new EmbedBuilder()
-		    .setTitle(`Definition: ${term}`)
-		    .setURL(definition.permalink)
-		    .setTimestamp(new Date(definition.written_on))
-		    .setFooter({
-		        text: `By ${definition.author} | ${definition.thumbs_up} like${definition.thumbs_up > 1 ? 's' : ''} | ${definition.defid}`
-		    })
-		    .setFields([
-		        {
-		            name: 'Definition:',
-		            value: definition.definition
-		        },
-		        {
-		            name: 'Example:',
-		            value: definition.example
-		        }
-		    ])
-
-		int.reply({
-			embeds: [embed]
-		});
+        try {
+    		const data = await ubdict.define(term)
+    		
+    		const definition = data[0]
+    		
+    		const embed = new EmbedBuilder()
+    		    .setTitle(`Definition: ${term}`)
+    		    .setURL(definition.permalink)
+    		    .setTimestamp(new Date(definition.written_on))
+    		    .setFooter({
+    		        text: `By ${definition.author} | ${definition.thumbs_up} like${definition.thumbs_up > 1 ? 's' : ''} | ${definition.defid}`
+    		    })
+    		    .setFields([
+    		        {
+    		            name: 'Definition:',
+    		            value: definition.definition
+    		        },
+    		        {
+    		            name: 'Example:',
+    		            value: definition.example
+    		        }
+    		    ])
+    
+    		int.editReply({
+    			embeds: [embed]
+    		});
+        } catch(e) {
+            int.editReply({
+                content: 'No results found'
+            })
+        }
 	},
 };
