@@ -750,6 +750,21 @@ module.exports = [
 			},
 		],
 	},
+	{
+		name: "export",
+		description: "Export a file",
+		type: ApplicationCommandType.ChatInput,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+		options: [
+			{
+				name: "path",
+				type: ApplicationCommandOptionType.String,
+				description: "The file to export",
+				required: true,
+			},
+		],
+	},
 
 	// message commands
 	{
