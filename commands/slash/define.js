@@ -12,27 +12,41 @@ module.exports = {
         try {
     		const data = await ubdict.define(term)
     		
-    		const definition = data[0]
+    		const wordRegex = /\[(.*?)\]/g
+    		
+    		const definitionData = data[0]
+    		
+    		const definition = definitionData.definition.replace(wordRegex, async (_, word) => {
+    		    const wordDefinition = ubdict.define(word)
+    		    
+    		    return wordDefinition.permalink
+    		})
+    		
+    		const example = definitionData.example.replace(wordRegex, async (_, word) => {
+    		    const wordDefinition = ubdict.define(word)
+    		    
+    		    return wordDefinition.permalink
+    		})
     		
     		const embed = new EmbedBuilder()
     		    .setTitle(`Definition: ${term}`)
-    		    .setURL(definition.permalink)
-    		    .setTimestamp(new Date(definition.written_on))
+    		    .setURL(definitionData.permalink)
+    		    .setTimestamp(new Date(definitionData.written_on))
     		    .setFooter({
-    		        text: `By ${definition.author} | ${definition.defid}`
+    		        text: `By ${definitionData.author} | ${definitionData.defid}`
     		    })
     		    .setFields([
     		        {
     		            name: 'Definition:',
-    		            value: definition.definition
+    		            value: definition
     		        },
     		        {
     		            name: 'Example:',
-    		            value: definition.example
+    		            value: example
     		        },
     		        {
     		            name: 'Votes',
-    		            value: `${definition.thumbs_up} like${definition.thumbs_up > 1 ? 's' : ''} :+1: | ${definition.thumbs_down} like${definition.thumbs_down > 1 ? 's' : ''} :-1:`
+    		            value: `${definitionData.thumbs_up} like${definitionData.thumbs_up > 1 ? 's' : ''} :+1: | ${definitionData.thumbs_down} like${definitionData.thumbs_down > 1 ? 's' : ''} :-1:`
     		        }
     		    ])
     
