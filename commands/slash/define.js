@@ -17,7 +17,7 @@ module.exports = {
 		    .setURL(definition.permalink)
 		    .setTimestamp(new Date(definition.written_on))
 		    .setFooter({
-		        text: `By ${definition.author} | ${definition.thumbs_up} :+1: | ${definition.defid}`
+		        text: `By ${definition.author} | ${definition.thumbs_up} like${definition.thumbs_up > 1 ? 's' : ''} | ${definition.defid}`
 		    })
 		    .setFields([
 		        {
