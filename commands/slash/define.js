@@ -55,6 +55,7 @@ module.exports = {
     			embeds: [embed]
     		});
         } catch(e) {
+            console.log(e)
             int.editReply({
                 content: `No results found for "${term}"`
             })
