@@ -21,7 +21,7 @@ module.exports = {
     		    try {
     		        const wordDefinition = await ubdict.define(word)
     		    
-        		    return wordDefinition.permalink
+        		    return wordDefinition[0].permalink
     		    } catch(e) {
     		        return word
     		    }
@@ -31,7 +31,7 @@ module.exports = {
     		    try {
     		        const wordDefinition = await ubdict.define(word)
     		    
-        		    return wordDefinition.permalink
+        		    return wordDefinition[0].permalink
     		    } catch(e) {
     		        return word
     		    }
