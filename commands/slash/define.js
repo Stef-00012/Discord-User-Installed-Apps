@@ -18,15 +18,23 @@ module.exports = {
     		const definitionData = data[0]
     		
     		const definition = await replace(definitionData.definition, wordRegex, async (_, word) => {
-    		    const wordDefinition = await ubdict.define(word)
+    		    try {
+    		        const wordDefinition = await ubdict.define(word)
     		    
-    		    return wordDefinition.permalink
+        		    return wordDefinition.permalink
+    		    } catch(e) {
+    		        return word
+    		    }
     		})
     		
     		const example = await replace(definitionData.example, wordRegex, async (_, word) => {
-    		    const wordDefinition = await ubdict.define(word)
+    		    try {
+    		        const wordDefinition = await ubdict.define(word)
     		    
-    		    return wordDefinition.permalink
+        		    return wordDefinition.permalink
+    		    } catch(e) {
+    		        return word
+    		    }
     		})
     		
     		const embed = new EmbedBuilder()
@@ -55,7 +63,6 @@ module.exports = {
     			embeds: [embed]
     		});
         } catch(e) {
-            console.log(e)
             int.editReply({
                 content: `No results found for "${term}"`
             })
