@@ -37,7 +37,7 @@ module.exports = {
     		});
         } catch(e) {
             int.editReply({
-                content: 'No results found'
+                content: `No results found for "${term}"`
             })
         }
 	},
