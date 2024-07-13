@@ -1,5 +1,5 @@
-const axios = require('axios')
-const { EmbedBuilder } = require('discord.js')
+const axios = require("axios");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
 	name: "animal",
@@ -7,8 +7,6 @@ module.exports = {
 
 	async autocomplete(client, int) {
 		const value = int.options.getFocused();
-
-		
 
 		let matches = records.filter((tag) => tag.name.startsWith(value));
 
@@ -19,52 +17,52 @@ module.exports = {
 
 	async execute(client, int) {
 		let type = int.options.getString("type");
-        let pic;
+		let pic;
 
-        const types = ['cat', 'dog', 'fox', 'duck']
+		const types = ["cat", "dog", "fox", "duck"];
 
-        if (!type) type = types[Math.floor(Math.random() * types.length)]
+		if (!type) type = types[Math.floor(Math.random() * types.length)];
 
-        await int.deferReply()
-		
-        switch(type) {
-            case 'fox': {
-                const data = await axios.get('https://randomfox.ca/floof')
+		await int.deferReply();
 
-                pic = data.data.image
+		switch (type) {
+			case "fox": {
+				const data = await axios.get("https://randomfox.ca/floof");
 
-                break;
-            }
+				pic = data.data.image;
 
-            case 'duck': {
-                const data = await axios.get('https://random-d.uk/api/v2/random')
+				break;
+			}
 
-                pic = data.data.url
+			case "duck": {
+				const data = await axios.get("https://random-d.uk/api/v2/random");
 
-                break;
-            }
+				pic = data.data.url;
 
-            case 'cat': {
-                const data = await axios.get('https://api.thecatapi.com/v1/images/search')
+				break;
+			}
 
-                pic = data.data[0].url
+			case "cat": {
+				const data = await axios.get(
+					"https://api.thecatapi.com/v1/images/search",
+				);
 
-                break;
-            }
+				pic = data.data[0].url;
 
-            case 'dog': {
-                const data = await axios.get('https://dog.ceo/api/breeds/image/random')
+				break;
+			}
 
-                pic = data.data.message
-            }
-        }
+			case "dog": {
+				const data = await axios.get("https://dog.ceo/api/breeds/image/random");
 
-        const embed = new EmbedBuilder()
-            .setImage(pic)
-            .setTitle(`Random ${type}`)
+				pic = data.data.message;
+			}
+		}
 
-        int.editReply({
-            embeds: [embed]
-        })
+		const embed = new EmbedBuilder().setImage(pic).setTitle(`Random ${type}`);
+
+		int.editReply({
+			embeds: [embed],
+		});
 	},
 };
