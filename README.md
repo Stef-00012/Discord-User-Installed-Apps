@@ -9,6 +9,8 @@
 - replace `<BOT_TOKEN>` with your bot token ID
 - replace `<YOUR_ID>` with your account ID
 - replace `<MONGO_URI>` with your mongodb database connection string
+- replace `<ZIPLINE>` with your preferred zipline settings
+- replace `<NAVIAC>` with your N.A.V.I.A.C username and token (to get yours contact Ninja or use a hosted version)
 
 # Hosted
 
