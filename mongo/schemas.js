@@ -26,11 +26,30 @@ const tags = mongoose.model(
 	}),
 );
 
+const reminders = mongoose.model(
+	"reminders",
+	new mongoose.Schema({
+		userId: {
+			type: String
+		},
+		reminderId: {
+			type: String
+		},
+		description: {
+			type: String
+		},
+		date: {
+			type: String
+		}
+	})
+)
+
 function isConnected() {
 	return mongoose.STATES[mongoose.connection.readyState] === "connected";
 }
 
 module.exports = {
 	tags,
+	reminders,
 	isConnected,
 };

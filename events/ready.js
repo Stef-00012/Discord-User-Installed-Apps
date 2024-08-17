@@ -1,8 +1,43 @@
+const { EmbedBuilder } = require("discord.js");
 const axios = require("axios");
 const fs = require("node:fs");
 
 module.exports = async (client) => {
 	console.log(`The app is online (logged as ${client.user.tag})`);
+
+	setInterval(async () => {
+		const reminders = await client.mongo.reminders.find({})
+
+		for (const reminder of reminders) {
+			const reminderDate = new Date(reminder.date)
+
+			if (Date.now() > reminderDate.getTime()) {
+				try {
+					const user = await client.users.fetch(reminder.userId)
+
+					if (!user) return;
+
+					const embed = new EmbedBuilder()
+						.setTitle('Reminder')
+						.setDescription(reminder.description)
+
+					await user.send({
+						embeds: [embed]
+					})
+
+					await client.mongo.reminders.deleteOne({
+						reminderId: reminder.reminderId
+					})
+				} catch(e) {
+					console.log(e)
+
+					await client.mongo.reminders.deleteOne({
+						reminderId: reminder.reminderId
+					})
+				}
+			}
+		}
+	}, 30000)
 
 	const commands = await client.application.commands.fetch();
 

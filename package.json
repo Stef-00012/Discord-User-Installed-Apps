@@ -12,6 +12,7 @@
     "@dmzoneill/urban-dictionary": "^3.0.3",
     "axios": "^1.6.8",
     "discord.js": "^14.14.1",
+    "enhanced-ms": "^3.0.0",
     "mongoose": "^8.2.2",
     "qrcode-terminal": "^0.12.0",
     "stream-to-blob": "^2.0.1",

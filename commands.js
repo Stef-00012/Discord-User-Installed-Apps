@@ -765,6 +765,55 @@ module.exports = [
 			},
 		],
 	},
+	{
+		name: "reminders",
+		description: "Add or remove a reminder",
+		type: ApplicationCommandType.ChatInput,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+		options: [
+			{
+				name: "add",
+				type: ApplicationCommandOptionType.Subcommand,
+				description: "Add a reminder",
+				options: [
+					{
+						name: "time",
+						description:
+							"In how long the reminder will be sent",
+						type: ApplicationCommandOptionType.String,
+						required: true,
+					},
+					{
+						name: "reason",
+						description:
+							"What you want to be reminded of",
+						type: ApplicationCommandOptionType.String,
+						required: true,
+					},
+				],
+			},
+			{
+				name: "remove",
+				type: ApplicationCommandOptionType.Subcommand,
+				description: "Remove an user from the allowed users",
+				options: [
+					{
+						name: "id",
+						description: "The id of the reminder",
+						type: ApplicationCommandOptionType.String,
+						autocomplete: true,
+						required: true,
+					},
+				],
+			},
+			{
+				name: "list",
+				type: ApplicationCommandOptionType.Subcommand,
+				description: "Lists your reminders",
+			},
+		],
+	},
 
 	// message commands
 	{
