@@ -1,4 +1,3 @@
-const ms = require('enhanced-ms')
 const { EmbedBuilder } = require("discord.js")
 
 module.exports = async (client, int) => {
@@ -16,9 +15,9 @@ module.exports = async (client, int) => {
 
     const remindersString = userRemiders
         .map(reminder => {
-            const timeDiff = new Date(reminder.date).getTime() - new Date().getTime()
+            const timeUnix = Math.floor(new Date(reminder.date).getTime() / 1000)
 
-            return `[\`${reminder.reminderId}\`] | in ${ms(timeDiff) || "0s"} - ${reminder.description}`
+            return `[\`${reminder.reminderId}\`] | <t:${timeUnix}:R> - ${reminder.description}`
         })
         .join('\n- ')
 

@@ -203,6 +203,30 @@ module.exports = [
 					},
 				],
 			},
+			{
+				name: "export",
+				description: "Export your tags",
+				type: ApplicationCommandOptionType.Subcommand,
+			},
+			{
+				name: "import",
+				description: "tags",
+				type: ApplicationCommandOptionType.Subcommand,
+				options: [
+					{
+						name: "file",
+						description: "The JSON file with your tags",
+						type: ApplicationCommandOptionType.Attachment,
+						required: true,
+					},
+					{
+						name: "overwrite",
+						description: "If overwrite your old tags or add on top of existing ones",
+						type: ApplicationCommandOptionType.Boolean,
+						required: false,
+					},
+				],
+			},
 		],
 	},
 	{
