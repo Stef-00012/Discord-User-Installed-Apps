@@ -52,8 +52,8 @@ app.post(rootPath, (req, res, next) => {
 	let html = fs.readFileSync('./tagPreview/index.html', 'utf-8')
 	html = html
 		.replace('[[[base64_data]]]', base64json)
-		.replace('[[[username]]]', client.user.username)
 		.replace('[[[avatar_url]]]', client.user.avatarURL())
+		.replaceAll('[[[username]]]', client.user.username)
 		.replaceAll('[[[root_path]]]', rootPath)
 
 	res.send(html)
