@@ -46,36 +46,39 @@ app.get(rootPath, (req, res, next) => {
 
 app.use(rootPath, express.static('tagPreview'))
 
-app.post(rootPath, (req, res, next) => {
-	const json = req.body.json
+// app.post(rootPath, (req, res, next) => {
+// 	const json = req.body.json
 
-	if (!json || (!json.content && (!json.embeds || json.embeds?.length <= 0))) return res.sendStatus(400);
+// 	if (!json || (!json.content && (!json.embeds || json.embeds?.length <= 0))) return res.sendStatus(400);
 
-	const base64json = btoa(JSON.stringify(json))
+// 	const base64json = btoa(JSON.stringify(json))
 
-	let html = fs.readFileSync('./tagPreview/index.html', 'utf-8')
-	html = html
-		.replace('[[[base64_data]]]', base64json)
-		.replace('[[[avatar_url]]]', client.user.avatarURL())
-		.replaceAll('[[[username]]]', client.user.username)
-		.replaceAll('[[[root_path]]]', rootPath)
+// 	let html = fs.readFileSync('./tagPreview/index.html', 'utf-8')
+// 	html = html
+// 		.replace('[[[base64_data]]]', base64json)
+// 		.replace('[[[avatar_url]]]', client.user.avatarURL())
+// 		.replaceAll('[[[username]]]', client.user.username)
+// 		.replaceAll('[[[root_path]]]', rootPath)
 
-	res.send(html)
-})
+// 	res.send(html)
+// })
 
 app.get(`${rootPath}:id`, async (req, res, next) => {
 	try {
 		const json = global.cache[req.params.id]
 
-		if (!json) return res.sendStatus(404);
+		if (!json || (!json.content && (!json.embeds || json.embeds?.length <= 0))) return res.sendStatus(400);
 
-		const data = await axios.post(`http${client.config?.tagPreview?.secure ? 's' : ''}://${client.config?.tagPreview?.hostname || localhost}${client.config?.tagPreview?.keepPort ? `:${client.config?.tagPreview?.port || 3000}` : ''}${rootPath}`, {
-			json
-		})
+		const base64json = btoa(JSON.stringify(json))
 
-		if (!data.data) return res.sendStatus(404);
+		let html = fs.readFileSync('./tagPreview/index.html', 'utf-8')
+		html = html
+			.replace('[[[base64_data]]]', base64json)
+			.replace('[[[avatar_url]]]', client.user.avatarURL())
+			.replaceAll('[[[username]]]', client.user.username)
+			.replaceAll('[[[root_path]]]', rootPath)
 
-		res.send(data.data)
+		res.send(html)
 	} catch(e) {
 		return res.sendStatus(500)
 	}
