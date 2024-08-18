@@ -128,8 +128,6 @@ module.exports = async (client, int) => {
                 })
 
                 await new Promise((resolve) => {
-                    if (cancelled) return resolve();
-
                     const buttonCollector = message.createMessageComponentCollector({
                         componentType: ComponentType.Button,
                         max: 1,
@@ -148,7 +146,7 @@ module.exports = async (client, int) => {
                             try {
                                 await int.editReply({
                                     content: "The import has been cancelled",
-                                    components: [disabledRow]
+                                    components: []
                                 })
 
                                 return resolve()
