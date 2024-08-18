@@ -40,6 +40,10 @@ let rootPath = client.config?.tagPreview?.path || '/'
 
 if (rootPath !== '/' && !rootPath.endsWith('/')) rootPath = `${rootPath}/`;
 
+app.get(rootPath, (req, res, next) => {
+	return res.sendStatus(404);
+})
+
 app.use(rootPath, express.static('tagPreview'))
 
 app.post(rootPath, (req, res, next) => {
