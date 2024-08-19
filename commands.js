@@ -633,6 +633,10 @@ module.exports = [
 						name: "Dog",
 						value: "dog",
 					},
+					{
+						name: "Goat",
+						value: "goat"
+					}
 				],
 			},
 			{
