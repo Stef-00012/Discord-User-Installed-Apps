@@ -842,6 +842,142 @@ module.exports = [
 			},
 		],
 	},
+	{
+		name: "ptero",
+		description: "Manage your pterodactyl servers",
+		type: ApplicationCommandType.ChatInput,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+		options: [
+			{
+				name: "server",
+				description: "Manage your pterodactyl servers",
+				type: ApplicationCommandOptionType.SubcommandGroup,
+				options: [
+					{
+						name: "info",
+						description: "Get the informations about a pterodactyl server",
+						type: ApplicationCommandOptionType.Subcommand,
+						options: [
+							{
+								name: "id",
+								description: "The pterodactyl server ID",
+								type: ApplicationCommandOptionType.String,
+								required: true
+							}
+						]
+					},
+					{
+						name: "power",
+						description: "Run a power action on your server",
+						type: ApplicationCommandOptionType.Subcommand,
+						options: [
+							{
+								name: "id",
+								description: "The pterodactyl server ID",
+								type: ApplicationCommandOptionType.String,
+								required: true
+							},
+							{
+								name: "action",
+								description: "The power action",
+								type: ApplicationCommandOptionType.String,
+								required: true,
+								choices: [
+									{
+										name: "Start",
+										value: "start"
+									},
+									{
+										name: "Stop",
+										value: "stop"
+									},
+									{
+										name: "Restart",
+										value: "restart"
+									},
+									{
+										name: "Kill",
+										value: "kill"
+									}
+								]
+							}
+						]
+					},
+					{
+						name: "command",
+						description: "Run a command on your server",
+						type: ApplicationCommandOptionType.Subcommand,
+						options: [
+							{
+								name: "id",
+								description: "The pterodactyl server ID",
+								type: ApplicationCommandOptionType.String,
+								required: true
+							},
+							{
+								name: "command",
+								description: "The command",
+								type: ApplicationCommandOptionType.String,
+								required: true
+							}
+						]
+					},
+					{
+						name: "list",
+						description: "Run a command on your server",
+						type: ApplicationCommandOptionType.Subcommand,
+					}
+				],
+			},
+			{
+				name: "account",
+				description: "Manage your pterodactyl account",
+				type: ApplicationCommandOptionType.SubcommandGroup,
+				options: [
+					{
+						name: "info",
+						description: "Get the informations about your pterodactyl account",
+						type: ApplicationCommandOptionType.Subcommand,
+						options: [
+							{
+								name: "mail",
+								description: "Whetever show the mail or not",
+								type: ApplicationCommandOptionType.Boolean,
+								required: false
+							}
+						]
+					},
+				],
+			},
+			{
+				name: "config",
+				description: "Manage your pterodactyl bot config",
+				type: ApplicationCommandOptionType.SubcommandGroup,
+				options: [
+					{
+						name: "set",
+						description: "set your panel URL and API key",
+						type: ApplicationCommandOptionType.Subcommand,
+						options: [
+							{
+								name: "url",
+								description: "Your panel URL",
+								type: ApplicationCommandOptionType.String,
+								required: true
+							},
+							{
+								name: "key",
+								description: "Your API key",
+								type: ApplicationCommandOptionType.String,
+								required: true
+							}
+						]
+					},
+				],
+			},
+		],
+	},
 
 	// message commands
 	{

@@ -2,7 +2,7 @@ const axios = require("axios");
 
 module.exports = {
 	name: "reminders",
-	requires: [],
+	requires: ["mongo"],
 
 	async autocomplete(client, int) {
 		const value = int.options.getFocused();

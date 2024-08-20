@@ -46,23 +46,6 @@ app.get(rootPath, (req, res, next) => {
 
 app.use(rootPath, express.static('tagPreview'))
 
-// app.post(rootPath, (req, res, next) => {
-// 	const json = req.body.json
-
-// 	if (!json || (!json.content && (!json.embeds || json.embeds?.length <= 0))) return res.sendStatus(400);
-
-// 	const base64json = btoa(JSON.stringify(json))
-
-// 	let html = fs.readFileSync('./tagPreview/index.html', 'utf-8')
-// 	html = html
-// 		.replace('[[[base64_data]]]', base64json)
-// 		.replace('[[[avatar_url]]]', client.user.avatarURL())
-// 		.replaceAll('[[[username]]]', client.user.username)
-// 		.replaceAll('[[[root_path]]]', rootPath)
-
-// 	res.send(html)
-// })
-
 app.get(`${rootPath}:id`, async (req, res, next) => {
 	try {
 		const json = global.cache[req.params.id]

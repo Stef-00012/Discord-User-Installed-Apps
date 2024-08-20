@@ -44,6 +44,21 @@ const reminders = mongoose.model(
 	})
 )
 
+const ptero = mongoose.model(
+	"ptero",
+	new mongoose.Schema({
+		id: {
+			type: String
+		},
+		panelUrl: {
+			type: String
+		},
+		apiKey: {
+			type: String
+		}
+	})
+)
+
 function isConnected() {
 	return mongoose.STATES[mongoose.connection.readyState] === "connected";
 }
@@ -51,5 +66,6 @@ function isConnected() {
 module.exports = {
 	tags,
 	reminders,
+	ptero,
 	isConnected,
 };
