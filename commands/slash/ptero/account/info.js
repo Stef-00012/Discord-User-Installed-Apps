@@ -27,6 +27,7 @@ module.exports = async (client, int) => {
         const data = res.data.attributes
 
         const embed = new EmbedBuilder()
+        .setTitle('Account Information')
             .setDescription(`**ID**: \`${data.id}\`\n**Admin**: ${data.admin ? "Yes" : "No"}\n**Username**: ${data.username}\n**Mail**: \`${showMail ? data.email : "<hidden>"}\`\n**Full Name**: ${data.first_name} ${data.last_name}\n**Language**: \`${data.language}\``)
 
         await int.editReply({

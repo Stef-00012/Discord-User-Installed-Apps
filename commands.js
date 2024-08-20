@@ -978,6 +978,13 @@ module.exports = [
 			},
 		],
 	},
+	{
+		name: "ping",
+		description: "Get thr bot's ping",
+		type: ApplicationCommandType.ChatInput,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2]
+	},
 
 	// message commands
 	{
