@@ -7,16 +7,16 @@
         <meta property="og:site_name" content="EmbedBuilder">
         <meta property="og:title" content="EmbedBuilder">
         <meta property="og:description" content="Build and preview Discord embeds outside Discord.">
-        <meta property="og:url" content="[[[root_path]]]">
+        <meta property="og:url" content="/tagPreview/">
         <meta property="og:type" content="website" />
         <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
-        <title>[[[username]]]'s' Tag Preview</title>
-        <link rel="stylesheet" href="[[[root_path]]]css/index.css" />
+        <title><%= username %>'s' Tag Preview</title>
+        <link rel="stylesheet" href="/tagPreview/css/index.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.1/highlight.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
         <script src="https://unpkg.com/jsonlint@1.6.3/web/jsonlint.js"></script>
-        <script src="[[[root_path]]]js/components.js"></script>
-        <script src="[[[root_path]]]js/script.js" defer></script>
+        <script src="/tagPreview/js/components.js"></script>
+        <script src="/tagPreview/js/script.js" defer></script>
     </head>
     <body class="gui emptyEmbed">
         <div class="main">
@@ -88,8 +88,8 @@
             </section>
         </div>
         <input type="hidden" value>
-        <input type="text" id="b_base64Data" value="[[[base64_data]]]">
-        <input type="text" id="b_avatarUrl" value="[[[avatar_url]]]">
-        <input type="text" id="b_username" value="[[[username]]]">
+        <input type="text" id="b_base64Data" value="<%= json %>">
+        <input type="text" id="b_avatarUrl" value="<%= avatar %>">
+        <input type="text" id="b_username" value="<%= username %>">
     </body>
 </html>

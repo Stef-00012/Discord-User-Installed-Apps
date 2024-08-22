@@ -8,7 +8,7 @@ module.exports = async (client, int) => {
     })
     const file = int.options.getAttachment('file')
     const overwrite = int.options.getBoolean('overwrite') || false
-    const checkConflicts = client.config?.tagPreview?.enabled
+    const checkConflicts = client.config?.web?.enabled
 
     if (file.contentType.split(';')[0] !== "application/json") return int.reply({
         ephemeral: true,
@@ -70,10 +70,7 @@ module.exports = async (client, int) => {
                 userData.tags.push(tag)
             }
 
-            let rootPath = client.config?.tagPreview?.path || '/'
-            if (rootPath !== '/' && !rootPath.endsWith('/')) rootPath = `${rootPath}/`;
-
-            const baseUrl = `http${client.config?.tagPreview?.secure ? 's' : ''}://${client.config?.tagPreview?.hostname || localhost}${client.config?.tagPreview?.keepPort ? `:${client.config?.tagPreview?.port || 3000}` : ''}${rootPath}`
+            const baseUrl = `http${client.config?.web?.secure ? 's' : ''}://${client.config?.web?.hostname || localhost}${client.config?.web?.keepPort ? `:${client.config?.web?.port || 3000}` : ''}/tags`
 
             const btnId = randomUUID().slice(0, 8)
             
@@ -123,7 +120,7 @@ module.exports = async (client, int) => {
                 global.cache[newId] = conflict[1].data
 
                 const message = await int.editReply({
-                    content: `There ${conflicts.length > 1 ? 'are' : 'is'} ${conflicts.length} conflicts\n\nTag Name: "${conflict[0].name}"\n[Old Tag Data](${baseUrl}${oldId}) - [New Tag Data](${baseUrl}${newId})`,
+                    content: `There ${conflicts.length > 1 ? 'are' : 'is'} ${conflicts.length} conflicts\n\nTag Name: "${conflict[0].name}"\n[Old Tag Data](${baseUrl}/${oldId}) - [New Tag Data](${baseUrl}/${newId})`,
                     components: [row]
                 })
 

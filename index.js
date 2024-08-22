@@ -5,7 +5,6 @@ const {
 	Collection,
 } = require("discord.js");
 const fs = require("node:fs");
-const axios = require('axios')
 const express = require('express')
 const startMongo = require(`${__dirname}/mongo/start.js`);
 
@@ -35,18 +34,12 @@ client.functions.init();
 
 const app = express()
 app.use(express.json())
+app.set('view engine', 'ejs')
+app.set('views', `${__dirname}/web/views`)
 
-let rootPath = client.config?.tagPreview?.path || '/'
+app.use(express.static('web/public'))
 
-if (rootPath !== '/' && !rootPath.endsWith('/')) rootPath = `${rootPath}/`;
-
-app.get(rootPath, (req, res, next) => {
-	return res.sendStatus(404);
-})
-
-app.use(rootPath, express.static('tagPreview'))
-
-app.get(`${rootPath}:id`, async (req, res, next) => {
+app.get("/tags/:id", async (req, res, next) => {
 	try {
 		const json = global.cache[req.params.id]
 
@@ -54,14 +47,11 @@ app.get(`${rootPath}:id`, async (req, res, next) => {
 
 		const base64json = btoa(JSON.stringify(json))
 
-		let html = fs.readFileSync('./tagPreview/index.html', 'utf-8')
-		html = html
-			.replace('[[[base64_data]]]', base64json)
-			.replace('[[[avatar_url]]]', client.user.avatarURL())
-			.replaceAll('[[[username]]]', client.user.username)
-			.replaceAll('[[[root_path]]]', rootPath)
-
-		res.send(html)
+		return res.render('tags/preview', {
+			json: base64json,
+			avatar: client.user.avatarURL(),
+			username: client.user.username
+		})
 	} catch(e) {
 		return res.sendStatus(500)
 	}
@@ -153,13 +143,13 @@ for (const event of events) {
 
 client.login(client.config.token);
 
-if (commandStatusJSON.tag || commandStatusJSON["Save as Tag"]) {
-	startMongo(client);
-
-	if (client.config?.tagPreview?.enabled) app.listen(client.config.tagPreview.port, () => {
-		console.log(`The tag preview is listening on the port ${client.config.tagPreview.port} on http${client.config?.tagPreview?.secure ? 's' : ''}://${client.config?.tagPreview?.hostname || localhost}${client.config?.tagPreview?.keepPort ? `:${client.config?.tagPreview?.port || 3000}` : ''}${rootPath}`)
+if (client.config?.web?.enabled) {
+	app.listen(client.config?.web?.port || 3000, () => {
+		console.log(`The web UI on the port ${client.config?.web?.port || 3000} on http${client.config?.web?.secure ? 's' : ''}://${client.config?.web?.hostname || localhost}${client.config?.web?.keepPort ? `:${client.config?.web?.port || 3000}` : ''}`)
 	})
 }
+
+if (commandStatusJSON.tag || commandStatusJSON["Save as Tag"]) startMongo(client);
 
 global.cacheInterval = setInterval(() => {
 	global.cache = {}

@@ -15,12 +15,11 @@ module.exports = {
 		username: null, // string
 		token: null, // string
 	},
-	tagPreview: {
-		enabled: false, // whetever have a web preview of conflicting tags, having this off will automatically overwrite without showing conflicts
-		hostname: "localhost", // hostname of the preview
-		port: 3000, // port of the preview
+	web: {
+		enabled: false, // whetever have a web UI
+		hostname: "localhost", // hostname of the UI
+		port: 3000, // port of the UI
 		secure: false, // whetever use http or https
-		path: '/', // root path of the tag preview
-		keepPort: true // whetever keep the port in the requests and the conflicts message
+		keepPort: true // whetever keep the port in the messages
 	}
 };
