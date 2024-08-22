@@ -122,7 +122,7 @@ for (const dir of commandDirs) {
 		const colors = {
 			slash: '\x1b[34m',
 			message: '\x1b[38;2;27;87;161m',
-			user: '\x1b[38;2;21;79;150m'
+			user: '\x1b[38;2;13;67;133m'
 		}
 
 		switch (dir) {
