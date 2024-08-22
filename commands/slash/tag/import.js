@@ -70,8 +70,6 @@ module.exports = async (client, int) => {
                 userData.tags.push(tag)
             }
 
-            const baseUrl = `http${client.config?.web?.secure ? 's' : ''}://${client.config?.web?.hostname || localhost}${client.config?.web?.keepPort ? `:${client.config?.web?.port || 3000}` : ''}/tags`
-
             const btnId = randomUUID().slice(0, 8)
             
             const cancelButton = new ButtonBuilder()
@@ -120,7 +118,7 @@ module.exports = async (client, int) => {
                 global.cache[newId] = conflict[1].data
 
                 const message = await int.editReply({
-                    content: `There ${conflicts.length > 1 ? 'are' : 'is'} ${conflicts.length} conflicts\n\nTag Name: "${conflict[0].name}"\n[Old Tag Data](${baseUrl}/${oldId}) - [New Tag Data](${baseUrl}/${newId})`,
+                    content: `There ${conflicts.length > 1 ? 'are' : 'is'} ${conflicts.length} conflicts\n\nTag Name: "${conflict[0].name}"\n[Old Tag Data](${global.baseUrl}/${oldId}) - [New Tag Data](${global.baseUrl}/${newId})`,
                     components: [row]
                 })
 

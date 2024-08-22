@@ -53,6 +53,7 @@ app.get("/tags/:id", async (req, res, next) => {
 			username: client.user.username
 		})
 	} catch(e) {
+		console.log(e)
 		return res.sendStatus(500)
 	}
 })
@@ -144,13 +145,15 @@ for (const event of events) {
 client.login(client.config.token);
 
 if (client.config?.web?.enabled) {
+	global.baseUrl = `http${client.config?.web?.secure ? 's' : ''}://${client.config?.web?.hostname || localhost}${client.config?.web?.keepPort ? `:${client.config?.web?.port || 3000}` : ''}`
+
 	app.listen(client.config?.web?.port || 3000, () => {
-		console.log(`The web UI on the port ${client.config?.web?.port || 3000} on http${client.config?.web?.secure ? 's' : ''}://${client.config?.web?.hostname || localhost}${client.config?.web?.keepPort ? `:${client.config?.web?.port || 3000}` : ''}`)
+		console.log(`The web UI on the port ${client.config?.web?.port || 3000} on ${global.baseUrl}`)
 	})
+
+	global.cacheInterval = setInterval(() => {
+		global.cache = {}
+	}, 1000 * 60 * 10)
 }
 
 if (commandStatusJSON.tag || commandStatusJSON["Save as Tag"]) startMongo(client);
-
-global.cacheInterval = setInterval(() => {
-	global.cache = {}
-}, 1000 * 60 * 10)
