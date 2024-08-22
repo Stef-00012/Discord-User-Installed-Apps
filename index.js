@@ -21,7 +21,11 @@ const client = new Client({
 	],
 });
 
-global.cache = {}
+global.cache = {
+	abc: {
+		content: "hi"
+	}
+}
 
 client.config = require(`${__dirname}/config.js`);
 client.functions = require(`${__dirname}/data/functions.js`);
@@ -32,6 +36,11 @@ client.mongo = require(`${__dirname}/mongo/schemas.js`);
 
 client.functions.init();
 
+const {
+	dash: dashboardRoutes,
+	api: apiRoutes
+} = require('./web/routes/export.js')(client)
+
 const app = express()
 app.use(express.json())
 app.set('view engine', 'ejs')
@@ -39,24 +48,17 @@ app.set('views', `${__dirname}/web/views`)
 
 app.use(express.static('web/public'))
 
-app.get("/tags/:id", async (req, res, next) => {
-	try {
-		const json = global.cache[req.params.id]
+for (const route in dashboardRoutes) {
+	app.use('/', dashboardRoutes[route])
+	
+	console.log(`\x1b[38;2;131;77;179mLoaded the dashboard route "${route}"\x1b[0m`)
+}
 
-		if (!json || (!json.content && (!json.embeds || json.embeds?.length <= 0))) return res.sendStatus(400);
+for (const route in apiRoutes) {
+	app.use('/api', apiRoutes[route])
 
-		const base64json = btoa(JSON.stringify(json))
-
-		return res.render('tags/preview', {
-			json: base64json,
-			avatar: client.user.avatarURL(),
-			username: client.user.username
-		})
-	} catch(e) {
-		console.log(e)
-		return res.sendStatus(500)
-	}
-})
+	console.log(`\x1b[38;2;100;37;156mLoaded the API route "${route}"\x1b[0m`)
+}
 
 app.all('*', (req, res, next) => {
 	res.sendStatus(404);
@@ -117,6 +119,12 @@ for (const dir of commandDirs) {
 			process.exit(1);
 		}
 
+		const colors = {
+			slash: '\x1b[34m',
+			message: '\x1b[38;2;27;87;161m',
+			user: '\x1b[38;2;21;79;150m'
+		}
+
 		switch (dir) {
 			case "slash":
 				client.commands.set(commandData.name, commandData);
@@ -130,7 +138,7 @@ for (const dir of commandDirs) {
 				client.userCommands.set(commandData.name, commandData);
 		}
 
-		console.log(`Loaded the ${dir} command "${command.split(".")[0]}"`);
+		console.log(`${colors[dir]}Loaded the ${dir} command "${command.split(".")[0]}"\x1b[0m`);
 	}
 }
 
@@ -139,7 +147,7 @@ for (const event of events) {
 
 	client.on(event.split(".")[0], eventData.bind(null, client));
 
-	console.log(`Loaded the event "${event.split(".")[0]}"`);
+	console.log(`\x1b[38;2;21;150;113mLoaded the event "${event.split(".")[0]}"\x1b[0m`);
 }
 
 client.login(client.config.token);
@@ -148,7 +156,7 @@ if (client.config?.web?.enabled) {
 	global.baseUrl = `http${client.config?.web?.secure ? 's' : ''}://${client.config?.web?.hostname || localhost}${client.config?.web?.keepPort ? `:${client.config?.web?.port || 3000}` : ''}`
 
 	app.listen(client.config?.web?.port || 3000, () => {
-		console.log(`The web UI on the port ${client.config?.web?.port || 3000} on ${global.baseUrl}`)
+		console.log(`\x1b[36mThe web UI on the port ${client.config?.web?.port || 3000} on ${global.baseUrl}\x1b[0m`)
 	})
 
 	global.cacheInterval = setInterval(() => {

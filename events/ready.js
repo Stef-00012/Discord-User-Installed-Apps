@@ -3,7 +3,7 @@ const axios = require("axios");
 const fs = require("node:fs");
 
 module.exports = async (client) => {
-	console.log(`The app is online (logged as ${client.user.tag})`);
+	console.log(`\x1b[32mThe app is online (logged as ${client.user.tag})\x1b[0m`);
 
 	setInterval(async () => {
 		const reminders = await client.mongo.reminders.find({})
