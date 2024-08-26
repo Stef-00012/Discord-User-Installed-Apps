@@ -12,10 +12,6 @@ module.exports = async (client, token, tokenType, id) => {
             'Content-Type': 'application/x-www-form-urlencoded',
         })
 
-        await client.mongo.tokens.deleteOne({
-            id
-        })
-
         return true;
     } catch (error) {
         console.error(error?.response?.data || error)

@@ -8,7 +8,12 @@ module.exports = (client) => {
         if (req.query?.a === "1") return res.render("auth/notLogged")
 
         const tokenData = await client.functions.getToken(client, req.cookies?.id)
-        if (tokenData) return res.redirect('/dashboard');
+        
+        if (tokenData) {
+            if (!client.config.owners.includes(tokenData.id)) return res.redirect('/logout?r=1');
+            
+            return res.redirect('/dashboard');
+        }
 
         const code = req.query?.code
 
