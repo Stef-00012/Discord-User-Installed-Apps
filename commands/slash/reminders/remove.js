@@ -10,8 +10,6 @@ module.exports = async (client, int) => {
 		reminderId,
 	});
 
-    console.log(reminder)
-
 	if (!reminder)
 		return int.editReply({
 			content: `There is no reminder with this id (\`${reminderId}\`)`,

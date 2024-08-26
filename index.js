@@ -5,8 +5,10 @@ const {
 	Collection,
 } = require("discord.js");
 const fs = require("node:fs");
+const axios = require('axios')
 const express = require('express')
-const startMongo = require(`${__dirname}/mongo/start.js`);
+const cookieParser = require('cookie-parser')
+const startMongo = require("./mongo/start.js");
 
 const client = new Client({
 	intents: [
@@ -21,11 +23,8 @@ const client = new Client({
 	],
 });
 
-global.cache = {
-	abc: {
-		content: "hi"
-	}
-}
+global.conflicts = {}
+global.userCount = -1 // temporary until discord.js supports the approximate_user_install_count api key on the application data
 
 client.config = require(`${__dirname}/config.js`);
 client.functions = require(`${__dirname}/data/functions.js`);
@@ -36,22 +35,84 @@ client.mongo = require(`${__dirname}/mongo/schemas.js`);
 
 client.functions.init();
 
+if (client.config?.web?.enabled) {
+	if (!client.config.mongo) {
+		console.log(
+			"\x1b[31mYou must add a MongoDB url or disable the web UI\x1b[0m",
+		);
+	
+		process.exit(1);
+	}
+
+	if (
+		!client.config?.web?.auth ||
+		!client.config?.web?.auth?.clientId ||
+		!client.config?.web?.auth?.clientSecret ||
+		!client.config?.web?.auth?.redirectURI ||
+		!client.config?.web?.auth?.scopes
+	) {
+		console.log(
+			"\x1b[31mYou must setup discord OAuth2 or disable the web UI\x1b[0m",
+		);
+	
+		process.exit(1);
+	}
+
+	if (!client.config?.web?.jwt || !client.config?.web?.jwt?.secret) {
+		console.log(
+			"\x1b[31mYou must add a JWT secret or disable the web UI\x1b[0m",
+		);
+	
+		process.exit(1);
+	}
+}
+
 const {
-	dash: dashboardRoutes,
-	api: apiRoutes
+	auth: authRoutes,
+	api: apiRoutes,
+	noAuth: noAuthRoutes
 } = require('./web/routes/export.js')(client)
+
+const {
+	dash: dashboardMiddlewares,
+	api: apiMiddlewares
+} = require('./web/middlewares/export.js')(client)
 
 const app = express()
 app.use(express.json())
+app.use(cookieParser())
 app.set('view engine', 'ejs')
 app.set('views', `${__dirname}/web/views`)
 
 app.use(express.static('web/public'))
 
-for (const route in dashboardRoutes) {
-	app.use('/', dashboardRoutes[route])
+app.get('/', (req, res, next) => {
+	return res.redirect('/dashboard');
+})
+
+for (const route in noAuthRoutes) {
+	app.use('/', noAuthRoutes[route])
+	
+	console.log(`\x1b[38;2;131;77;179mLoaded the dashboard route "${route}" [no auth]\x1b[0m`)
+}
+
+for (const middleware in dashboardMiddlewares) {
+	app.use('/', dashboardMiddlewares[middleware])
+
+	console.log(`\x1b[38;2;131;77;179mLoaded the dashboard middleware "${middleware}"\x1b[0m`)
+}
+
+for (const route in authRoutes) {
+	app.use('/', authRoutes[route])
 	
 	console.log(`\x1b[38;2;131;77;179mLoaded the dashboard route "${route}"\x1b[0m`)
+}
+
+
+for (const middleware in apiMiddlewares) {
+	app.use('/api', apiMiddlewares[middleware])
+
+	console.log(`\x1b[38;2;100;37;156mLoaded the API middleware "${middleware}"\x1b[0m`)
 }
 
 for (const route in apiRoutes) {
@@ -96,10 +157,22 @@ for (const dir of commandDirs) {
 		if (
 			commandStatusJSON[commandData.name] &&
 			commandData.requires.includes("naviac") &&
-			["username", "token"].some((cfg) => !client.config.naviac?.[cfg])
+			["username", "token"].some((cfg) => !client.config?.naviac?.[cfg])
 		) {
 			console.log(
-				`\x1b[31mYou must add a NAVIAC username and token or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
+				`\x1b[31mYou must add a N.A.V.I.A.C. username and token or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
+			);
+
+			process.exit(1);
+		}
+
+		if (
+			commandStatusJSON[commandData.name] &&
+			commandData.requires.includes("gary") &&
+			!client.config?.gary?.apiKey
+		) {
+			console.log(
+				`\x1b[31mYou must add a Gary API key or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
 			);
 
 			process.exit(1);
@@ -109,7 +182,7 @@ for (const dir of commandDirs) {
 			commandStatusJSON[commandData.name] &&
 			commandData.requires.includes("zipline") &&
 			["token", "url", "chunkSize", "maxFileSize"].some(
-				(cfg) => !client.config.zipline?.[cfg],
+				(cfg) => !client.config?.zipline?.[cfg],
 			)
 		) {
 			console.log(
@@ -125,18 +198,7 @@ for (const dir of commandDirs) {
 			user: '\x1b[38;2;13;67;133m'
 		}
 
-		switch (dir) {
-			case "slash":
-				client.commands.set(commandData.name, commandData);
-				break;
-
-			case "message":
-				client.messageCommands.set(commandData.name, commandData);
-				break;
-
-			case "user":
-				client.userCommands.set(commandData.name, commandData);
-		}
+		client.commands.set(commandData.name, commandData);
 
 		console.log(`${colors[dir]}Loaded the ${dir} command "${command.split(".")[0]}"\x1b[0m`);
 	}
@@ -159,9 +221,25 @@ if (client.config?.web?.enabled) {
 		console.log(`\x1b[36mThe web UI on the port ${client.config?.web?.port || 3000} on ${global.baseUrl}\x1b[0m`)
 	})
 
-	global.cacheInterval = setInterval(() => {
-		global.cache = {}
+	global.conflictsInterval = setInterval(() => {
+		global.conflicts = {}
 	}, 1000 * 60 * 10)
 }
 
-if (commandStatusJSON.tag || commandStatusJSON["Save as Tag"]) startMongo(client);
+if (commandStatusJSON.tag || commandStatusJSON["Save as Tag"] || client.config?.web?.enabled) startMongo(client);
+
+
+// temporary until discord.js supports the approximate_user_install_count api key on the application data
+setInterval(async () => {
+	try {
+		const res = await axios.get(`https://discord.com/api/v10/applications/${client.user.id}`, {
+			headers: {
+				Authorization: `Bot ${client.token}`
+			}
+		})
+
+		if (res.data?.approximate_user_install_count) global.userCount = res.data.approximate_user_install_count
+	} catch(e) {
+		return;
+	}
+}, 30000)

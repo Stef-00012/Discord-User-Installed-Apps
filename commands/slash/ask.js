@@ -74,10 +74,17 @@ module.exports = {
 				embeds: [embed],
 			});
 		} catch (e) {
-			if (e?.response?.status)
-				return int.editReply({
-					content: `The N.A.V.I.A.C. API request failed with status ${e.response.status} (${e.response.statusText})`,
-				});
+			if (e?.response?.status === 429) return int.editReply({
+				content: "You are being ratelimited"
+			})
+
+			if (e?.response?.status === 500) return int.editReply({
+				content: "The N.A.V.I.A.C. API is currently having issues"
+			})
+
+			if (e?.response?.status) return int.editReply({
+				content: `The N.A.V.I.A.C. API request failed with status ${e.response.status} (${e.response.statusText})`,
+			});
 
 			console.log(e);
 

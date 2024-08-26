@@ -26,6 +26,42 @@ const tags = mongoose.model(
 	}),
 );
 
+const ptero = mongoose.model(
+	"ptero",
+	new mongoose.Schema({
+		id: {
+			type: String
+		},
+		panelUrl: {
+			type: String
+		},
+		apiKey: {
+			type: String
+		}
+	})
+)
+
+const tokens = mongoose.model(
+	"tokens",
+	new mongoose.Schema({
+		id: {
+			type: String
+		},
+		accessToken: {
+			type: String
+		},
+		refreshToken: {
+			type: String
+		},
+		expiresAt: {
+			type: String
+		},
+		scopes: {
+			type: String
+		}
+	})
+)
+
 const reminders = mongoose.model(
 	"reminders",
 	new mongoose.Schema({
@@ -44,17 +80,15 @@ const reminders = mongoose.model(
 	})
 )
 
-const ptero = mongoose.model(
-	"ptero",
+const analytics = mongoose.model(
+	"analytics",
 	new mongoose.Schema({
-		id: {
+		commandName: {
 			type: String
 		},
-		panelUrl: {
-			type: String
-		},
-		apiKey: {
-			type: String
+		uses: {
+			type: Number,
+			default: 0
 		}
 	})
 )
@@ -65,7 +99,9 @@ function isConnected() {
 
 module.exports = {
 	tags,
-	reminders,
 	ptero,
+	tokens,
+	reminders,
+	analytics,
 	isConnected,
 };

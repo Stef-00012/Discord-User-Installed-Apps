@@ -59,7 +59,9 @@ module.exports = {
 			}
 		}
 
-		const embed = new EmbedBuilder().setImage(pic).setTitle(`Random ${type}`);
+		const embed = new EmbedBuilder()
+			.setImage(pic)
+			.setTitle(`Random ${type}`);
 
 		int.editReply({
 			embeds: [embed],

@@ -5,7 +5,7 @@ module.exports = (client) => {
 
     router.get('/tags/:id', (req, res, next) => {
         try {
-            const json = global.cache[req.params.id]
+            const json = global.conflicts[req.params.id]
     
             if (!json || (!json.content && (!json.embeds || json.embeds?.length <= 0))) return res.sendStatus(400);
     

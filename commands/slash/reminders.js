@@ -8,17 +8,17 @@ module.exports = {
 		const value = int.options.getFocused();
 
 		const userReminders = await client.mongo.reminders.find({
-			id: int.user.id,
+			userId: int.user.id,
 		});
 
 		if (!userReminders) return await int.respond([]);
 
 		let matches = userReminders
+			.filter((reminder) => reminder.reminderId.startsWith(value))
 			.map((reminder) => ({
-				name: reminder.reminderId,
+				name: `${reminder.reminderId} - ${reminder.description.length > 80 ? `${reminder.description.substr(0, 80)}...` : reminder.description.substr(0, 80)}`,
 				value: reminder.reminderId,
-			}))
-			.filter((reminder) => reminder.reminderId.startsWith(value));
+			}));
 
 		if (matches.length > 25) matches = matches.slice(0, 24);
 

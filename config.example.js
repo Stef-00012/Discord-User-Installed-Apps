@@ -1,25 +1,48 @@
 module.exports = {
-	token: null, // string
-	owners: [], // array<string> (user ID)
-	mongo: null, // string
+	token: null, // Discord bot token
+	owners: [], // IDs allowed to use owner commands and access the dashboard
+	mongo: null, // MongoDB URI
+
+	// Zipline Configs
 	zipline: {
-		token: null, // string
-		url: null, // string (it should look like https://example.com)
-		chunkSize: null, // number (in mb)
-		maxFileSize: null, // number (in mb)
+		token: null, // Zipline token
+		url: null, // Zipline URL (it should look like https://example.com)
+		chunkSize: null, // Zpline chunk size, for chunked uploads (in mb)
+		maxFileSize: null, // Zpline max file size (in mb)
 	},
-	autocomplete: {
-		tag: true, // whether tag command should have autocomplete
-	},
+
+	// DM "ninja_5000" on Discord for a token
+	// Though there is no guarantee that you will receive one.
 	naviac: {
-		username: null, // string
-		token: null, // string
+		username: null, // Naviac auth username
+		token: null, // Naviac auth token
 	},
+
+	// DM ".zach.o" on Discord for a token
+	// Though there is no guarantee that you will receive one.
+	gary: {
+		apiKey: null
+	},
+
+	// Admin Web Dashboard
 	web: {
-		enabled: false, // whetever have a web UI
-		hostname: "localhost", // hostname of the UI
-		port: 3000, // port of the UI
-		secure: false, // whetever use http or https
-		keepPort: true // whetever keep the port in the messages
+		enabled: false, // Whetever have a web UI
+		hostname: "localhost", // Hostname of the UI
+		port: 3000, // Port of the UI
+		secure: false, // Whetever use http or https
+		keepPort: true, // Whetever keep the port in the messages
+		
+		// Discord OAuth2
+		auth: {
+			clientId: '', // Discord client ID
+			clientSecret: '', // Discord client secret
+			redirectURI: '', // Discord OAuth2 redirect URI
+			scopes: '' // Discord OAuth2 scopes
+		},
+
+		// JSON Web Token
+		jwt: {
+			secret: '' // JWT secret
+		}
 	}
 };

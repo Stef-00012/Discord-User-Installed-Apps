@@ -8,16 +8,22 @@ module.exports = async (client, int) => {
 
 	if (
 		!commandStatusJSON[int.commandName] &&
-		(int.isChatInputCommand() ||
+		(
+			int.isChatInputCommand() ||
 			int.isMessageContextMenuCommand() ||
-			int.isUserContextMenuCommand())
+			int.isUserContextMenuCommand()
+		)
 	)
 		return int.reply({
 			content: "This command is disabled",
 			ephemeral: true,
 		});
 
-	if (int.isChatInputCommand()) {
+	if (
+		int.isChatInputCommand() ||
+		int.isUserContextMenuCommand() ||
+		int.isMessageContextMenuCommand()
+	) {
 		const commandPermissions = fs.readFileSync(
 			`${__dirname}/../data/commandPermissions.json`,
 		);
@@ -50,6 +56,20 @@ module.exports = async (client, int) => {
 			});
 
 		cmd.execute(client, int);
+
+		if (client.mongo.isConnected()) {
+			let commandAnalytics = await client.mongo.analytics.findOne({
+				commandName: int.commandName
+			})
+	
+			if (!commandAnalytics) commandAnalytics = new client.mongo.analytics({
+				commandName: int.commandName
+			})
+	
+			commandAnalytics.uses += 1;
+	
+			await commandAnalytics.save()
+		}
 	}
 
 	if (int.isAutocomplete()) {
@@ -58,75 +78,5 @@ module.exports = async (client, int) => {
 		if (!cmd) return;
 
 		cmd.autocomplete(client, int);
-	}
-
-	if (int.isMessageContextMenuCommand()) {
-		const commandPermissions = fs.readFileSync(
-			`${__dirname}/../data/commandPermissions.json`,
-		);
-		const commandPermissionsJSON = JSON.parse(commandPermissions);
-
-		if (!commandPermissionsJSON[int.commandName]) {
-			commandPermissionsJSON[int.commandName] = [];
-
-			fs.writeFileSync(
-				`${__dirname}/../data/commandPermissions.json`,
-				JSON.stringify(commandPermissionsJSON, null, 2),
-			);
-		}
-
-		if (
-			commandPermissionsJSON[int.commandName].length &&
-			!commandPermissionsJSON[int.commandName].includes(int.user.id)
-		)
-			return int.reply({
-				ephemeral: true,
-				content: "You're not allowed to run this command",
-			});
-
-		const cmd = client.messageCommands.get(int.commandName);
-
-		if (!cmd)
-			return int.reply({
-				ephemeral: true,
-				content: "I couldn't find this command",
-			});
-
-		cmd.execute(client, int);
-	}
-
-	if (int.isUserContextMenuCommand()) {
-		const commandPermissions = fs.readFileSync(
-			`${__dirname}/../data/commandPermissions.json`,
-		);
-		const commandPermissionsJSON = JSON.parse(commandPermissions);
-
-		if (!commandPermissionsJSON[int.commandName]) {
-			commandPermissionsJSON[int.commandName] = [];
-
-			fs.writeFileSync(
-				`${__dirname}/../data/commandPermissions.json`,
-				JSON.stringify(commandPermissionsJSON, null, 2),
-			);
-		}
-
-		if (
-			commandPermissionsJSON[int.commandName].length &&
-			!commandPermissionsJSON[int.commandName].includes(int.user.id)
-		)
-			return int.reply({
-				ephemeral: true,
-				content: "You're not allowed to run this command",
-			});
-
-		const cmd = client.userCommands.get(int.commandName);
-
-		if (!cmd)
-			return int.reply({
-				ephemeral: true,
-				content: "I couldn't find this command",
-			});
-
-		cmd.execute(client, int);
 	}
 };

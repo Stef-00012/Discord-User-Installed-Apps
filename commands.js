@@ -2,8 +2,6 @@ const {
 	ApplicationCommandType,
 	ApplicationCommandOptionType,
 } = require("discord.js");
-const config = require("./config.js");
-const { autocomplete } = require("./config.example");
 
 module.exports = [
 	// slash commands
@@ -71,7 +69,7 @@ module.exports = [
 						description: "The name of the tag",
 						type: ApplicationCommandOptionType.String,
 						required: true,
-						autocomplete: config.autocomplete?.tag || false,
+						autocomplete: true,
 					},
 				],
 			},
@@ -85,7 +83,7 @@ module.exports = [
 						description: "The name of the tag",
 						type: ApplicationCommandOptionType.String,
 						required: true,
-						autocomplete: config.autocomplete?.tag || false,
+						autocomplete: true,
 					},
 					{
 						name: "ephemeral",
@@ -985,6 +983,45 @@ module.exports = [
 		integration_types: [0, 1],
 		contexts: [0, 1, 2]
 	},
+	{
+		name: "colorpicker",
+		description: "View a color from a hex",
+		type: ApplicationCommandType.ChatInput,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+		options: [
+			{
+				name: "hex",
+				type: ApplicationCommandOptionType.String,
+				description: "The hex value",
+				required: true,
+			},
+		],
+	},
+	{
+		name: "gary",
+		description: "get Gary's pictures and quotes",
+		type: ApplicationCommandType.ChatInput,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+		options: [
+			{
+				name: "image",
+				type: ApplicationCommandOptionType.Subcommand,
+				description: "Get an image of Gary",
+			},
+			{
+				name: "quote",
+				type: ApplicationCommandOptionType.Subcommand,
+				description: "Get a quote of Gary",
+			},
+			{
+				name: "joke",
+				type: ApplicationCommandOptionType.Subcommand,
+				description: "Get a joke of Gary",
+			},
+		],
+	},
 
 	// message commands
 	{
@@ -1001,6 +1038,12 @@ module.exports = [
 	},
 	{
 		name: "Convert to QR Code",
+		type: ApplicationCommandType.Message,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+	},
+	{
+		name: "Set as Reminder",
 		type: ApplicationCommandType.Message,
 		integration_types: [0, 1],
 		contexts: [0, 1, 2],

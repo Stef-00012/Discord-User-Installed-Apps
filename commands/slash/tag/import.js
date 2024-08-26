@@ -100,22 +100,22 @@ module.exports = async (client, int) => {
                 let oldId = randomUUID().slice(0, 8)
                 let newId = randomUUID().slice(0, 8)
 
-                while(global.cache[oldId]) {
+                while(global.conflicts[oldId]) {
                     oldId = randomUUID().slice(0, 8)
                 }
 
-                while(global.cache[newId]) {
+                while(global.conflicts[newId]) {
                     newId = randomUUID().slice(0, 8)
                 }
 
-                clearInterval(global.cacheInterval)
+                clearInterval(global.conflictsInterval)
 
-                global.cacheInterval = setInterval(() => {
-                    global.cache = {}
+                global.conflictsInterval = setInterval(() => {
+                    global.conflicts = {}
                 }, 1000 * 60 * 10)
 
-                global.cache[oldId] = conflict[0].data
-                global.cache[newId] = conflict[1].data
+                global.conflicts[oldId] = conflict[0].data
+                global.conflicts[newId] = conflict[1].data
 
                 const message = await int.editReply({
                     content: `There ${conflicts.length > 1 ? 'are' : 'is'} ${conflicts.length} conflicts\n\nTag Name: "${conflict[0].name}"\n[Old Tag Data](${global.baseUrl}/${oldId}) - [New Tag Data](${global.baseUrl}/${newId})`,
