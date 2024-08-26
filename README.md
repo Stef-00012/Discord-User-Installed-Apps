@@ -7,8 +7,6 @@
 
 # Config
 
-Rename the `config.example.js` file to `config.js`
-
 - `token`: Your Discord bot token
 - `owners`: An array of Discord users allowed to use owner-only commands
 - `mongo`: Your MongoDB database connection string (or `null` if you don't want to use MongoDB)
