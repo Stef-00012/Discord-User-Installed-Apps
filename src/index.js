@@ -147,9 +147,7 @@ for (const dir of commandDirs) {
 			commandData.requires.includes("mongo") &&
 			!client.config.mongo
 		) {
-			console.log(
-				`\x1b[31mYou must add a MongoDB url or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
-			);
+			console.log(`\x1b[31mYou must add a MongoDB url or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`);
 
 			process.exit(1);
 		}
@@ -159,9 +157,7 @@ for (const dir of commandDirs) {
 			commandData.requires.includes("naviac") &&
 			["username", "token"].some((cfg) => !client.config?.naviac?.[cfg])
 		) {
-			console.log(
-				`\x1b[31mYou must add a N.A.V.I.A.C. username and token or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
-			);
+			console.log(`\x1b[31mYou must add a N.A.V.I.A.C. username and token or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`);
 
 			process.exit(1);
 		}
@@ -171,9 +167,7 @@ for (const dir of commandDirs) {
 			commandData.requires.includes("gary") &&
 			!client.config?.gary?.apiKey
 		) {
-			console.log(
-				`\x1b[31mYou must add a Gary API key or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
-			);
+			console.log(`\x1b[31mYou must add a Gary API key or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`);
 
 			process.exit(1);
 		}
@@ -185,9 +179,7 @@ for (const dir of commandDirs) {
 				(cfg) => !client.config?.zipline?.[cfg],
 			)
 		) {
-			console.log(
-				`\x1b[31mYou must add your zipline token, url and chunk size or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`,
-			);
+			console.log(`\x1b[31mYou must add your zipline token, url and chunk size or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`);
 
 			process.exit(1);
 		}
@@ -215,6 +207,25 @@ for (const event of events) {
 client.login(client.config.token);
 
 if (client.config?.web?.enabled) {
+	if (
+		!client.config.mongo ||
+		!client.config?.web?.hostname ||
+		!client.config?.web?.port ||
+		typeof client.config?.web?.secure !== "boolean" ||
+		typeof client.config?.web?.keepPort !== "boolean" ||
+		!client.config?.web?.auth ||
+		!client.config?.web?.auth?.clientId ||
+		!client.config?.web?.auth?.clientSecret ||
+		!client.config?.web?.auth?.redirectURI ||
+		!client.config?.web?.auth?.scopes ||
+		!client.config?.web?.jwt ||
+		!client.config?.web?.jwt?.secret
+	) {
+		console.log(`\x1b[31mYou must fill all the configs inside the "web" object or disable the web dashboard\x1b[0m`);
+
+		process.exit(0)
+	}
+
 	global.baseUrl = `http${client.config?.web?.secure ? 's' : ''}://${client.config?.web?.hostname || localhost}${client.config?.web?.keepPort ? `:${client.config?.web?.port || 3000}` : ''}`
 
 	app.listen(client.config?.web?.port || 3000, () => {

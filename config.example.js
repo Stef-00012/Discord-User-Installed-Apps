@@ -37,7 +37,7 @@ module.exports = {
 			clientId: '', // Discord client ID
 			clientSecret: '', // Discord client secret
 			redirectURI: '', // Discord OAuth2 redirect URI
-			scopes: '' // Discord OAuth2 scopes
+			scopes: '' // Discord OAuth2 scopes. "identify" scope is required for the bot to work
 		},
 
 		// JSON Web Token

@@ -11,16 +11,16 @@
 - `token`: Your Discord bot token
 - `owners`: An array of Discord users allowed to use owner-only commands
 - `mongo`: Your MongoDB database connection string (or `null` if you don't want to use MongoDB)
-- `zipline`: Configs for `/upload` and `/shorten` to work
+- `zipline`: Configs for `/upload` and `/shorten` to work (all the values are `null`able if you don't want to use zipline)
     - `token`: Your Zipline token
     - `url`: Your Zipline hostname
     - `chunkSize`: File chunk size, for chunked uploads (in mb)
     - `maxFileSize`: Max file size (in mb)
-- `naviac`: Configs for the NAVIAC API
+- `naviac`: Configs for the NAVIAC API (all the values are `null`able if you don't want to use N.A.V.I.A.C. API)
     - `username`: Username for the API authentication
     - `token`: Token for the API authentication
-- `web`: Configs for the web dashboard
-    - `enabled`: Whetever the web dashboard is enabled **[Requires MongoDB]**
+- `web`: Configs for the web dashboard (all the values are `null`able if you don't want to use the web dashboard)
+    - `enabled`: Whetever the web dashboard is enabled. If enabled, **[Requires MongoDB]**
     - `hostname`: Your web dashboard hostname
     - `port`: Your web dashboard port
     - `secure`: Whetever the dashboard uses `http` or `https`
@@ -29,7 +29,7 @@
         - `clientId`: Your Discord bot client ID
         - `clientSecret`: Your Discord bot client secret
         - `redirectURI`: Your OAuth2 redirect URI
-        - `scopes`: Your OAuth2 scopes
+        - `scopes`: Your OAuth2 scopes (`identify` scope is required for the bot to work)
     - `jwt`: Config for the JSON Web Token (used to store the user ID in the browser's cookie, to keep the user logged in)
         - `secret`: Your JSON Web Token secret (any string, possibly hard to guess)
 
