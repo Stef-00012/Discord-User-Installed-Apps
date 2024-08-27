@@ -4,6 +4,7 @@
 2. Run `npm i`
 3. Rename `config.example.js` to `config.js`
 4. Replace the required fields in the config file
+5. Run `npm run start` in the same folder as the `package.json` file
 
 # Config
 
