@@ -26,7 +26,7 @@ const client = new Client({
 global.conflicts = {}
 global.userCount = -1 // temporary until discord.js supports the approximate_user_install_count api key on the application data
 
-client.config = require(`${__dirname}/config.js`);
+client.config = require("../config.js");
 client.functions = require(`${__dirname}/data/functions.js`);
 client.commands = new Collection();
 client.messageCommands = new Collection();
@@ -84,7 +84,7 @@ app.use(cookieParser())
 app.set('view engine', 'ejs')
 app.set('views', `${__dirname}/web/views`)
 
-app.use(express.static('web/public'))
+app.use(express.static(`${__dirname}/web/public`))
 
 app.get('/', (req, res, next) => {
 	return res.redirect('/dashboard');

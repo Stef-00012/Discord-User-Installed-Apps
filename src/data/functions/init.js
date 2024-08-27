@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const cmds = require("../../commands.js");
-const config = require("../../config.js");
+const config = require("../../../config.js");
 
 module.exports = () => {
 	if (!fs.existsSync(`${__dirname}/../commandPermissions.json`)) {
