@@ -39,7 +39,7 @@ module.exports = (client) => {
 
         fs.writeFileSync(commandPermissionsPath, JSON.stringify(value, null, 4))
 
-        return res.sendStatus(201)
+        return res.sendStatus(204)
     })
 
 
