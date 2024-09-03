@@ -24,7 +24,6 @@ const client = new Client({
 });
 
 global.conflicts = {}
-global.userCount = -1 // temporary until discord.js supports the approximate_user_install_count api key on the application data
 
 client.config = require("../config.js");
 client.functions = require(`${__dirname}/data/functions.js`);
@@ -238,19 +237,3 @@ if (client.config?.web?.enabled) {
 }
 
 if (commandStatusJSON.tag || commandStatusJSON["Save as Tag"] || client.config?.web?.enabled) startMongo(client);
-
-
-// temporary until discord.js supports the approximate_user_install_count api key on the application data
-setInterval(async () => {
-	try {
-		const res = await axios.get(`https://discord.com/api/v10/applications/${client.user.id}`, {
-			headers: {
-				Authorization: `Bot ${client.token}`
-			}
-		})
-
-		if (res.data?.approximate_user_install_count) global.userCount = res.data.approximate_user_install_count
-	} catch(e) {
-		return;
-	}
-}, 30000)

@@ -4,9 +4,11 @@ module.exports = (client) => {
     const router = express.Router()
 
     router.get('/dashboard', async (req, res, next) => {
+        if (!client.application.approximateUserInstallCount) await client.application.fetch();
+        
         const limit = 5
         const commands = client.commands.map(cmd => cmd.name)
-        const users = global.userCount // temporary until discord.js supports the approximate_user_install_count api key on the application data
+        const users = client.application.approximateUserInstallCount
         const avatar = client.user.avatarURL({
             size: 4096
         })
