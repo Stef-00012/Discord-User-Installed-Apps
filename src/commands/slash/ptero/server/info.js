@@ -1,16 +1,19 @@
 const axios = require('axios')
 const { EmbedBuilder } = require('discord.js')
+const { eq } = require('drizzle-orm')
 
 module.exports = async (client, int) => {
     const id = int.options.getString('id')
 
     await int.deferReply()
 
-    const userPteroData = await client.mongo.ptero.findOne({
-        id: int.user.id
+    const pteroSchema = client.dbSchema.ptero
+
+    const userPteroData = await client.db.query.ptero.findFirst({
+        where: eq(pteroSchema.id, int.user.id)
     })
 
-    if (!userPteroData || !userPteroData.panelUrl || !userPteroData.apiKey) return int.editReply({
+    if (!userPteroData) return int.editReply({
         content: "Your Pterodactyl config are incorrect"
     });
 

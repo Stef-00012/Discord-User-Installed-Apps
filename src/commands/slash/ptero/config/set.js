@@ -19,18 +19,24 @@ module.exports = async (client, int) => {
         ephemeral: true
     })
 
-    let userPteroData = await client.mongo.ptero.findOne({
-        id: int.user.id
-    })
+    const userPteroData = {
+        panelUrl,
+        apiKey
 
-    if (!userPteroData) userPteroData = new client.mongo.ptero({
-        id: int.user.id
-    })
+    }
 
-    userPteroData.panelUrl = panelUrl
-    userPteroData.apiKey = apiKey
+    const pteroSchema = client.dbSchema.ptero
 
-    await userPteroData.save()
+    await client.db
+        .insert(pteroSchema)
+        .values({
+            id: int.user.id,
+            ...userPteroData
+        })
+        .onConflictDoUpdate({
+            target: pteroSchema.id,
+            set: userPteroData
+        })
 
     int.editReply({
         content: "Successfully saved your pterodactyl config"

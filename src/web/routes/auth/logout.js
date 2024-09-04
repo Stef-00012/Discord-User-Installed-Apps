@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const express = require('express')
+const { eq } = require('drizzle-orm')
 
 module.exports = (client) => {
     const router = express.Router()
@@ -17,9 +18,13 @@ module.exports = (client) => {
             return res.redirect('/logout?success=1');
         }
 
-        await client.mongo.tokens.deleteOne({
-            id: tokenData.userId
-        })
+        const tokensSchema = client.dbSchema.tokens
+
+        await client.db
+            .delete(tokensSchema)
+            .where(
+                eq(tokensSchema.id, tokenData.userId)
+            )
         
         res.cookie('id', '', {
             maxAge: 0

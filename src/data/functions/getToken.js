@@ -1,3 +1,4 @@
+const { eq } = require('drizzle-orm');
 const jwt = require('jsonwebtoken')
 
 module.exports = async (client, JWT) => {
@@ -10,9 +11,11 @@ module.exports = async (client, JWT) => {
     } catch(e) {
         return null;
     }
-    
-    const userData = await client.mongo.tokens.findOne({
-        id: decodedJWT.userId
+
+    const tokensSchema = client.dbSchema.tokens
+
+    const userData = await client.db.query.tokens.findFirst({
+        where: eq(tokensSchema.id, decodedJWT.userId)
     })
     
     if (!userData) return null;
@@ -21,12 +24,13 @@ module.exports = async (client, JWT) => {
         const refreshedTokenData = await client.functions.refreshToken(client, userData.refreshToken)
         
         if (!refreshedTokenData) return null;
-        
-        for (const key in refreshedTokenData) {
-            userData[key] = refreshedTokenData[key]
-        }
 
-        await userData.save()
+        await client.db
+            .update(tokensSchema)
+            .set(refreshedTokenData)
+            .where(
+                eq(tokensSchema.id, decodedJWT.userId)
+            )
 
         return refreshedTokenData;
     }

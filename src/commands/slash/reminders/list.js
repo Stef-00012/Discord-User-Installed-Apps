@@ -1,13 +1,18 @@
 const { EmbedBuilder } = require("discord.js")
+const { and, eq } = require("drizzle-orm")
 
 module.exports = async (client, int) => {
     await int.deferReply({
         ephemeral: true
     })
 
-    const userRemiders = await client.mongo.reminders.find({
-        userId: int.user.id
-    })
+    const remindersSchema = client.dbSchema.reminders
+
+    const userRemiders = await client.db.query.reminders.findMany({
+        where: and(
+            eq(remindersSchema.userId, int.user.id)
+        )
+    }) || []
 
     if (!userRemiders || !userRemiders.length) return int.editReply({
         content: "You have no reminders"

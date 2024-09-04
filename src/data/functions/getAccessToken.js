@@ -27,20 +27,25 @@ module.exports = async (client, code) => {
             })
         ).data
 
-        let userTokenData = await client.mongo.tokens.findOne({
-            id: userData.id
-        })
+        const userTokenData = {
+            accessToken: tokenData.access_token,
+            refreshToken: tokenData.refresh_token,
+            expiresAt: new Date((Math.floor(new Date().getTime() / 1000) + tokenData.expires_in) * 1000).toISOString(),
+            scopes: tokenData.scopes
+        }
 
-        if (!userTokenData) userTokenData = new client.mongo.tokens({
-            id: userData.id
-        })
+        const tokensSchema = client.dbSchema.tokens
 
-        userTokenData.accessToken = tokenData.access_token
-        userTokenData.refreshToken = tokenData.refresh_token
-        userTokenData.expiresAt = new Date((Math.floor(new Date().getTime() / 1000) + tokenData.expires_in) * 1000).toISOString()
-        userTokenData.scopes = tokenData.scopes
-
-        await userTokenData.save()
+        await client.db
+            .insert(tokensSchema)
+            .values({
+                id: userData.id,
+                ...userTokenData
+            })
+            .onConflictDoUpdate({
+                target: tokensSchema.id,
+                set: userTokenData
+            })
 
         return jwt.sign({
             userId: userData.id

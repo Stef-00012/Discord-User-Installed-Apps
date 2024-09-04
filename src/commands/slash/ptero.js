@@ -1,6 +1,6 @@
 module.exports = {
 	name: "ptero",
-	requires: ["mongo"],
+	requires: [],
 
 	async execute(client, int) {
         const subcommandGroup = int.options.getSubcommandGroup()

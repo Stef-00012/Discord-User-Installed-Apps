@@ -13,7 +13,7 @@ module.exports = (client) => {
             size: 4096
         })
         const username = client.user.tag
-        let mostUsedCommands = await client.mongo.analytics.find({}) || []
+        let mostUsedCommands = await client.db.query.analytics.findMany() || []
 
         for (let i = 0; mostUsedCommands.length < limit; i++) {
             if (!mostUsedCommands.find(cmd => cmd.name === commands[i])) mostUsedCommands.push({
@@ -30,8 +30,7 @@ module.exports = (client) => {
             users,
             username,
             avatar,
-            mostUsedCommands,
-            // databaseOn: client.mongo.isConnected()
+            mostUsedCommands
         })
     })
 

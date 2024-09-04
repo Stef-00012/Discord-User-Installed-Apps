@@ -1,17 +1,19 @@
-const axios = require("axios");
+const { eq } = require("drizzle-orm");
 
 module.exports = {
 	name: "reminders",
-	requires: ["mongo"],
+	requires: [],
 
 	async autocomplete(client, int) {
 		const value = int.options.getFocused();
 
-		const userReminders = await client.mongo.reminders.find({
-			userId: int.user.id,
-		});
+		const remindersSchema = client.dbSchema.reminders
 
-		if (!userReminders) return await int.respond([]);
+		const userReminders = await client.db.query.reminders.findMany({
+			where: eq(remindersSchema.userId, int.user.id)
+		}) || []
+
+		if (userReminders?.length <= 0) return await int.respond([]);
 
 		let matches = userReminders
 			.filter((reminder) => reminder.reminderId.startsWith(value))

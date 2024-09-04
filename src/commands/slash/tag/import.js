@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType } = require("discord.js");
+const { eq, and } = require("drizzle-orm");
 const { randomUUID } = require('node:crypto')
 
 module.exports = async (client, int) => {
@@ -17,14 +18,14 @@ module.exports = async (client, int) => {
 
     try {
         const request = await axios.get(file.url)
-        const tags = request.data
+        let tags = request.data
 
-        if (typeof tags === "string") JSON.parse(tags)
+        if (typeof tags === "string") tags = JSON.parse(tags)
 
         const valid = tags.every(tag => {
             if (!tag.name) return false;
             if (!tag.data) return false;
-            if (!tag.data.content && !tag.data.embeds) return false;
+            if (!tag.data.content && (!tag.data.embeds || tag.data.embeds?.length <= 0)) return false;
             if (tag.data.embeds?.length <= 0) return false;
 
             return true;
@@ -34,29 +35,40 @@ module.exports = async (client, int) => {
             content: "The JSON you imported is not a valid tags JSON"
         });
 
+        const tagsSchema = client.dbSchema.tags
 
-        const userData = await client.mongo.tags.findOne({
-            id: int.user.id
-        })
+        let userTags = await client.db.query.tags.findMany({
+            where: eq(tagsSchema.id, int.user.id)
+        }) || []
+
+        for (const tagIndex in userTags) {
+            userTags[tagIndex].data = JSON.parse(userTags[tagIndex].data)
+        }
 
         let cancelled = false;
 
         if (overwrite) {
-            userData.tags = tags
+            await client.db 
+                .delete(tagsSchema)
+                .where(
+                    eq(tagsSchema.id, int.user.id)
+                )
+
+            userTags = tags
         } else {
             const conflicts = []
 
             for (const tag of tags) {
-                const existingTag = userData.tags.map(userTag => ({
+                const existingTag = userTags.map(userTag => ({
                     name: userTag.name,
                     data: userTag.data
                 })).find(userTag => userTag.name === tag.name)
 
                 if (existingTag) {
-                    userData.tags = userData.tags.filter(userTag => userTag.name !== tag.name)
+                    userTags = userTags.filter(userTag => userTag.name !== tag.name)
 
                     if (JSON.stringify(existingTag) !== JSON.stringify(tag)) {
-                        if (!checkConflicts) return userData.tags.push(tag);
+                        if (!checkConflicts) return userTags.push(tag);
                         
                         conflicts.push([
                             existingTag,
@@ -67,7 +79,7 @@ module.exports = async (client, int) => {
                     }
                 }
     
-                userData.tags.push(tag)
+                userTags.push(tag)
             }
 
             const btnId = randomUUID().slice(0, 8)
@@ -118,7 +130,7 @@ module.exports = async (client, int) => {
                 global.conflicts[newId] = conflict[1].data
 
                 const message = await int.editReply({
-                    content: `There ${conflicts.length > 1 ? 'are' : 'is'} ${conflicts.length} conflicts\n\nTag Name: "${conflict[0].name}"\n[Old Tag Data](${global.baseUrl}/${oldId}) - [New Tag Data](${global.baseUrl}/${newId})`,
+                    content: `There ${conflicts.length > 1 ? 'are' : 'is'} ${conflicts.length} conflicts\n\nTag Name: "${conflict[0].name}"\n[Old Tag Data](${global.baseUrl}/tags/${oldId}) - [New Tag Data](${global.baseUrl}/tags/${newId})`,
                     components: [row]
                 })
 
@@ -151,7 +163,7 @@ module.exports = async (client, int) => {
                         }
 
                         if (button.customId === `tag_old_${int.user.id}_${btnId}`) {
-                            await  userData.tags.push(conflict[0])
+                            await  userTags.push(conflict[0])
                             
                             await button.reply({
                                 content: "Successfully kept the old tag",
@@ -162,7 +174,7 @@ module.exports = async (client, int) => {
                         }
 
                         if (button.customId === `tag_new_${int.user.id}_${btnId}`) {
-                            await userData.tags.push(conflict[1])
+                            await userTags.push(conflict[1])
                             
                             await button.reply({
                                 content: "Successfully overwrote the new tag",
@@ -208,15 +220,34 @@ module.exports = async (client, int) => {
 
         if (cancelled) return;
 
-        await userData.save()
+        // await userData.save()
+
+        for (const tag of userTags) {
+            tag.data = JSON.stringify(tag.data)
+
+            await client.db
+                .insert(tagsSchema)
+                .values({
+                    id: int.user.id,
+                    name: tag.name,
+                    data: tag.data
+                })
+                .onConflictDoUpdate({
+                    target: [tagsSchema.id, tagsSchema.name],
+                    set: {
+                        data: tag.data
+                    }
+                })
+        }
 
         await int.editReply({
             content: `Successfully imported ${tags.length} tags`,
             components: []
         })
     } catch(e) {
+        console.log(e)
         return int.editReply({
-            content: "The JSON you imported is not a valid tags JSON"
+            content: "Something went wrong..."
         })
     }
 }

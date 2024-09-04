@@ -7,79 +7,81 @@ const {
 	TextInputBuilder,
 	TextInputStyle,
 } = require("discord.js");
+const { and, eq } = require("drizzle-orm");
 
 module.exports = async (client, int) => {
 	await int.deferReply({
 		ephemeral: true,
 	});
 
-	let userData = await client.mongo.tags.findOne({
-		id: int.user.id,
-	});
-
-	if (!userData)
-		userData = new client.mongo.tags({
-			id: int.user.id,
-			tags: [],
-		});
-
 	const tagName = int.options.getString("name");
 	const removeEmbedIndex = int.options.getInteger("remove-index");
 
-	let tagData = userData.tags.find((tag) => tag.name === tagName);
-	const tagIndex =
-		userData.tags.findIndex((tag) => tag.name === tagName) > 0
-			? userData.tags.findIndex((tag) => tag.name === tagName)
-			: userData.tags.length;
+	const tagsSchema = client.dbSchema.tags
 
-	if (!tagData)
-		tagData = {
-			name: tagName,
-			data: {
-				content: null,
-				embeds: null,
-			},
-		};
+	const tag = await client.db.query.tags.findFirst({
+		where: and(
+			eq(tagsSchema.id, int.user.id),
+			eq(tagsSchema.name, tagName)
+		)
+	})
 
-	if (!removeEmbedIndex && tagData.data?.embeds?.length >= 25)
+	if (tag) tag.data = JSON.parse(tag.data)
+
+	const tagData = {
+		content: tag?.data?.content || null,
+		embeds: tag?.data?.embeds || null,
+	};
+
+	if (removeEmbedIndex && !tag)
+			return int.editReply({
+				content: "This tag doesn't exist"
+			})
+
+	if (removeEmbedIndex && (!tagData?.embeds || tagData?.embeds?.length <= 0))
+		return inArray.editReply({
+			content: "This message already has no embeds"
+		})
+
+	if (!removeEmbedIndex && tagData?.embeds?.length >= 25)
 		return int.editReply({
 			content: "You reached the embed limit for this tag",
 		});
 
 	if (removeEmbedIndex && (removeEmbedIndex < 1 || removeEmbedIndex > 25))
 		return int.editReply({
-			content: "embed index must be between 1 and 25",
+			content: "Embed index must be between 1 and 25",
+		});
+
+	if (removeEmbedIndex && tagData?.embeds?.length < removeEmbedIndex)
+		return int.editReply({
+			content: `No embed exists at the index ${removeEmbedIndex}`
 		});
 
 	if (removeEmbedIndex) {
-		if (!tagData.data?.embeds || tagData.data.embeds.length === 0)
-			return int.editReply({
-				content: "This tag has no embeds",
-				ephemeral: true,
-			});
-
-		if (tagData.data?.embeds?.length < removeEmbedIndex)
-			return int.editReply({
-				content: `No embed exists at the index ${removeEmbedIndex}`,
-				ephemeral: true,
-			});
-
-		tagData.data.embeds = tagData.data.embeds.filter(
+		tagData.embeds = tagData.embeds.filter(
 			(embed, index) => index !== removeEmbedIndex - 1,
 		);
 
 		if (
-			(!tagData.data?.content || tagData.data?.content?.length <= 0) &&
-			(!tagData.data?.embeds || tagData.data?.embeds <= 0)
+			(!tagData?.content || tagData?.content?.length <= 0) &&
+			(!tagData?.embeds || tagData?.embeds <= 0)
 		)
 			return int.editReply({
-				content: "A tag can not be empty",
-				ephemeral: true,
+				content: "A tag can not be empty"
 			});
 
-		userData.tags[tagIndex] = tagData;
-
-		await userData.save();
+		await client.db
+			.update(tagsSchema)
+			.set({
+				data: JSON.stringify(tagData)
+			})
+			.where(
+				and(
+					eq(tagsSchema.id, int.user.id),
+					eq(tagsSchema.name, tagName)
+				)
+			)
 
 		return int.editReply({
 			content: `Successfully removed the embed at the index ${removeEmbedIndex}`,
@@ -140,15 +142,31 @@ module.exports = async (client, int) => {
 				embeds: [embed],
 			});
 
-			if (!tagData.data.embeds) tagData.data.embeds = [];
+			if (!tagData.embeds) tagData.embeds = [];
 
-			tagData.data.embeds.push(embed.data);
+			tagData.embeds.push(embed.data);
 
-			userData.tags[tagIndex] = tagData;
-
-			await userData.save();
-
-			return;
+			if (tag) {
+				return await client.db
+					.update(tagsSchema)
+					.set({
+						data: JSON.stringify(tagData)
+					})
+					.where(
+						and(
+							eq(tagsSchema.id, int.user.id),
+							eq(tagsSchema.name, tagName)
+						)
+					)
+			}
+			
+			return await client.db
+				.insert(tagsSchema)
+				.values({
+					name: tagName,
+					id: int.user.id,
+					data: JSON.stringify(tagData)
+				})
 		} catch (e) {
 			console.log(e);
 
@@ -210,15 +228,31 @@ module.exports = async (client, int) => {
 					ephemeral: true,
 				});
 
-				if (!tagData.data.embeds) tagData.data.embeds = [];
+				if (!tagData.embeds) tagData.embeds = [];
 
-				tagData.data.embeds.push(embed.data);
+				tagData.embeds.push(embed.data);
 
-				userData.tags[tagIndex] = tagData;
-
-				await userData.save();
-
-				return;
+				if (tag) {
+					return await client.db
+						.update(tagsSchema)
+						.set({
+							data: JSON.stringify(tagData)
+						})
+						.where(
+							and(
+								eq(tagsSchema.id, int.user.id),
+								eq(tagsSchema.name, tagName)
+							)
+						)
+				}
+				
+				return await client.db
+					.insert(tagsSchema)
+					.values({
+						name: tagName,
+						id: int.user.id,
+						data: JSON.stringify(tagData)
+					})
 			} catch (e) {
 				console.log(e);
 

@@ -5,10 +5,10 @@ const {
 	Collection,
 } = require("discord.js");
 const fs = require("node:fs");
-const axios = require('axios')
 const express = require('express')
 const cookieParser = require('cookie-parser')
-const startMongo = require("./mongo/start.js");
+const dbSchema = require('./db/schema.js')
+const initDB = require('./db/db.js')
 
 const client = new Client({
 	intents: [
@@ -30,19 +30,12 @@ client.functions = require(`${__dirname}/data/functions.js`);
 client.commands = new Collection();
 client.messageCommands = new Collection();
 client.userCommands = new Collection();
-client.mongo = require(`${__dirname}/mongo/schemas.js`);
+client.dbSchema = dbSchema
+client.db = initDB()
 
 client.functions.init();
 
 if (client.config?.web?.enabled) {
-	if (!client.config.mongo) {
-		console.log(
-			"\x1b[31mYou must add a MongoDB url or disable the web UI\x1b[0m",
-		);
-	
-		process.exit(1);
-	}
-
 	if (
 		!client.config?.web?.auth ||
 		!client.config?.web?.auth?.clientId ||
@@ -143,16 +136,6 @@ for (const dir of commandDirs) {
 
 		if (
 			commandStatusJSON[commandData.name] &&
-			commandData.requires.includes("mongo") &&
-			!client.config.mongo
-		) {
-			console.log(`\x1b[31mYou must add a MongoDB url or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`);
-
-			process.exit(1);
-		}
-
-		if (
-			commandStatusJSON[commandData.name] &&
 			commandData.requires.includes("naviac") &&
 			["username", "token"].some((cfg) => !client.config?.naviac?.[cfg])
 		) {
@@ -207,7 +190,6 @@ client.login(client.config.token);
 
 if (client.config?.web?.enabled) {
 	if (
-		!client.config.mongo ||
 		!client.config?.web?.hostname ||
 		!client.config?.web?.port ||
 		typeof client.config?.web?.secure !== "boolean" ||
@@ -228,12 +210,10 @@ if (client.config?.web?.enabled) {
 	global.baseUrl = `http${client.config?.web?.secure ? 's' : ''}://${client.config?.web?.hostname || localhost}${client.config?.web?.keepPort ? `:${client.config?.web?.port || 3000}` : ''}`
 
 	app.listen(client.config?.web?.port || 3000, () => {
-		console.log(`\x1b[36mThe web UI on the port ${client.config?.web?.port || 3000} on ${global.baseUrl}\x1b[0m`)
+		console.log(`\x1b[36mThe web UI is online on ${global.baseUrl}\x1b[0m`)
 	})
 
 	global.conflictsInterval = setInterval(() => {
 		global.conflicts = {}
 	}, 1000 * 60 * 10)
 }
-
-if (commandStatusJSON.tag || commandStatusJSON["Save as Tag"] || client.config?.web?.enabled) startMongo(client);

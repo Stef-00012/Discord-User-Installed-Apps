@@ -8,7 +8,7 @@ const {
 
 module.exports = {
 	name: "Save as Tag",
-	requires: "mongo",
+	requires: [],
 
 	async execute(client, int) {
 		if (
@@ -18,16 +18,6 @@ module.exports = {
 			return int.reply({
 				content: "This message has no content",
 				ephemeral: true,
-			});
-
-		let userData = await client.mongo.tags.findOne({
-			id: int.user.id,
-		});
-
-		if (!userData)
-			userData = new client.mongo.tags({
-				id: int.user.id,
-				tags: [],
 			});
 
 		if (int.targetMessage?.content?.length > 0) {
@@ -70,49 +60,36 @@ module.exports = {
 					const tagName = interaction.fields.getTextInputValue("name");
 					const tagContent = interaction.fields.getTextInputValue("content");
 
-					const tags = [...userData.tags];
-
-					const existingTag = tags.find((tag) => tag.name === tagName);
-
-					if (existingTag) {
-						const tagIndex = tags.findIndex((tag) => tag.name === tagName);
-
-						tags[tagIndex].data = {
-							content: tagContent,
-							embeds:
-								int.targetMessage?.embeds?.map((embed) => embed.data) || null,
-						};
-
-						interaction.reply({
-							content: `Successfully replaced the tag \`${tagName}\` with the content:\n>>> ${
-								tagContent.length >= 2000 - 58 - tagName.length
-									? `${tagContent.substr(0, 2000 - 58 - tagName.length)}...`
-									: tagContent
-							}`,
-							ephemeral: true,
-						});
-					} else {
-						tags.push({
-							name: tagName,
-							data: {
-								content: tagContent,
-								embeds: int.targetMessage?.embeds || null,
-							},
-						});
-
-						interaction.reply({
-							content: `Successfully set the tag \`${tagName}\` with the content:\n>>> ${
-								tagContent.length > 2000 - 58 - tagName.length
-									? `${tagContent.substr(0, 2000 - 58 - tagName.length)}...`
-									: tagContent
-							}`,
-							ephemeral: true,
-						});
+					const tagData = {
+						content: tagContent,
+						embeds: int.targetMessage?.embeds?.map((embed) => embed.data) || null,
 					}
 
-					userData.tags = tags;
+					const tagsSchema = client.dbSchema.tags
 
-					await userData.save();
+					await client.db
+						.insert(tagsSchema)
+						.values({
+							id: int.user.id,
+							name: tagName,
+							data: JSON.stringify(tagData)
+						})
+						.onConflictDoUpdate({
+							target: [tagsSchema.id, tagsSchema.name],
+							set: {
+								name: tagName,
+								data: JSON.stringify(tagData)
+							}
+						})
+
+					await interaction.reply({
+						content: `Successfully created/updated the tag "${tagName}" with the content:\n>>> ${
+							tagContent.length >= 2000 - 62 - tagName.length
+								? `${tagContent.substr(0, 2000 - 62 - tagName.length)}...`
+								: tagContent
+						}`,
+						ephemeral: true
+					})
 				});
 		} else {
 			const modal = new ModalBuilder()
@@ -142,42 +119,35 @@ module.exports = {
 				})
 				.then(async (interaction) => {
 					const tagName = interaction.fields.getTextInputValue("name");
-
-					const tags = [...userData.tags];
-
-					const existingTag = tags.find((tag) => tag.name === tagName);
-
-					if (existingTag) {
-						const tagIndex = tags.findIndex((tag) => tag.name === tagName);
-
-						tags[tagIndex].data = {
-							content: int.targetMessage?.content || null,
-							embeds:
-								int.targetMessage?.embeds?.map((embed) => embed.data) || null,
-						};
-
-						interaction.reply({
-							content: `Successfully replaced the tag \`${tagName}\` with the data of this message`,
-							ephemeral: true,
-						});
-					} else {
-						tags.push({
-							name: tagName,
-							data: {
-								content: int.targetMessage?.content || null,
-								embeds: int.targetMessage?.embeds || null,
-							},
-						});
-
-						interaction.reply({
-							content: `Successfully set the tag \`${tagName}\` with the data of this mesaage`,
-							ephemeral: true,
-						});
+					const tagData= {
+						content: int.targetMessage?.content || null,
+						embeds: int.targetMessage?.embeds?.map((embed) => embed.data) || null,
 					}
 
-					userData.tags = tags;
+					const tagsSchema = client.dbSchema.tags
 
-					await userData.save();
+					await client.db
+						.insert(tagsSchema)
+						.values({
+							id: int.user.id,
+							name: tagName,
+							data: JSON.stringify(tagData)
+						})
+						.onConflictDoUpdate({
+							target: tagsSchema.name,
+							set: {
+								name: tagName,
+								data: JSON.stringify(tagData)
+							}
+						})
+
+					await interaction.reply({
+						content: `Successfully created/updated the tag "${tagName}" with the content:\n>>> ${
+							tagContent.length >= 2000 - 62 - tagName.length
+								? `${tagContent.substr(0, 2000 - 62 - tagName.length)}...`
+								: tagContent
+						}`
+					})
 				});
 		}
 	},

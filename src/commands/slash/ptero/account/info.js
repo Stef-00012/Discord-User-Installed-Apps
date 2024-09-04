@@ -1,16 +1,19 @@
 const { EmbedBuilder } = require("discord.js");
-const axios = require('axios')
+const axios = require('axios');
+const { eq } = require("drizzle-orm");
 
 module.exports = async (client, int) => {
     const showMail = int.options.getBoolean('mail') || false
 
     await int.deferReply()
 
-    const userPteroData = await client.mongo.ptero.findOne({
-        id: int.user.id
+    const pteroSchema = client.dbSchema.ptero
+
+    const userPteroData = await client.db.query.ptero.findFirst({
+        where: eq(pteroSchema.id, int.user.id)
     })
 
-    if (!userPteroData || !userPteroData.panelUrl || !userPteroData.apiKey) return int.editReply({
+    if (!userPteroData) return int.editReply({
         content: "Your Pterodactyl config are incorrect"
     });
 

@@ -1,3 +1,4 @@
+const { and, eq } = require("drizzle-orm");
 const ms = require("enhanced-ms");
 const { randomUUID } = require("node:crypto");
 
@@ -27,14 +28,16 @@ module.exports = async (client, int) => {
 		existsReminderWithId = await checkId(client, int, reminderId);
 	}
 
-	const newReminder = await new client.mongo.reminders({
-		userId: int.user.id,
-		reminderId,
-		description: reason,
-		date: new Date(Date.now() + msTime).toISOString(),
-	});
+	const remindersSchema = client.dbSchema.reminders
 
-    await newReminder.save()
+	await client.db
+		.insert(remindersSchema)
+		.values({
+			userId: int.user.id,
+			reminderId,
+			description: reason,
+			date: new Date(Date.now() + msTime).toISOString(),
+		})
 
 	return int.editReply({
 		content: `Successfully set the reminder with id \`${reminderId}\` and description\n> ${reason}`,
@@ -42,10 +45,14 @@ module.exports = async (client, int) => {
 };
 
 async function checkId(client, int, reminderId) {
-	const existingReminderWithid = await client.mongo.reminders.findOne({
-		userId: int.user.id,
-		reminderId,
-	});
+	const remindersSchema = client.dbSchema.reminders
+
+	const existingReminderWithid = await client.db.query.reminders.findFirst({
+		where: and(
+			eq(remindersSchema.reminderId, reminderId),
+			eq(remindersSchema.userId, int.user.id)
+		)
+	})
 
 	if (existingReminderWithid) return true;
 

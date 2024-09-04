@@ -1,7 +1,6 @@
 module.exports = {
 	token: null, // Discord bot token
 	owners: [], // IDs allowed to use owner commands and access the dashboard
-	mongo: null, // MongoDB URI
 
 	// Zipline Configs
 	zipline: {

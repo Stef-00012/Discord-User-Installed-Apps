@@ -1,19 +1,16 @@
+const { eq, and } = require("drizzle-orm");
+
 module.exports = async (client, int) => {
-	let userData = await client.mongo.tags.findOne({
-		id: int.user.id,
-	});
-
-	if (!userData)
-		userData = new client.mongo.tags({
-			id: int.user.id,
-			tags: [],
-		});
-
 	const tagName = int.options.getString("name");
 
-	let tags = [...userData.tags];
+	const tagsSchema = client.dbSchema.tags
 
-	const existingTag = tags.find((tag) => tag.name === tagName);
+	const existingTag = await client.db.query.tags.findFirst({
+		where: and(
+			eq(tagsSchema.id, int.user.id),
+			eq(tagsSchema.name, tagName)
+		)
+	})
 
 	if (!existingTag)
 		return int.reply({
@@ -21,11 +18,14 @@ module.exports = async (client, int) => {
 			ephemeral: true,
 		});
 
-	tags = tags.filter((tag) => tag.name !== tagName);
-
-	userData.tags = tags;
-
-	await userData.save();
+	await client.db
+		.delete(tagsSchema)
+		.where(
+			and(
+				eq(tagsSchema.id, int.user.id),
+				eq(tagsSchema.name, tagName)
+			)
+		)
 
 	int.reply({
 		content: `Successfully deleted the tag \`${tagName}\``,

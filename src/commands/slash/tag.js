@@ -1,21 +1,21 @@
+const { eq } = require("drizzle-orm");
+
 module.exports = {
 	name: "tag",
-	requires: ["mongo"],
+	requires: [],
 
 	async autocomplete(client, int) {
 		const value = int.options.getFocused();
 
-		let userData = await client.mongo.tags.findOne({
-			id: int.user.id,
-		});
+		const tagsSchema = client.dbSchema.tags
 
-		if (!userData)
-			userData = new client.mongo.tags({
-				id: int.user.id,
-				tags: [],
-			});
+		const userTags = await client.db.query.tags.findMany({
+			where: eq(tagsSchema.id, int.user.id)
+		}) || []
 
-		let matches = userData.tags
+		if (userTags?.length <= 0) return int.respond([]);
+
+		let matches = userTags
 			.map((tag) => ({
 				name: tag.name,
 				value: tag.name,

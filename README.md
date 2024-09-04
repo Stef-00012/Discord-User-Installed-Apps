@@ -1,16 +1,19 @@
 # Installation
 
+> [!IMPORTANT]
+> see https://github.com/Stef-00012/Discord-User-Installed-Apps/#database-transfer
+
 1. Run `git clone https://github.com/Stef-00012/Discord-User-Installed-Apps`
 2. Run `npm i`
 3. Rename `config.example.js` to `config.js`
 4. Replace the required fields in the config file
-5. Run `npm run start` in the same folder as the `package.json` file
+5. Run `npm run db:setup` in the same folder as the `package.json` file
+6. Run `npm run start` in the same folder as the `package.json` file
 
 # Config
 
 - `token`: Your Discord bot token
 - `owners`: An array of Discord users allowed to use owner-only commands
-- `mongo`: Your MongoDB database connection string (or `null` if you don't want to use MongoDB)
 - `zipline`: Configs for `/upload` and `/shorten` to work (all the values are `null`able if you don't want to use zipline)
     - `token`: Your Zipline token
     - `url`: Your Zipline hostname
@@ -32,6 +35,10 @@
         - `scopes`: Your OAuth2 scopes (`identify` scope is required for the bot to work)
     - `jwt`: Config for the JSON Web Token (used to store the user ID in the browser's cookie, to keep the user logged in)
         - `secret`: Your JSON Web Token secret (any string, possibly hard to guess)
+
+# Database transfer
+
+If you previously used the bot with a MongoDB database, after step 4 run `npm run db:transfer` in the same folder as the `package.json` file and skip the step 5.
 
 # Hosted
 

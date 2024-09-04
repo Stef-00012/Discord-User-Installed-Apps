@@ -1,3 +1,4 @@
+const { eq } = require("drizzle-orm");
 const fs = require("node:fs");
 
 module.exports = async (client, int) => {
@@ -57,18 +58,28 @@ module.exports = async (client, int) => {
 
 		cmd.execute(client, int);
 
-		if (client.mongo.isConnected()) {
-			let commandAnalytics = await client.mongo.analytics.findOne({
-				commandName: int.commandName
-			})
-	
-			if (!commandAnalytics) commandAnalytics = new client.mongo.analytics({
-				commandName: int.commandName
-			})
-	
-			commandAnalytics.uses += 1;
-	
-			await commandAnalytics.save()
+		const analyticsSchema = client.dbSchema.analytics
+
+		const commandAnalytics = await client.db.query.analytics.findFirst({
+			where: eq(analyticsSchema.commandName, int.commandName)
+		})
+
+		if (commandAnalytics) {
+			await client.db
+				.update(analyticsSchema)
+				.set({
+					uses: commandAnalytics.uses + 1
+				})
+				.where(
+					eq(analyticsSchema.commandName, int.commandName)
+				)
+		} else {
+			await client.db
+				.insert(analyticsSchema)
+				.values({
+					commandName: int.commandName,
+					uses: 1
+				})
 		}
 	}
 

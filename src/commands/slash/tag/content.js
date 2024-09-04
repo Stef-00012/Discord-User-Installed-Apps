@@ -1,21 +1,20 @@
+const { and, eq } = require("drizzle-orm");
+
 module.exports = async (client, int) => {
-	let userData = await client.mongo.tags.findOne({
-		id: int.user.id,
-	});
-
-	if (!userData)
-		userData = new client.mongo.tags({
-			id: int.user.id,
-			tags: [],
-		});
-
 	const tagName = int.options.getString("name");
 	const tagContent = int.options.getString("content") || null;
 	const removeContent = int.options.getBoolean("remove") || false;
 
-	const tags = [...userData.tags];
+	const tagsSchema = client.dbSchema.tags
 
-	const existingTag = tags.find((tag) => tag.name === tagName);
+	const existingTag = await client.db.query.tags.findFirst({
+		where: and(
+			eq(tagsSchema.id, int.user.id),
+			eq(tagsSchema.name, tagName)
+		)
+	})
+
+	if (existingTag) existingTag.data = JSON.parse(existingTag.data)
 
 	const tagData = {
 		content: removeContent ? null : tagContent || null,
@@ -31,59 +30,22 @@ module.exports = async (client, int) => {
 			ephemeral: true,
 		});
 
-	if (removeContent && !existingTag)
-		return int.reply({
-			content: "This tag doesn't exist",
-			ephemeral: true,
-		});
-
-	if (removeContent) {
-		const tagIndex = tags.findIndex((tag) => tag.name === tagName);
-
-		tags[tagIndex].data = tagData;
-
-		int.reply({
-			content: `Successfully removed the content of thr tag "${tagName}"`,
-			ephemeral: true,
-		});
-
-		userData.tags = tags;
-
-		await userData.save();
-
-		return;
-	}
-
-	if (existingTag) {
-		const tagIndex = tags.findIndex((tag) => tag.name === tagName);
-
-		tags[tagIndex].data = tagData;
-
-		int.reply({
-			content: `Successfully replaced the tag \`${tagName}\` with the content:\n>>> ${
-				tagContent.length >= 2000 - 58 - tagName.length
-					? `${tagContent.substr(0, 2000 - 58 - tagName.length)}...`
-					: tagContent
-			}`,
-			ephemeral: true,
-		});
-	} else {
-		tags.push({
+	await client.db
+		.insert(tagsSchema)
+		.values({
 			name: tagName,
-			data: tagData,
-		});
+			id: int.user.id,
+			data: JSON.stringify(tagData)
+		})
+		.onConflictDoUpdate({
+			target: [tagsSchema.id, tagsSchema.name],
+			set: {
+				data: JSON.stringify(tagData)
+			}
+		})
 
-		int.reply({
-			content: `Successfully set the tag \`${tagName}\` with the content:\n>>> ${
-				tagContent.length > 2000 - 58 - tagName.length
-					? `${tagContent.substr(0, 2000 - 58 - tagName.length)}...`
-					: tagContent
-			}`,
-			ephemeral: true,
-		});
-	}
-
-	userData.tags = tags;
-
-	await userData.save();
+	await int.reply({
+		content: `Successfully created/updated the tag "${tagName}"`,
+		ephemeral: true
+	})
 };

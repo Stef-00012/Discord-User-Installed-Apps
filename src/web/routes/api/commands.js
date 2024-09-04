@@ -2,7 +2,6 @@ const joi = require('joi')
 const fs = require('node:fs')
 const path = require('node:path')
 const express = require('express')
-const startMongo = require('../../../mongo/start.js')
 
 module.exports = (client) => {
     const router = express.Router()
@@ -35,15 +34,6 @@ module.exports = (client) => {
             if (!value[command]) continue;
 
             const commandData = client.commands.get(command)
-
-            if (commandData.requires.includes("mongo")) {
-                if (!client.config.mongo)
-                    return res.status(400).json({
-                        error: `You must add a MongoDB url in order to be able to enable the command "${command}"`
-                    });
-        
-                if (!client.mongo.isConnected()) startMongo(client);
-            }
         
             if (
                 commandData.requires.includes("naviac") &&

@@ -9,3 +9,4 @@ tmp
 data/commandPermissions.json
 data/commandStatus.json
 shCmds
+data.db

@@ -1,12 +1,16 @@
 const { EmbedBuilder } = require("discord.js");
 const axios = require("axios");
 const fs = require("node:fs");
+const { and, eq } = require("drizzle-orm");
 
 module.exports = async (client) => {
 	console.log(`\x1b[32mThe app is online (logged as ${client.user.tag})\x1b[0m`);
 
+	const remindersSchema = client.dbSchema.reminders
+
+
 	setInterval(async () => {
-		const reminders = await client.mongo.reminders.find({})
+		const reminders = await client.db.query.reminders.findMany()
 
 		for (const reminder of reminders) {
 			const reminderDate = new Date(reminder.date)
@@ -15,7 +19,16 @@ module.exports = async (client) => {
 				try {
 					const user = await client.users.fetch(reminder.userId)
 
-					if (!user) return;
+					if (!user) {
+						return await client.db
+							.delete(remindersSchema)
+							.where(
+								and(
+									eq(remindersSchema.reminderId, reminder.reminderId),
+									eq(remindersSchema.userId, reminder.userId)
+								)
+							)
+					};
 
 					const embed = new EmbedBuilder()
 						.setTitle('Reminder')
@@ -25,15 +38,25 @@ module.exports = async (client) => {
 						embeds: [embed]
 					})
 
-					await client.mongo.reminders.deleteOne({
-						reminderId: reminder.reminderId
-					})
+					await client.db
+						.delete(remindersSchema)
+						.where(
+							and(
+								eq(remindersSchema.reminderId, reminder.reminderId),
+								eq(remindersSchema.userId, reminder.userId)
+							)
+						)
 				} catch(e) {
 					console.log(e)
 
-					await client.mongo.reminders.deleteOne({
-						reminderId: reminder.reminderId
-					})
+					await client.db
+						.delete(remindersSchema)
+						.where(
+							and(
+								eq(remindersSchema.reminderId, reminder.reminderId),
+								eq(remindersSchema.userId, reminder.userId)
+							)
+						)
 				}
 			}
 		}
