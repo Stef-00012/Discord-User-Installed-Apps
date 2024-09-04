@@ -1,8 +1,8 @@
 # Installation
 
 > [!IMPORTANT]
-> see https://github.com/Stef-00012/Discord-User-Installed-Apps/#database-transfer
-
+> see [#Database transfer](https://github.com/Stef-00012/Discord-User-Installed-Apps/#database-transfer
+)
 1. Run `git clone https://github.com/Stef-00012/Discord-User-Installed-Apps`
 2. Run `npm i`
 3. Rename `config.example.js` to `config.js`
