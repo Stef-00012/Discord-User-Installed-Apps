@@ -45,7 +45,7 @@ If you previously used the bot with a MongoDB database, after step 4 run `npm ru
 If you can not selfhost the bot, you can use the already hosted versions
 
 - By [Stef-00012](https://github.com/Stef-00012) (me, `/ask` command avaible) - [here](https://discord.com/oauth2/authorize?client_id=1223221223685886032)
-- By [Stef-00012](https://github.com/Stef-00012) (me, `/aks` command not avaible) - [here](https://discord.com/oauth2/authorize?client_id=1219574606294417499)
+- ~~By [Stef-00012](https://github.com/Stef-00012) (me, `/aks` command not avaible) - [here](https://discord.com/oauth2/authorize?client_id=1219574606294417499)~~
 - By [CreeperITA104](https://github.com/Creeperita09) - [here](https://discord.com/oauth2/authorize?client_id=1222184630581592107)
 - By [Ninja-5000](https://github.com/Ninja-5000) - [here](https://discord.com/oauth2/authorize?client_id=1042885313367900211)
 
