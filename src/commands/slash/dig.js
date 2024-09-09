@@ -90,7 +90,7 @@ module.exports = {
 				});
 			}
 
-			if (stdout.length > 4070) stdout = stdout.substr(0, 4070)
+			if (stdout.length > 4060) stdout = `${stdout.substr(0, 4060)}...`
 
 			const embed = new EmbedBuilder().setDescription(
 				`\`${command}\`\n\`\`\`txt\n${stdout}\n\`\`\``,
