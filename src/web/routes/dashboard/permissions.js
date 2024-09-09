@@ -6,7 +6,7 @@ module.exports = (client) => {
     const router = express.Router()
 
     router.get('/dashboard/permissions', (req, res, next) => {
-        const username = client.user.tag
+        const username = client.user?.tag || "Unknown#0000";
         const commands = client.commands.map(cmd => cmd.name)
         const permissionsPath = path.join(__dirname, '../../../data/commandPermissions.json')
 

@@ -4,9 +4,9 @@ config.js
 .npm
 *.sh
 .gitconfig
-biome.json
+/biome.json
 tmp
-data/commandPermissions.json
-data/commandStatus.json
+src/data/commandPermissions.json
+src/data/commandStatus.json
 shCmds
-data.db
+*.db
