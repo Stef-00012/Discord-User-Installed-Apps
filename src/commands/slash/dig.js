@@ -50,7 +50,7 @@ module.exports = {
 			{ name: "NSEC3PARAM", value: "NSEC3PARAM" },
 		];
 
-		let matches = records.filter((tag) => tag.name.startsWith(value));
+		let matches = records.filter((tag) => tag.name.toLowerCase().startsWith(value));
 
 		if (matches.length > 25) matches = matches.slice(0, 24);
 
@@ -89,6 +89,8 @@ module.exports = {
 					content: "Something went wrong...",
 				});
 			}
+
+			if (stdout.length > 4070) stdout = stdout.substr(0, 4070)
 
 			const embed = new EmbedBuilder().setDescription(
 				`\`${command}\`\n\`\`\`txt\n${stdout}\n\`\`\``,
