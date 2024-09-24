@@ -1000,7 +1000,7 @@ module.exports = [
 	},
 	{
 		name: "gary",
-		description: "get Gary's pictures and quotes",
+		description: "Get Gary's pictures and quotes",
 		type: ApplicationCommandType.ChatInput,
 		integration_types: [0, 1],
 		contexts: [0, 1, 2],
@@ -1019,6 +1019,21 @@ module.exports = [
 				name: "joke",
 				type: ApplicationCommandOptionType.Subcommand,
 				description: "Get a joke of Gary",
+			},
+		],
+	},
+	{
+		name: "whois",
+		description: "Perform a WHOIS query",
+		type: ApplicationCommandType.ChatInput,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+		options: [
+			{
+				name: "query",
+				type: ApplicationCommandOptionType.String,
+				description: "The domain to query",
+				required: true
 			},
 		],
 	},
