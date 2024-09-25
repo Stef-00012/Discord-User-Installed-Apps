@@ -1058,7 +1058,13 @@ module.exports = [
 		contexts: [0, 1, 2],
 	},
 	{
-		name: "Set as Reminder",
+		name: "Set as Reminder (Content)",
+		type: ApplicationCommandType.Message,
+		integration_types: [0, 1],
+		contexts: [0, 1, 2],
+	},
+	{
+		name: "Set as Reminder (URL)",
 		type: ApplicationCommandType.Message,
 		integration_types: [0, 1],
 		contexts: [0, 1, 2],

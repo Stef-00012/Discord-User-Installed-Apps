@@ -9,7 +9,7 @@ const ms = require("enhanced-ms");
 const { randomUUID } = require("node:crypto");
 
 module.exports = {
-	name: "Set as Reminder",
+	name: "Set as Reminder (Content)",
 	requires: [],
 
 	async execute(client, int) {
