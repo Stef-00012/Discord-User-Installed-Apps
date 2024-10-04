@@ -1,4 +1,4 @@
-const { exec } = require("node:child_process");
+const { execSync } = require("node:child_process");
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
@@ -50,7 +50,9 @@ module.exports = {
 			{ name: "NSEC3PARAM", value: "NSEC3PARAM" },
 		];
 
-		let matches = records.filter((tag) => tag.name.toLowerCase().startsWith(value));
+		let matches = records.filter((tag) =>
+			tag.name.toLowerCase().startsWith(value),
+		);
 
 		if (matches.length > 25) matches = matches.slice(0, 24);
 
@@ -70,35 +72,38 @@ module.exports = {
 			short ? " +short" : ""
 		}${cdflag ? " +cdflag" : ""}`;
 
-		exec(command, async (error, stdout, stderr) => {
-			if (error || stderr) {
-				if (
-					(typeof error === "string" && error.includes("not found")) ||
-					(typeof error?.message === "string" &&
-						error.message.includes("not found")) ||
-					(typeof stderr === "string" && stderr.includes("not found"))
-				)
-					return int.editReply({
-						content: "`dig` is not installed on the system",
-					});
+		let output;
 
-				if (error) console.log(error);
-				if (stderr) console.log(stderr);
+		try {
+			output = execSync(command).toString().trim();
+		} catch (e) {
+			const error = e.stderr.toString().trim();
 
+			if (error.includes("not found"))
 				return int.editReply({
-					content: "Something went wrong...",
+					content: "`dig` is not installed on the system",
 				});
-			}
 
-			if (stdout.length > 4060) stdout = `${stdout.substr(0, 4060)}...`
+			console.log(error);
 
-			const embed = new EmbedBuilder().setDescription(
-				`\`${command}\`\n\`\`\`txt\n${stdout}\n\`\`\``,
-			);
-
-			await int.editReply({
-				embeds: [embed],
+			return int.editReply({
+				content: "Something went wrong...",
 			});
+		}
+
+		if (!output || output.length <= 0)
+			return int.editReply({
+				content: "This query returned no response",
+			});
+
+		if (output.length > 4060) output = `${output.substr(0, 4060)}...`;
+
+		const embed = new EmbedBuilder().setDescription(
+			`\`${command}\`\n\`\`\`txt\n${output}\n\`\`\``,
+		);
+
+		await int.editReply({
+			embeds: [embed],
 		});
 	},
 };

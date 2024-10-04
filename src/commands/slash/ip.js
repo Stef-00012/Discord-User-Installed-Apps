@@ -1,4 +1,4 @@
-const axios = require('axios')
+const axios = require("axios");
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
@@ -10,13 +10,14 @@ module.exports = {
 
 		await int.deferReply();
 
-		const res = await axios.get(`https://we-are-jammin.xyz/json/${ip}`)
-		
-		const ipData = res.data
-		
-		if (!ipData.status === "success") return int.editReply({
-		    content: "The IP address query has failed"
-		});
+		const res = await axios.get(`https://we-are-jammin.xyz/json/${ip}`);
+
+		const ipData = res.data;
+
+		if (ipData.status !== "success")
+			return int.editReply({
+				content: "The IP address query has failed",
+			});
 
 		const embed = new EmbedBuilder();
 
@@ -44,7 +45,6 @@ module.exports = {
 			{
 				name: "ZIP",
 				value: ipData.zip,
-
 			},
 			{
 				name: "Latitute",
@@ -71,11 +71,11 @@ module.exports = {
 				value: ipData.as,
 			},
 		];
-		
-		embed.setFields(fields)
+
+		embed.setFields(fields);
 
 		int.editReply({
-		    embeds: [embed]
-		})
+			embeds: [embed],
+		});
 	},
 };

@@ -1,4 +1,4 @@
-const { exec } = require("node:child_process");
+const { execSync } = require("node:child_process");
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
@@ -22,49 +22,46 @@ module.exports = {
 			},
 		];
 
-		exec(cmd, async (error, stdout, stderr) => {
-			if (error?.message) {
-				if (error.message.length > 1000) {
-					console.log(`\n\nError Message:\n${error.message}`);
+		let output;
 
-					error.message = error.message.substr(0, 1000);
-				}
+		try {
+			output = execSync(cmd).toString().trim();
+		} catch (e) {
+			let error = e.toString().trim();
 
-				fields.push({
-					name: "Error:",
-					value: `\`\`\`ansi\n${error.message}\n\`\`\``,
-				});
+			if (error.length > 1000) {
+				console.log(`\n\nError Message:\n${error}`);
+
+				error = error.substr(0, 1000);
 			}
-			if (stderr) {
-				if (stderr.length > 1000) {
-					console.log(`\n\nStdErr:\n${stderr}`);
 
-					stderr = stderr.substr(0, 1000);
-				}
-
-				fields.push({
-					name: "StdErr:",
-					value: `\`\`\`ansi\n${stderr}\n\`\`\``,
-				});
-			}
-			if (stdout) {
-				if (stdout.length > 1000) {
-					console.log(`\n\nStdOut:\n${stdout}`);
-
-					stdout = stdout.substr(0, 1000);
-				}
-
-				fields.push({
-					name: "StdOut:",
-					value: `\`\`\`ansi\n${stdout}\n\`\`\``,
-				});
-			}
+			fields.push({
+				name: "Error:",
+				value: `\`\`\`ansi\n${error}\n\`\`\``,
+			});
 
 			embed.setFields(fields);
 
-			await int.editReply({
+			return await int.editReply({
 				embeds: [embed],
 			});
+		}
+
+		if (output.length > 1000) {
+			console.log(`\n\nStdout:\n${output}`);
+
+			output = output.substr(0, 1000);
+		}
+
+		fields.push({
+			name: "StdOut:",
+			value: `\`\`\`ansi\n${output}\n\`\`\``,
+		});
+
+		embed.setFields(fields)
+
+		await int.editReply({
+			embeds: [embed],
 		});
 	},
 };
