@@ -9,14 +9,12 @@ module.exports = {
 		const ip = int.options.getString("ip");
 
 		await int.deferReply();
-		console.log(`https://we-are-jammin.xyz/json/${ip}`)
+
 		const res = await axios.get(`https://we-are-jammin.xyz/json/${ip}`)
 		
 		const ipData = res.data
 		
-		console.log(ipData)
-		
-		if (!ipData.success) return int.editReply({
+		if (!ipData.status === "success") return int.editReply({
 		    content: "The IP address query has failed"
 		});
 
