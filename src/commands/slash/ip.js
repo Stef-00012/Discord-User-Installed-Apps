@@ -21,23 +21,57 @@ module.exports = {
 		const embed = new EmbedBuilder();
 
 		const fields = [
-            { name: "Country", value: ipData.country, inline: true },
-            { name: "Country Code", value: ipData.countryCode, inline: true },
-            { name: "Region", value: ipData.region, inline: true },
-            { name: "Region Name", value: ipData.regionName },
-            { name: "City", value: ipData.city },
-            { name: "ZIP", value: ipData.zip, inline: true },
-            { name: "Latitude", value: `${ipData.lat}`, inline: true },
-            { name: "Longitude", value: `${ipData.lon}` },
-            { name: "Timezone", value: ipData.timezone },
-            { name: "ISP", value: ipData.isp, inline: true },
-            { name: "ORG", value: ipData.org, inline: true },
-            { name: "AS", value: ipData.as, inline: true }
-        ];
-        
-        embed.setFields(fields)
+			{
+				name: "Country",
+				value: ipData.country,
+			},
+			{
+				name: "Country Code",
+				value: ipData.countryCode,
+			},
+			{
+				name: "Region",
+				value: ipData.region,
+			},
+			{
+				name: "Region Name",
+				value: ipData.regionName,
+			},
+			{
+				name: "City",
+				value: ipData.city,
+			},
+			{
+				name: "ZIP",
+				value: ipData.zip,
+			},
+			{
+				name: "Latitute",
+				value: `${ipData.lat}`,
+			},
+			{
+				name: "Longitude",
+				value: `${ipData.lon}`,
+			},
+			{
+				name: "Timezone",
+				value: ipData.timezone,
+			},
+			{
+				name: "ISP",
+				value: ipData.isp,
+			},
+			{
+				name: "ORG",
+				value: ipData.org,
+			},
+			{
+				name: "AS",
+				value: ipData.as,
+			},
+		];
 		
-		console.log(fields)
+		embed.setFields(fields)
 
 		int.editReply({
 		    embeds: [embed]
