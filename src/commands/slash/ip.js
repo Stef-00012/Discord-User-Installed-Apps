@@ -10,7 +10,7 @@ module.exports = {
 
 		await int.deferReply();
 		
-		const res = axios.get(`https://we-are-jammin.xyz/json/${ip}`)
+		const res = await axios.get(`https://we-are-jammin.xyz/json/${ip}`)
 		
 		const ipData = res.data
 		
