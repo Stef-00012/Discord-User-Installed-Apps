@@ -23,19 +23,19 @@ module.exports = {
 		const fields = [
     { name: "Country", value: ipData.country, inline: true },
     { name: "Country Code", value: ipData.countryCode, inline: true },
-    { name: "Region", value: ipData.region, inline: true },
-    { name: "Region Name", value: ipData.regionName },
+    { name: "Region", value: ipData.region }, // Not inline, so it appears on a new line
+    { name: "Region Name", value: ipData.regionName }, // Not inline, so it appears on a new line
     { name: "City", value: ipData.city, inline: true },
-    { name: "ZIP", value: ipData.zip },
+    { name: "ZIP", value: ipData.zip, inline: true }, // Inline with City
     { name: "Latitude", value: `${ipData.lat}`, inline: true },
-    { name: "Longitude", value: `${ipData.lon}` },
-    { name: "Timezone", value: ipData.timezone },
+    { name: "Longitude", value: `${ipData.lon}`, inline: true }, // Inline with Latitude
+    { name: "Timezone", value: ipData.timezone }, // Not inline, so it appears on a new line
     { name: "ISP", value: ipData.isp, inline: true },
     { name: "ORG", value: ipData.org, inline: true },
-    { name: "AS", value: ipData.as }
+    { name: "AS", value: ipData.as } // Not inline, so it appears on a new line
 ];
 
-embed.setFields(fields);
+embed.set
 		
 		console.log(fields)
 
