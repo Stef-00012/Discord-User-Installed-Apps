@@ -8,9 +8,7 @@ module.exports = {
 	async execute(client, int) {
 		const ip = int.options.getString("ip");
 
-		await int.deferReply({
-			ephemeral,
-		});
+		await int.deferReply();
 		
 		const res = axios.get(`https://we-are-jammin.xyz/json/${ip}`)
 		
