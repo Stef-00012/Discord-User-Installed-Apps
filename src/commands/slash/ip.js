@@ -28,6 +28,7 @@ module.exports = {
 			{
 				name: "Country Code",
 				value: ipData.countryCode,
+				inline: true
 			},
 			{
 				name: "Region",
@@ -36,6 +37,7 @@ module.exports = {
 			{
 				name: "Region Name",
 				value: ipData.regionName,
+				inline: true
 			},
 			{
 				name: "City",
@@ -44,6 +46,7 @@ module.exports = {
 			{
 				name: "ZIP",
 				value: ipData.zip,
+				inline: true
 			},
 			{
 				name: "Latitute",
@@ -52,6 +55,7 @@ module.exports = {
 			{
 				name: "Longitude",
 				value: `${ipData.lon}`,
+				inline: true
 			},
 			{
 				name: "Timezone",
@@ -64,10 +68,12 @@ module.exports = {
 			{
 				name: "ORG",
 				value: ipData.org,
+				inline: true
 			},
 			{
 				name: "AS",
 				value: ipData.as,
+				inline: true
 			},
 		];
 		
