@@ -24,38 +24,38 @@ module.exports = {
 			{
 				name: "Country",
 				value: ipData.country,
+				inline: true
 			},
 			{
 				name: "Country Code",
 				value: ipData.countryCode,
-				inline: true
 			},
 			{
 				name: "Region",
 				value: ipData.region,
+				inline: true
 			},
 			{
 				name: "Region Name",
 				value: ipData.regionName,
-				inline: true
 			},
 			{
 				name: "City",
 				value: ipData.city,
+				inline: true
 			},
 			{
 				name: "ZIP",
 				value: ipData.zip,
-				inline: true
 			},
 			{
 				name: "Latitute",
 				value: `${ipData.lat}`,
+				inline: true
 			},
 			{
 				name: "Longitude",
 				value: `${ipData.lon}`,
-				inline: true
 			},
 			{
 				name: "Timezone",
@@ -64,6 +64,7 @@ module.exports = {
 			{
 				name: "ISP",
 				value: ipData.isp,
+				inline: true
 			},
 			{
 				name: "ORG",
@@ -73,7 +74,6 @@ module.exports = {
 			{
 				name: "AS",
 				value: ipData.as,
-				inline: true
 			},
 		];
 		
