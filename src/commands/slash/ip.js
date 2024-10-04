@@ -70,6 +70,8 @@ module.exports = {
 				value: ipData.as,
 			},
 		];
+		
+		console.log(fields)
 
 		int.editReply({
 		    embeds: [embed]
