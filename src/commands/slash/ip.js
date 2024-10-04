@@ -12,9 +12,9 @@ module.exports = {
 		console.log(`https://we-are-jammin.xyz/json/${ip}`)
 		const res = await axios.get(`https://we-are-jammin.xyz/json/${ip}`)
 		
-		console.log(res)
-		
 		const ipData = res.data
+		
+		console.log(ipData)
 		
 		if (!ipData.success) return int.editReply({
 		    content: "The IP address query has failed"
