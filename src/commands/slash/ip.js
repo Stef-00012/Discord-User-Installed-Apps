@@ -71,6 +71,8 @@ module.exports = {
 			},
 		];
 		
+		embed.setFields(fields)
+		
 		console.log(fields)
 
 		int.editReply({
