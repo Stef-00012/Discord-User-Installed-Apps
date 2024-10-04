@@ -24,77 +24,51 @@ module.exports = {
 			{
 				name: "Country",
 				value: ipData.country,
-				inline: true
 			},
 			{
 				name: "Country Code",
 				value: ipData.countryCode,
-				inline: true
-			},
-			{
-			    name: "\u200b",
-			    value: "\u200b",
-			    inline: true
 			},
 			{
 				name: "Region",
 				value: ipData.region,
-				inline: true
 			},
 			{
 				name: "Region Name",
 				value: ipData.regionName,
-				inline: true
-			},
-			{
-			    name: "\u200b",
-			    value: "\u200b",
-			    inline: true
 			},
 			{
 				name: "City",
 				value: ipData.city,
-				inline: true
 			},
 			{
 				name: "ZIP",
 				value: ipData.zip,
-				inline: true
-			},
-			{
-			    name: "\u200b",
-			    value: "\u200b",
-			    inline: true
+
 			},
 			{
 				name: "Latitute",
 				value: `${ipData.lat}`,
-				inline: true
 			},
 			{
 				name: "Longitude",
 				value: `${ipData.lon}`,
-				inline: true
 			},
 			{
 				name: "Timezone",
 				value: ipData.timezone,
-				inline: true
 			},
 			{
 				name: "ISP",
 				value: ipData.isp,
-				inline: true
 			},
 			{
 				name: "ORG",
 				value: ipData.org,
-				inline: true
 			},
 			{
 				name: "AS",
 				value: ipData.as,
-				inline: true
 			},
 		];
 		
