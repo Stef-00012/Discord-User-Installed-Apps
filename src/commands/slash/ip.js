@@ -35,7 +35,7 @@ module.exports = {
             { name: "AS", value: ipData.as, inline: true }
         ];
         
-        embed.setFields('field')
+        embed.setFields(fields)
 		
 		console.log(fields)
 
