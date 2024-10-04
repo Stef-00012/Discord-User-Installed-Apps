@@ -47,11 +47,11 @@ module.exports = {
 			},
 			{
 				name: "Latitute",
-				value: ipData.lat,
+				value: `${ipData.lat}`,
 			},
 			{
 				name: "Longitude",
-				value: ipData.lon,
+				value: `${ipData.lon}`,
 			},
 			{
 				name: "Timezone",
