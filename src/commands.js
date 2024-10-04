@@ -1037,6 +1037,21 @@ module.exports = [
 			},
 		],
 	},
+	{
+	    name: "ip",
+	    description: "Get the informations about the given IP address",
+	    type: ApplicationCommandType.ChatInput,
+	    integration_types: [0, 1],
+		contexts: [0, 1, 2],
+		options: [
+		    {
+				name: "ip",
+				type: ApplicationCommandOptionType.String,
+				description: "The IP address to query",
+				required: true
+			},
+		   ]
+	},
 
 	// message commands
 	{
