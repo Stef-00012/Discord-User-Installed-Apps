@@ -56,7 +56,21 @@ module.exports = async (client, int) => {
 				content: "I couldn't find this command",
 			});
 
-		cmd.execute(client, int);
+		try {
+		    await cmd.execute(client, int);
+		} catch(e) {
+		    if (int.deferred) {
+		        int.editReply({
+    		        content: 'Something went wrong...',
+    		        components: [],
+    		        embeds: []
+    		    })
+		    } else {
+		        int.reply({
+		            content: 'Something went wrong...'
+		        })
+		    }
+		}
 
 		const analyticsSchema = client.dbSchema.analytics
 
