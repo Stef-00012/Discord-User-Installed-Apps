@@ -58,7 +58,7 @@ module.exports = {
 			value: `\`\`\`ansi\n${output}\n\`\`\``,
 		});
 
-		embed.setFields(fields)
+		embed.setFields(fields);
 
 		await int.editReply({
 			embeds: [embed],

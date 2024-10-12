@@ -15,7 +15,7 @@ module.exports = {
 		const ipData = res.data;
 
 		if (ipData.status !== "success")
-			return int.editReply({
+			return await int.editReply({
 				content: "The IP address query has failed",
 			});
 
@@ -74,7 +74,7 @@ module.exports = {
 
 		embed.setFields(fields);
 
-		int.editReply({
+		await int.editReply({
 			embeds: [embed],
 		});
 	},

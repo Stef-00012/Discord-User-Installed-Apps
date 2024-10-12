@@ -9,7 +9,7 @@ module.exports = async (client, int) => {
 	const commandName = int.options.getString("command");
 
 	if (!commandStatusJSON[commandName])
-		return int.reply({
+		return await int.reply({
 			content: `\`${commandName}\` is already disabled`,
 			ephemeral: true,
 		});
@@ -21,7 +21,7 @@ module.exports = async (client, int) => {
 		JSON.stringify(commandStatusJSON, null, 2),
 	);
 
-	int.reply({
+	await int.reply({
 		content: `Successfully disabled the command \`${commandName}\``,
 		ephemeral: true,
 	});

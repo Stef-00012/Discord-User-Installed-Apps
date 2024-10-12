@@ -36,7 +36,7 @@ module.exports = async (client, int) => {
 	};
 
 	if (!avaibleCropTypes[renderType].includes(cropType))
-		return int.reply({
+		return await int.reply({
 			content: "Invalid crop type",
 			ephemeral: true,
 		});
@@ -62,7 +62,7 @@ module.exports = async (client, int) => {
 			},
 		]);
 
-	int.reply({
+	await int.reply({
 		embeds: [embed],
 	});
 };

@@ -18,7 +18,7 @@ module.exports = async (client, int) => {
 	// })
 
 	if (!commandPermissionsJSON[commandName].includes(user))
-		return int.reply({
+		return await int.reply({
 			content: `\`${user}\` is already not allowed to use this command`,
 			ephemeral: true,
 		});
@@ -32,7 +32,7 @@ module.exports = async (client, int) => {
 		JSON.stringify(commandPermissionsJSON, null, 2),
 	);
 
-	int.reply({
+	await int.reply({
 		content: `Successfully removed \`${user}\` from the users who can run the command \`${commandName}\``,
 		ephemeral: true,
 	});

@@ -14,7 +14,7 @@ module.exports = {
 
 	async execute(client, int) {
 		if (!int.targetMessage?.content || int.targetMessage?.content?.length <= 0)
-			return int.reply({
+			return await int.reply({
 				content: "This message has no content",
 				ephemeral: true,
 			});
@@ -47,7 +47,7 @@ module.exports = {
 
 		await int.showModal(modal);
 
-		int
+		await int
 			.awaitModalSubmit({
 				filter: (interaction) =>
 					interaction.customId === "convertToQRCode" &&
@@ -74,7 +74,7 @@ module.exports = {
 							},
 						);
 
-						inter.reply({
+						await inter.reply({
 							content: `\`\`\`txt\n${qr}\n\`\`\``,
 						});
 
@@ -92,14 +92,14 @@ module.exports = {
 						);
 
 						if (!req.data)
-							return inter.reply({
+							return await inter.reply({
 								content: "The API did not return any QR code",
 								ephemeral: true,
 							});
 
 						const attachment = new AttachmentBuilder().setFile(req.data);
 
-						inter.reply({
+						await inter.reply({
 							files: [attachment],
 						});
 

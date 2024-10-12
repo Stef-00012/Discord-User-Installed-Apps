@@ -35,7 +35,7 @@ module.exports = {
 				});
 
 			if (attachment.size > maxFileSize * 1024 * 1024)
-				return int.reply({
+				return await int.reply({
 					content: `Your file is too big, max file size ${maxFileSize}mb`,
 					ephemeral: true,
 				});

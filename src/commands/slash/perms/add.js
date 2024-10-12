@@ -13,13 +13,13 @@ module.exports = async (client, int) => {
 		commandPermissionsJSON[commandName] = [];
 
 	if (!user)
-		return int.reply({
+		return await int.reply({
 			content: "I couldn't find this user",
 			ephemeral: true,
 		});
 
 	if (commandPermissionsJSON[commandName].includes(user))
-		return int.reply({
+		return await int.reply({
 			content: `\`${user}\` is already allowed to use this command`,
 			ephemeral: true,
 		});
@@ -37,7 +37,7 @@ module.exports = async (client, int) => {
 		JSON.stringify(commandPermissionsJSON, null, 2),
 	);
 
-	int.reply({
+	await int.reply({
 		content: `Successfully added \`${user}\` in the users who can run the command \`${commandName}\``,
 		ephemeral: true,
 	});

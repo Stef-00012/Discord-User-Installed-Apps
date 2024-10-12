@@ -5,8 +5,8 @@ module.exports = {
 	requires: [],
 
 	async execute(client, int) {
-		int.reply({
-            content: `My ping is ${client.ws.ping}ms`
-        })
+		await int.reply({
+			content: `My ping is ${client.ws.ping}ms`,
+		});
 	},
 };

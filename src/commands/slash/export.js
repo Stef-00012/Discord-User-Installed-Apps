@@ -12,7 +12,7 @@ module.exports = {
 		const filePath = path.join(process.cwd(), inputPath);
 
 		if (!fs.existsSync(filePath))
-			return int.reply({
+			return await int.reply({
 				content: "This file doesn't exist",
 			});
 
@@ -22,7 +22,7 @@ module.exports = {
 
 		await int.deferReply();
 
-		int.editReply({
+		await int.editReply({
 			content: `<https://github.com/stef-00012/discord-user-installed-apps/blob/main/${
 				inputPath.startsWith("/") ? inputPath.replace("/", "") : inputPath
 			}>`,

@@ -15,7 +15,7 @@ module.exports = {
 		const vanity = int.options.getString("vanity");
 
 		if (["http://", "https://"].every((protocol) => !url.startsWith(protocol)))
-			return int.reply({
+			return await int.reply({
 				content: "Yo must use a valid URL",
 				ephemeral: true,
 			});
@@ -38,13 +38,13 @@ module.exports = {
 				},
 			});
 
-			int.editReply({
+			await int.editReply({
 				content: `[Your URL](${shortenResponse.data.url}) has been shortened\nURL: ${shortenResponse.data.url}`,
 			});
 		} catch (e) {
 			console.error(e);
 
-			int.editReply({
+			await int.editReply({
 				content: "Something went wrong...",
 			});
 		}

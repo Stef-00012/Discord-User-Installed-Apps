@@ -9,7 +9,7 @@ module.exports = async (client, int) => {
 	const msTime = ms(time);
 
 	if (!msTime || msTime < 30000)
-		return int.reply({
+		return await int.reply({
 			content: "Invalid time",
 			ephemeral: true,
 		});
@@ -28,31 +28,29 @@ module.exports = async (client, int) => {
 		existsReminderWithId = await checkId(client, int, reminderId);
 	}
 
-	const remindersSchema = client.dbSchema.reminders
+	const remindersSchema = client.dbSchema.reminders;
 
-	await client.db
-		.insert(remindersSchema)
-		.values({
-			userId: int.user.id,
-			reminderId,
-			description: reason,
-			date: new Date(Date.now() + msTime).toISOString(),
-		})
+	await client.db.insert(remindersSchema).values({
+		userId: int.user.id,
+		reminderId,
+		description: reason,
+		date: new Date(Date.now() + msTime).toISOString(),
+	});
 
-	return int.editReply({
+	return await int.editReply({
 		content: `Successfully set the reminder with id \`${reminderId}\` and description\n> ${reason}`,
 	});
 };
 
 async function checkId(client, int, reminderId) {
-	const remindersSchema = client.dbSchema.reminders
+	const remindersSchema = client.dbSchema.reminders;
 
 	const existingReminderWithid = await client.db.query.reminders.findFirst({
 		where: and(
 			eq(remindersSchema.reminderId, reminderId),
-			eq(remindersSchema.userId, int.user.id)
-		)
-	})
+			eq(remindersSchema.userId, int.user.id),
+		),
+	});
 
 	if (existingReminderWithid) return true;
 

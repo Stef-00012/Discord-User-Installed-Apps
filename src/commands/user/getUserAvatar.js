@@ -6,7 +6,7 @@ module.exports = {
 
 	async execute(client, int) {
 		if (!int.targetUser.avatar)
-			return int.reply({
+			return await int.reply({
 				content: "The user doesn't have any avatar",
 				ephemeral: true,
 			});

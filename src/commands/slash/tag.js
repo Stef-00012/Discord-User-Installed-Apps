@@ -7,11 +7,12 @@ module.exports = {
 	async autocomplete(client, int) {
 		const value = int.options.getFocused();
 
-		const tagsSchema = client.dbSchema.tags
+		const tagsSchema = client.dbSchema.tags;
 
-		const userTags = await client.db.query.tags.findMany({
-			where: eq(tagsSchema.id, int.user.id)
-		}) || []
+		const userTags =
+			(await client.db.query.tags.findMany({
+				where: eq(tagsSchema.id, int.user.id),
+			})) || [];
 
 		if (userTags?.length <= 0) return int.respond([]);
 
@@ -29,6 +30,6 @@ module.exports = {
 	async execute(client, int) {
 		const subcommand = int.options.getSubcommand();
 
-		require(`./tag/${subcommand}.js`)(client, int);
+		await require(`./tag/${subcommand}.js`)(client, int);
 	},
 };

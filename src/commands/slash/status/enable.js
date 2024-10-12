@@ -9,7 +9,7 @@ module.exports = async (client, int) => {
 	const commandName = int.options.getString("command");
 
 	if (commandStatusJSON[commandName])
-		return int.reply({
+		return await int.reply({
 			content: `\`${commandName}\` is already enabled`,
 			ephemeral: true,
 		});
@@ -20,18 +20,17 @@ module.exports = async (client, int) => {
 		commandData.requires.includes("naviac") &&
 		["username", "token"].some((cfg) => !client.config?.naviac?.[cfg])
 	) {
-		return int.reply({
-			content: "You must add a N.A.V.I.A.C. username and token in order to be able to enable this command",
+		return await int.reply({
+			content:
+				"You must add a N.A.V.I.A.C. username and token in order to be able to enable this command",
 			ephemeral: true,
 		});
 	}
 
-	if (
-		commandData.requires.includes("gary") &&
-		!client.config?.gary?.apiKey
-	) {
-		return int.reply({
-			content: "You must add a Gary API key in order to be able to enable this command",
+	if (commandData.requires.includes("gary") && !client.config?.gary?.apiKey) {
+		return await int.reply({
+			content:
+				"You must add a Gary API key in order to be able to enable this command",
 			ephemeral: true,
 		});
 	}
@@ -42,8 +41,9 @@ module.exports = async (client, int) => {
 			(cfg) => !client.config?.zipline?.[cfg],
 		)
 	) {
-		return int.reply({
-			content: "You must add your zipline token, url and chunk size in order to be able to enable this command",
+		return await int.reply({
+			content:
+				"You must add your zipline token, url and chunk size in order to be able to enable this command",
 			ephemeral: true,
 		});
 	}
@@ -55,7 +55,7 @@ module.exports = async (client, int) => {
 		JSON.stringify(commandStatusJSON, null, 2),
 	);
 
-	int.reply({
+	await int.reply({
 		content: `Successfully enabled the command \`${commandName}\``,
 		ephemeral: true,
 	});

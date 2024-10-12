@@ -71,11 +71,11 @@ module.exports = {
 					},
 				]);
 
-			int.editReply({
+			await int.editReply({
 				embeds: [embed],
 			});
 		} catch (e) {
-			int.editReply({
+			await int.editReply({
 				content: `No results found for "${term}"`,
 			});
 		}

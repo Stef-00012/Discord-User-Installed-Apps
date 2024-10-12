@@ -80,19 +80,19 @@ module.exports = {
 			const error = e.stderr.toString().trim();
 
 			if (error.includes("not found"))
-				return int.editReply({
+				return await int.editReply({
 					content: "`dig` is not installed on the system",
 				});
 
 			console.log(error);
 
-			return int.editReply({
+			return await int.editReply({
 				content: "Something went wrong...",
 			});
 		}
 
 		if (!output || output.length <= 0)
-			return int.editReply({
+			return await int.editReply({
 				content: "This query returned no response",
 			});
 

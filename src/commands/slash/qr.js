@@ -24,7 +24,7 @@ module.exports = {
 					},
 				);
 
-				int.reply({
+				await int.reply({
 					content: `\`\`\`txt\n${qr}\n\`\`\``,
 				});
 
@@ -42,14 +42,14 @@ module.exports = {
 				);
 
 				if (!req.data)
-					return int.reply({
+					return await int.reply({
 						content: "The API did not return any QR code",
 						ephemeral: true,
 					});
 
 				const attachment = new AttachmentBuilder().setFile(req.data);
 
-				int.reply({
+				await int.reply({
 					files: [attachment],
 				});
 

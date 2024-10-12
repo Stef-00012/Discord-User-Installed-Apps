@@ -5,16 +5,13 @@ module.exports = async (client, int) => {
 	const tagContent = int.options.getString("content") || null;
 	const removeContent = int.options.getBoolean("remove") || false;
 
-	const tagsSchema = client.dbSchema.tags
+	const tagsSchema = client.dbSchema.tags;
 
 	const existingTag = await client.db.query.tags.findFirst({
-		where: and(
-			eq(tagsSchema.id, int.user.id),
-			eq(tagsSchema.name, tagName)
-		)
-	})
+		where: and(eq(tagsSchema.id, int.user.id), eq(tagsSchema.name, tagName)),
+	});
 
-	if (existingTag) existingTag.data = JSON.parse(existingTag.data)
+	if (existingTag) existingTag.data = JSON.parse(existingTag.data);
 
 	const tagData = {
 		content: removeContent ? null : tagContent || null,
@@ -25,7 +22,7 @@ module.exports = async (client, int) => {
 		(!tagData.content || tagData.content?.length <= 0) &&
 		(!tagData.embeds || tagData.embeds?.length <= 0)
 	)
-		return int.reply({
+		return await int.reply({
 			content: "A tag can not be empty",
 			ephemeral: true,
 		});
@@ -35,17 +32,17 @@ module.exports = async (client, int) => {
 		.values({
 			name: tagName,
 			id: int.user.id,
-			data: JSON.stringify(tagData)
+			data: JSON.stringify(tagData),
 		})
 		.onConflictDoUpdate({
 			target: [tagsSchema.id, tagsSchema.name],
 			set: {
-				data: JSON.stringify(tagData)
-			}
-		})
+				data: JSON.stringify(tagData),
+			},
+		});
 
 	await int.reply({
 		content: `Successfully created/updated the tag "${tagName}"`,
-		ephemeral: true
-	})
+		ephemeral: true,
+	});
 };

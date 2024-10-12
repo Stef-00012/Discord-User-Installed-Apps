@@ -30,7 +30,7 @@ module.exports = async (client, int) => {
 
 	embed.setDescription(description);
 
-	int.reply({
+	await int.reply({
 		embeds: [embed],
 		ephemeral: true,
 	});

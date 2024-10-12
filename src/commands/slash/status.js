@@ -20,6 +20,6 @@ module.exports = {
 	async execute(client, int) {
 		const subcommand = int.options.getSubcommand();
 
-		require(`./status/${subcommand}.js`)(client, int);
+		await require(`./status/${subcommand}.js`)(client, int);
 	},
 };

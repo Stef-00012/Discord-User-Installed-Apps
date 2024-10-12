@@ -15,7 +15,7 @@ module.exports = {
 			int.targetMessage?.content?.length <= 0 &&
 			int.targetMessage?.embeds?.length <= 0
 		)
-			return int.reply({
+			return await int.reply({
 				content: "This message has no content",
 				ephemeral: true,
 			});
@@ -49,7 +49,7 @@ module.exports = {
 
 			await int.showModal(modal);
 
-			int
+			await int
 				.awaitModalSubmit({
 					filter: (interaction) =>
 						interaction.customId === "createTag" &&
@@ -62,25 +62,26 @@ module.exports = {
 
 					const tagData = {
 						content: tagContent,
-						embeds: int.targetMessage?.embeds?.map((embed) => embed.data) || null,
-					}
+						embeds:
+							int.targetMessage?.embeds?.map((embed) => embed.data) || null,
+					};
 
-					const tagsSchema = client.dbSchema.tags
+					const tagsSchema = client.dbSchema.tags;
 
 					await client.db
 						.insert(tagsSchema)
 						.values({
 							id: int.user.id,
 							name: tagName,
-							data: JSON.stringify(tagData)
+							data: JSON.stringify(tagData),
 						})
 						.onConflictDoUpdate({
 							target: [tagsSchema.id, tagsSchema.name],
 							set: {
 								name: tagName,
-								data: JSON.stringify(tagData)
-							}
-						})
+								data: JSON.stringify(tagData),
+							},
+						});
 
 					await interaction.reply({
 						content: `Successfully created/updated the tag "${tagName}" with the content:\n>>> ${
@@ -88,8 +89,8 @@ module.exports = {
 								? `${tagContent.substr(0, 2000 - 62 - tagName.length)}...`
 								: tagContent
 						}`,
-						ephemeral: true
-					})
+						ephemeral: true,
+					});
 				});
 		} else {
 			const modal = new ModalBuilder()
@@ -110,7 +111,7 @@ module.exports = {
 
 			await int.showModal(modal);
 
-			int
+			await int
 				.awaitModalSubmit({
 					filter: (interaction) =>
 						interaction.customId === "createTag" &&
@@ -119,35 +120,36 @@ module.exports = {
 				})
 				.then(async (interaction) => {
 					const tagName = interaction.fields.getTextInputValue("name");
-					const tagData= {
+					const tagData = {
 						content: int.targetMessage?.content || null,
-						embeds: int.targetMessage?.embeds?.map((embed) => embed.data) || null,
-					}
+						embeds:
+							int.targetMessage?.embeds?.map((embed) => embed.data) || null,
+					};
 
-					const tagsSchema = client.dbSchema.tags
+					const tagsSchema = client.dbSchema.tags;
 
 					await client.db
 						.insert(tagsSchema)
 						.values({
 							id: int.user.id,
 							name: tagName,
-							data: JSON.stringify(tagData)
+							data: JSON.stringify(tagData),
 						})
 						.onConflictDoUpdate({
 							target: tagsSchema.name,
 							set: {
 								name: tagName,
-								data: JSON.stringify(tagData)
-							}
-						})
+								data: JSON.stringify(tagData),
+							},
+						});
 
 					await interaction.reply({
 						content: `Successfully created/updated the tag "${tagName}" with the content:\n>>> ${
 							tagContent.length >= 2000 - 62 - tagName.length
 								? `${tagContent.substr(0, 2000 - 62 - tagName.length)}...`
 								: tagContent
-						}`
-					})
+						}`,
+					});
 				});
 		}
 	},

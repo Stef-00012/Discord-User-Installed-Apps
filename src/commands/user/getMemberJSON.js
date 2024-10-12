@@ -18,7 +18,7 @@ module.exports = {
 			}\n\`\`\``,
 		);
 
-		int.reply({
+		await int.reply({
 			embeds: [embed],
 			ephemeral: true,
 		});

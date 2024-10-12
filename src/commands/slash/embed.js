@@ -30,7 +30,7 @@ module.exports = {
 		try {
 			embedJSON = JSON.parse(embedJSON);
 		} catch (e) {
-			return int.reply({
+			return await int.reply({
 				content: "Invalid JSON",
 				ephemeral: true,
 			});
@@ -63,11 +63,11 @@ module.exports = {
 			});
 
 			try {
-				return int.reply({
+				return await int.reply({
 					embeds: [embed],
 				});
 			} catch (e) {
-				return int.reply({
+				return await int.reply({
 					content: "I'm unable to send this embed, check the console",
 					ephemeral: true,
 				});
@@ -120,11 +120,11 @@ module.exports = {
 				});
 
 				try {
-					return inter.reply({
+					return await inter.reply({
 						embeds: [embed],
 					});
 				} catch (e) {
-					return int.reply({
+					return await int.reply({
 						content: "I'm unable to send this embed, check the console",
 						ephemeral: true,
 					});

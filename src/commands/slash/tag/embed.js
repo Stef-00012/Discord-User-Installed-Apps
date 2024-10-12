@@ -17,16 +17,13 @@ module.exports = async (client, int) => {
 	const tagName = int.options.getString("name");
 	const removeEmbedIndex = int.options.getInteger("remove-index");
 
-	const tagsSchema = client.dbSchema.tags
+	const tagsSchema = client.dbSchema.tags;
 
 	const tag = await client.db.query.tags.findFirst({
-		where: and(
-			eq(tagsSchema.id, int.user.id),
-			eq(tagsSchema.name, tagName)
-		)
-	})
+		where: and(eq(tagsSchema.id, int.user.id), eq(tagsSchema.name, tagName)),
+	});
 
-	if (tag) tag.data = JSON.parse(tag.data)
+	if (tag) tag.data = JSON.parse(tag.data);
 
 	const tagData = {
 		content: tag?.data?.content || null,
@@ -34,28 +31,28 @@ module.exports = async (client, int) => {
 	};
 
 	if (removeEmbedIndex && !tag)
-			return int.editReply({
-				content: "This tag doesn't exist"
-			})
+		return await int.editReply({
+			content: "This tag doesn't exist",
+		});
 
 	if (removeEmbedIndex && (!tagData?.embeds || tagData?.embeds?.length <= 0))
-		return inArray.editReply({
-			content: "This message already has no embeds"
-		})
+		return await int.editReply({
+			content: "This message already has no embeds",
+		});
 
 	if (!removeEmbedIndex && tagData?.embeds?.length >= 25)
-		return int.editReply({
+		return await int.editReply({
 			content: "You reached the embed limit for this tag",
 		});
 
 	if (removeEmbedIndex && (removeEmbedIndex < 1 || removeEmbedIndex > 25))
-		return int.editReply({
+		return await int.editReply({
 			content: "Embed index must be between 1 and 25",
 		});
 
 	if (removeEmbedIndex && tagData?.embeds?.length < removeEmbedIndex)
-		return int.editReply({
-			content: `No embed exists at the index ${removeEmbedIndex}`
+		return await int.editReply({
+			content: `No embed exists at the index ${removeEmbedIndex}`,
 		});
 
 	if (removeEmbedIndex) {
@@ -67,23 +64,18 @@ module.exports = async (client, int) => {
 			(!tagData?.content || tagData?.content?.length <= 0) &&
 			(!tagData?.embeds || tagData?.embeds <= 0)
 		)
-			return int.editReply({
-				content: "A tag can not be empty"
+			return await int.editReply({
+				content: "A tag can not be empty",
 			});
 
 		await client.db
 			.update(tagsSchema)
 			.set({
-				data: JSON.stringify(tagData)
+				data: JSON.stringify(tagData),
 			})
-			.where(
-				and(
-					eq(tagsSchema.id, int.user.id),
-					eq(tagsSchema.name, tagName)
-				)
-			)
+			.where(and(eq(tagsSchema.id, int.user.id), eq(tagsSchema.name, tagName)));
 
-		return int.editReply({
+		return await int.editReply({
 			content: `Successfully removed the embed at the index ${removeEmbedIndex}`,
 		});
 	}
@@ -105,7 +97,7 @@ module.exports = async (client, int) => {
 	try {
 		embedJSON = JSON.parse(embedJSON);
 	} catch (e) {
-		return int.editReply({
+		return await int.editReply({
 			content: "Invalid JSON",
 			ephemeral: true,
 		});
@@ -138,7 +130,7 @@ module.exports = async (client, int) => {
 		});
 
 		try {
-			int.editReply({
+			await int.editReply({
 				embeds: [embed],
 			});
 
@@ -150,27 +142,22 @@ module.exports = async (client, int) => {
 				return await client.db
 					.update(tagsSchema)
 					.set({
-						data: JSON.stringify(tagData)
+						data: JSON.stringify(tagData),
 					})
 					.where(
-						and(
-							eq(tagsSchema.id, int.user.id),
-							eq(tagsSchema.name, tagName)
-						)
-					)
+						and(eq(tagsSchema.id, int.user.id), eq(tagsSchema.name, tagName)),
+					);
 			}
-			
-			return await client.db
-				.insert(tagsSchema)
-				.values({
-					name: tagName,
-					id: int.user.id,
-					data: JSON.stringify(tagData)
-				})
+
+			return await client.db.insert(tagsSchema).values({
+				name: tagName,
+				id: int.user.id,
+				data: JSON.stringify(tagData),
+			});
 		} catch (e) {
 			console.log(e);
 
-			return int.editReply({
+			return await int.editReply({
 				content: "I'm unable to send this embed, check the console",
 				ephemeral: true,
 			});
@@ -222,7 +209,7 @@ module.exports = async (client, int) => {
 			});
 
 			try {
-				inter.reply({
+				await inter.reply({
 					content: "Sucessfully added this embed to the tag:",
 					embeds: [embed],
 					ephemeral: true,
@@ -236,27 +223,22 @@ module.exports = async (client, int) => {
 					return await client.db
 						.update(tagsSchema)
 						.set({
-							data: JSON.stringify(tagData)
+							data: JSON.stringify(tagData),
 						})
 						.where(
-							and(
-								eq(tagsSchema.id, int.user.id),
-								eq(tagsSchema.name, tagName)
-							)
-						)
+							and(eq(tagsSchema.id, int.user.id), eq(tagsSchema.name, tagName)),
+						);
 				}
-				
-				return await client.db
-					.insert(tagsSchema)
-					.values({
-						name: tagName,
-						id: int.user.id,
-						data: JSON.stringify(tagData)
-					})
+
+				return await client.db.insert(tagsSchema).values({
+					name: tagName,
+					id: int.user.id,
+					data: JSON.stringify(tagData),
+				});
 			} catch (e) {
 				console.log(e);
 
-				return int.editReply({
+				return await int.editReply({
 					content:
 						"I'm unable to send this embed or to save the database, check the console",
 					ephemeral: true,

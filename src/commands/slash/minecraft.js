@@ -102,6 +102,6 @@ module.exports = {
 	async execute(client, int) {
 		const subcommand = int.options.getSubcommand();
 
-		require(`./minecraft/${subcommand}.js`)(client, int);
+		await require(`./minecraft/${subcommand}.js`)(client, int);
 	},
 };

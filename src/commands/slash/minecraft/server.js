@@ -49,12 +49,13 @@ module.exports = async (client, int) => {
 					]);
 				}
 
-				int.editReply({
+				await int.editReply({
 					embeds: [embed],
 				});
 			} catch (e) {
 				console.log(e);
-				int.editReply({
+
+				await int.editReply({
 					content: "Something went wrong...",
 					ephemeral: true,
 				});
@@ -108,12 +109,12 @@ module.exports = async (client, int) => {
 					]);
 				}
 
-				int.editReply({
+				await int.editReply({
 					embeds: [embed],
 				});
 			} catch (e) {
 				console.log(e);
-				int.editReply({
+				await int.editReply({
 					content: "Something went wrong...",
 					ephemeral: true,
 				});

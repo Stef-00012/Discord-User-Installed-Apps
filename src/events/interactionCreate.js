@@ -9,11 +9,9 @@ module.exports = async (client, int) => {
 
 	if (
 		!commandStatusJSON[int.commandName] &&
-		(
-			int.isChatInputCommand() ||
+		(int.isChatInputCommand() ||
 			int.isMessageContextMenuCommand() ||
-			int.isUserContextMenuCommand()
-		)
+			int.isUserContextMenuCommand())
 	)
 		return int.reply({
 			content: "This command is disabled",
@@ -57,43 +55,41 @@ module.exports = async (client, int) => {
 			});
 
 		try {
-		    await cmd.execute(client, int);
-		} catch(e) {
-		    if (int.deferred) {
-		        int.editReply({
-    		        content: 'Something went wrong...',
-    		        components: [],
-    		        embeds: []
-    		    })
-		    } else {
-		        int.reply({
-		            content: 'Something went wrong...'
-		        })
-		    }
+			await cmd.execute(client, int);
+		} catch (e) {
+			if (e.code !== 10062) {
+				if (int.deferred) {
+					int.editReply({
+						content: "Something went wrong...",
+						components: [],
+						embeds: [],
+					});
+				} else {
+					int.reply({
+						content: "Something went wrong...",
+					});
+				}
+			}
 		}
 
-		const analyticsSchema = client.dbSchema.analytics
+		const analyticsSchema = client.dbSchema.analytics;
 
 		const commandAnalytics = await client.db.query.analytics.findFirst({
-			where: eq(analyticsSchema.commandName, int.commandName)
-		})
+			where: eq(analyticsSchema.commandName, int.commandName),
+		});
 
 		if (commandAnalytics) {
 			await client.db
 				.update(analyticsSchema)
 				.set({
-					uses: commandAnalytics.uses + 1
+					uses: commandAnalytics.uses + 1,
 				})
-				.where(
-					eq(analyticsSchema.commandName, int.commandName)
-				)
+				.where(eq(analyticsSchema.commandName, int.commandName));
 		} else {
-			await client.db
-				.insert(analyticsSchema)
-				.values({
-					commandName: int.commandName,
-					uses: 1
-				})
+			await client.db.insert(analyticsSchema).values({
+				commandName: int.commandName,
+				uses: 1,
+			});
 		}
 	}
 
@@ -102,6 +98,12 @@ module.exports = async (client, int) => {
 
 		if (!cmd) return;
 
-		cmd.autocomplete(client, int);
+		try {
+			await cmd.autocomplete(client, int);
+		} catch(e) {
+			if (e.code !== 10062) {
+				await int.respond([])
+			}
+		}
 	}
 };

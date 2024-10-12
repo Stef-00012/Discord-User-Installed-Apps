@@ -7,17 +7,17 @@ module.exports = async (client, int) => {
 
 	const reminderId = int.options.getString("id");
 
-	const remindersSchema = client.dbSchema.reminders
+	const remindersSchema = client.dbSchema.reminders;
 
 	const reminder = await client.db.query.reminders.findFirst({
 		where: and(
 			eq(remindersSchema.userId, int.user.id),
-			eq(remindersSchema.reminderId, reminderId)
-		)
-	})
+			eq(remindersSchema.reminderId, reminderId),
+		),
+	});
 
 	if (!reminder)
-		return int.editReply({
+		return await int.editReply({
 			content: `There is no reminder with this id (\`${reminderId}\`)`,
 		});
 
@@ -26,9 +26,9 @@ module.exports = async (client, int) => {
 		.where(
 			and(
 				eq(remindersSchema.userId, int.user.id),
-				eq(remindersSchema.reminderId, reminderId)
-			)
-		)
+				eq(remindersSchema.reminderId, reminderId),
+			),
+		);
 
 	await int.editReply({
 		content: `Successfully deleted the reminder with the id \`${reminderId}\``,

@@ -53,7 +53,7 @@ module.exports = {
 
 		const answer = answers[Math.floor(Math.random() * answers.length)];
 
-		int.reply({
+		await int.reply({
 			content: `> ${question}\n${answer}`,
 		});
 	},

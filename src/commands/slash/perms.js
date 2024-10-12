@@ -22,6 +22,6 @@ module.exports = {
 	async execute(client, int) {
 		const subcommand = int.options.getSubcommand();
 
-		require(`./perms/${subcommand}.js`)(client, int);
+		await require(`./perms/${subcommand}.js`)(client, int);
 	},
 };

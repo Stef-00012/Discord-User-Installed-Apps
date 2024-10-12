@@ -3,13 +3,13 @@ module.exports = {
 	requires: [],
 
 	async execute(client, int) {
-        const subcommandGroup = int.options.getSubcommandGroup()
+		const subcommandGroup = int.options.getSubcommandGroup();
 		const subcommand = int.options.getSubcommand();
 
-        let path = ''
-        if (subcommandGroup) path += `${subcommandGroup}/`
-        path += subcommand
+		let path = "";
+		if (subcommandGroup) path += `${subcommandGroup}/`;
+		path += subcommand;
 
-		require(`./ptero/${path}.js`)(client, int);
+		await require(`./ptero/${path}.js`)(client, int);
 	},
 };
