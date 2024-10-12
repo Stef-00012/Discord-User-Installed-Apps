@@ -6,6 +6,8 @@ module.exports = {
 	requires: [],
 
 	async execute(client, int) {
+	    await int.deferReply();
+	    
 		const query = int.options.getString('query')
 
         const queryOutput = await whoiser(query)
@@ -43,7 +45,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setDescription(embedLines.join('\n'))
 
-        int.reply({
+        int.editReply({
             embeds: [embed]
         })
 	},
