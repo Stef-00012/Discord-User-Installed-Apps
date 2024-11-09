@@ -5,6 +5,6 @@ module.exports = defineConfig({
 	schema: "./src/db/schema.js",
 	out: "./drizzle",
 	dbCredentials: {
-		url: "data.db"
+		url: "data/data.db"
 	},
 });

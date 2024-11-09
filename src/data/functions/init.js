@@ -3,7 +3,7 @@ const cmds = require("../../commands.js");
 const config = require("../../../config.js");
 
 module.exports = () => {
-	if (!fs.existsSync(`${__dirname}/../commandPermissions.json`)) {
+	if (!fs.existsSync(`${__dirname}/../permissions/commandPermissions.json`)) {
 		const commandPermissions = {
 			eval: config.owners,
 			perms: config.owners,
@@ -12,12 +12,12 @@ module.exports = () => {
 		};
 
 		fs.writeFileSync(
-			`${__dirname}/../commandPermissions.json`,
+			`${__dirname}/../permissions/commandPermissions.json`,
 			JSON.stringify(commandPermissions, null, 4),
 		);
 	}
 
-	if (!fs.existsSync(`${__dirname}/../commandStatus.json`)) {
+	if (!fs.existsSync(`${__dirname}/../permissions/commandStatus.json`)) {
 		const commands = cmds.map((cmd) => cmd.name);
 
 		let commandStatus = {};
@@ -34,7 +34,7 @@ module.exports = () => {
 		};
 
 		fs.writeFileSync(
-			`${__dirname}/../commandStatus.json`,
+			`${__dirname}/../permissions/commandStatus.json`,
 			JSON.stringify(commandStatus, null, 4),
 		);
 	}

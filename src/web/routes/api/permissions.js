@@ -35,7 +35,7 @@ module.exports = (client) => {
             error: error.details.map(err => err.message)
         })
 
-        const commandPermissionsPath = path.join(__dirname, '../../../data/commandPermissions.json')
+        const commandPermissionsPath = path.join(__dirname, '../../../data/permissions/commandPermissions.json')
 
         fs.writeFileSync(commandPermissionsPath, JSON.stringify(value, null, 4))
 

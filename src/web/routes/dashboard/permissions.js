@@ -8,7 +8,7 @@ module.exports = (client) => {
     router.get('/dashboard/permissions', (req, res, next) => {
         const username = client.user?.tag || "Unknown#0000";
         const commands = client.commands.map(cmd => cmd.name)
-        const permissionsPath = path.join(__dirname, '../../../data/commandPermissions.json')
+        const permissionsPath = path.join(__dirname, '../../../data/permissions/commandPermissions.json')
 
         const permissionsString = fs.readFileSync(permissionsPath, 'utf-8')
 

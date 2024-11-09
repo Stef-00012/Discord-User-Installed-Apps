@@ -3,7 +3,7 @@ const fs = require("node:fs");
 
 module.exports = async (client, int) => {
 	const commandPermissions = fs.readFileSync(
-		`${__dirname}/../../../data/commandPermissions.json`,
+		`${__dirname}/../../../data/permissions/commandPermissions.json`,
 	);
 	const commandPermissionsJSON = JSON.parse(commandPermissions);
 

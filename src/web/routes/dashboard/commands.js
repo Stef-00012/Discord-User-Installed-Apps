@@ -9,7 +9,7 @@ module.exports = (client) => {
         const username = client.user?.tag || "Unknown#0000";
         const commands = client.commands.map(cmd => cmd.name)
 
-        const commandStatusPath = path.join(__dirname, '../../../data/commandStatus.json')
+        const commandStatusPath = path.join(__dirname, '../../../data/permissions/commandStatus.json')
 
         const commandStatusString = fs.readFileSync(commandStatusPath, 'utf-8')
 

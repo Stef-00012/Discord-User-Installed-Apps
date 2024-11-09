@@ -65,7 +65,7 @@ module.exports = (client) => {
             }
         }
 
-        const commandStatusPath = path.join(__dirname, '../../../data/commandStatus.json')
+        const commandStatusPath = path.join(__dirname, '../../../data/permissions/commandStatus.json')
 
         fs.writeFileSync(commandStatusPath, JSON.stringify(value, null, 4))
 

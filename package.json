@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "db:transfer": "rm -f ./data.db && npm run db:setup && node scripts/transferDB.js",
+    "db:setup": "npm run db:generate && npm run db:migrate",
+    "build": "npm run db:setup && npm run start",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:setup": "npm run db:generate && npm run db:migrate",
-    "db:transfer": "rm -f ./data.db && npm run db:setup && node scripts/transferDB.js",
     "start": "node src/index.js"
   },
   "author": "admin@stefdp.lol",

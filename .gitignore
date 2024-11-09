@@ -1,12 +1,9 @@
 node_modules
-config.js
-*.zip
-.npm
-*.sh
-.gitconfig
+config.example.js
 /biome.json
 tmp
-src/data/commandPermissions.json
-src/data/commandStatus.json
+src/data/permissions
 shCmds
-*.db
+/data
+/permissions
+compose.yml

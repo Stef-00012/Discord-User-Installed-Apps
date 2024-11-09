@@ -123,7 +123,7 @@ const events = fs
 
 const commandDirs = ["slash", "message", "user"];
 
-const commandStatus = fs.readFileSync(`${__dirname}/data/commandStatus.json`);
+const commandStatus = fs.readFileSync(`${__dirname}/data/permissions/commandStatus.json`);
 const commandStatusJSON = JSON.parse(commandStatus);
 
 for (const dir of commandDirs) {
@@ -139,7 +139,7 @@ for (const dir of commandDirs) {
 			commandData.requires.includes("naviac") &&
 			["username", "token"].some((cfg) => !client.config?.naviac?.[cfg])
 		) {
-			console.log(`\x1b[31mYou must add a N.A.V.I.A.C. username and token or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`);
+			console.log(`\x1b[31mYou must add a N.A.V.I.A.C. username and token or disable the command "${commandData.name}" in "data/permissions/commandStatus.json"\x1b[0m`);
 
 			process.exit(1);
 		}
@@ -149,7 +149,7 @@ for (const dir of commandDirs) {
 			commandData.requires.includes("gary") &&
 			!client.config?.gary?.apiKey
 		) {
-			console.log(`\x1b[31mYou must add a Gary API key or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`);
+			console.log(`\x1b[31mYou must add a Gary API key or disable the command "${commandData.name}" in "data/permissions/commandStatus.json"\x1b[0m`);
 
 			process.exit(1);
 		}
@@ -161,7 +161,7 @@ for (const dir of commandDirs) {
 				(cfg) => !client.config?.zipline?.[cfg],
 			)
 		) {
-			console.log(`\x1b[31mYou must add your zipline token, url and chunk size or disable the command "${commandData.name}" in "data/commandStatus.json"\x1b[0m`);
+			console.log(`\x1b[31mYou must add your zipline token, url and chunk size or disable the command "${commandData.name}" in "data/permissions/commandStatus.json"\x1b[0m`);
 
 			process.exit(1);
 		}

@@ -3,7 +3,7 @@ const fs = require("node:fs");
 
 module.exports = async (client, int) => {
 	const commandStatus = fs.readFileSync(
-		`${__dirname}/../data/commandStatus.json`,
+		`${__dirname}/../data/permissions/commandStatus.json`,
 	);
 	const commandStatusJSON = JSON.parse(commandStatus);
 
@@ -24,7 +24,7 @@ module.exports = async (client, int) => {
 		int.isMessageContextMenuCommand()
 	) {
 		const commandPermissions = fs.readFileSync(
-			`${__dirname}/../data/commandPermissions.json`,
+			`${__dirname}/../data/permissions/commandPermissions.json`,
 		);
 		const commandPermissionsJSON = JSON.parse(commandPermissions);
 
@@ -32,7 +32,7 @@ module.exports = async (client, int) => {
 			commandPermissionsJSON[int.commandName] = [];
 
 			fs.writeFileSync(
-				`${__dirname}/../data/commandPermissions.json`,
+				`${__dirname}/../data/permissions/commandPermissions.json`,
 				JSON.stringify(commandPermissionsJSON, null, 2),
 			);
 		}

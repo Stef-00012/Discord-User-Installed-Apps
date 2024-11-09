@@ -2,7 +2,7 @@ const fs = require("node:fs");
 
 module.exports = async (client, int) => {
 	const commandStatus = fs.readFileSync(
-		`${__dirname}/../../../data/commandStatus.json`,
+		`${__dirname}/../../../data/permissions/commandStatus.json`,
 	);
 	const commandStatusJSON = JSON.parse(commandStatus);
 
@@ -17,7 +17,7 @@ module.exports = async (client, int) => {
 	commandStatusJSON[commandName] = false;
 
 	fs.writeFileSync(
-		`${__dirname}/../../../data/commandStatus.json`,
+		`${__dirname}/../../../data/permissions/commandStatus.json`,
 		JSON.stringify(commandStatusJSON, null, 2),
 	);
 
