@@ -1,87 +1,90 @@
+const crypto = require("node:crypto");
+
 module.exports = {
-  name: "8ball",
-  requires: [],
+	name: "8ball",
+	requires: [],
 
-  async execute(client, int) {
-    const question = int.options.getString("question");
+	async execute(client, int) {
+		const question = int.options.getString("question");
 
-    const categories = {
-      positive: [
-        "It is certain.",
-        "It is decidedly so.",
-        "Without a doubt.",
-        "Yes, definitely.",
-        "You may rely on it.",
-        "As I see it, yes.",
-        "Most likely.",
-        "Outlook good.",
-        "Signs point to yes.",
-        "Yes.",
-        "Absolutely.",
-        "Almost certainly.",
-        "Definitely.",
-        "For sure.",
-        "Hell yes.",
-        "I think so.",
-        "Indeed.",
-        "It's a certainty.",
-        "It's highly likely.",
-        "It's likely.",
-        "It's possible.",
-        "It's probable.",
-        "It's very likely.",
-        "No doubt."
-      ],
-      neutral: [
-        "Reply hazy, try again.",
-        "Ask again later.",
-        "Better not tell you now.",
-        "Cannot predict now.",
-        "Concentrate and ask again.",
-        "Unclear at the moment.",
-        "It’s too soon to tell.",
-        "The universe is undecided.",
-        "Let fate decide.",
-        "Hard to say right now.",
-        "Try again later.",
-        "It could go either way.",
-        "Not sure, ask again.",
-        "Perhaps.",
-        "It’s a mystery."
-      ],
-      negative: [
-        "Don't bet on it.",
-        "My reply is no.",
-        "My sources say no.",
-        "Outlook not so good.",
-        "Very doubtful.",
-        "No way.",
-        "Never.",
-        "Nope.",
-        "Not a chance.",
-        "Not in a million years.",
-        "Not likely.",
-        "Under no circumstances.",
-        "Absolutely not.",
-        "Doubtful.",
-        "The answer is no.",
-        "No signs point to yes.",
-        "Don’t count on it.",
-        "The odds are not in your favor.",
-        "I wouldn’t bet on it.",
-        "Highly unlikely.",
-        "Impossible."
-      ]
-    };
+		const categories = {
+			positive: [
+				"It is certain.",
+				"It is decidedly so.",
+				"Without a doubt.",
+				"Yes, definitely.",
+				"You may rely on it.",
+				"As I see it, yes.",
+				"Most likely.",
+				"Outlook good.",
+				"Signs point to yes.",
+				"Yes.",
+				"Absolutely.",
+				"Almost certainly.",
+				"Definitely.",
+				"For sure.",
+				"Hell yes.",
+				"I think so.",
+				"Indeed.",
+				"It's a certainty.",
+				"It's highly likely.",
+				"It's likely.",
+				"It's possible.",
+				"It's probable.",
+				"It's very likely.",
+				"No doubt.",
+			],
+			neutral: [
+				"Reply hazy, try again.",
+				"Ask again later.",
+				"Better not tell you now.",
+				"Cannot predict now.",
+				"Concentrate and ask again.",
+				"Unclear at the moment.",
+				"It’s too soon to tell.",
+				"The universe is undecided.",
+				"Let fate decide.",
+				"Hard to say right now.",
+				"Try again later.",
+				"It could go either way.",
+				"Not sure, ask again.",
+				"Perhaps.",
+				"It’s a mystery.",
+			],
+			negative: [
+				"Don't bet on it.",
+				"My reply is no.",
+				"My sources say no.",
+				"Outlook not so good.",
+				"Very doubtful.",
+				"No way.",
+				"Never.",
+				"Nope.",
+				"Not a chance.",
+				"Not in a million years.",
+				"Not likely.",
+				"Under no circumstances.",
+				"Absolutely not.",
+				"Doubtful.",
+				"The answer is no.",
+				"No signs point to yes.",
+				"Don’t count on it.",
+				"The odds are not in your favor.",
+				"I wouldn’t bet on it.",
+				"Highly unlikely.",
+				"Impossible.",
+			],
+		};
 
-    const categoryNames = Object.keys(categories);
-    const randomCategory = categories[categoryNames[Math.floor(Math.random() * categoryNames.length)]];
+		const categoryNames = Object.keys(categories);
+		const randomCategory =
+			categories[categoryNames[crypto.randomInt(0, categoryNames.length + 1)]];
 
+		const answer =
+			randomCategory[crypto.randomInt(0, randomCategory.length + 1)];
 
-    const answer = randomCategory[Math.floor(Math.random() * randomCategory.length)];
-
-    await int.reply({
-      content: `> ${question}\n${answer}`,
-    });
-  },
+		await int.reply({
+			content: `> ${question}\n${answer}`,
+		});
+	},
 };
