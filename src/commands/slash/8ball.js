@@ -78,10 +78,10 @@ module.exports = {
 
 		const categoryNames = Object.keys(categories);
 		const randomCategory =
-			categories[categoryNames[crypto.randomInt(0, categoryNames.length + 1)]];
+			categories[categoryNames[crypto.randomInt(0, categoryNames.length)]];
 
 		const answer =
-			randomCategory[crypto.randomInt(0, randomCategory.length + 1)];
+			randomCategory[crypto.randomInt(0, randomCategory.length)];
 
 		await int.reply({
 			content: `> ${question}\n${answer}`,
