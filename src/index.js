@@ -146,16 +146,6 @@ for (const dir of commandDirs) {
 
 		if (
 			commandStatusJSON[commandData.name] &&
-			commandData.requires.includes("gary") &&
-			!client.config?.gary?.apiKey
-		) {
-			console.log(`\x1b[31mYou must add a Gary API key or disable the command "${commandData.name}" in "data/permissions/commandStatus.json"\x1b[0m`);
-
-			process.exit(1);
-		}
-
-		if (
-			commandStatusJSON[commandData.name] &&
 			commandData.requires.includes("zipline") &&
 			["token", "url", "chunkSize", "maxFileSize"].some(
 				(cfg) => !client.config?.zipline?.[cfg],

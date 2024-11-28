@@ -4,11 +4,7 @@ module.exports = async (client, int) => {
 	await int.deferReply();
 
 	try {
-		const res = await axios.get("https://garybot.dev/api/quote", {
-			headers: {
-				api_key: client.config.gary.apiKey,
-			},
-		});
+		const res = await axios.get("https://garybot.dev/api/quote");
 
 		const quote = res.data.quote;
 

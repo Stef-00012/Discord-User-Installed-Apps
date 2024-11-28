@@ -15,7 +15,6 @@ services:
       - ZIPLINE_MAX_FILE_SIZE=1024
       - NAVIAC_USERNAME=
       - NAVIAC_TOKEN=
-      - GARY_APIKEY=
       - DASHBOARD_ENABLED=true
       - DASHBOARD_HOSTNAME=localhost
       - DASHBOARD_SECURE=false

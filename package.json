@@ -16,7 +16,7 @@
   "dependencies": {
     "@dmzoneill/urban-dictionary": "^3.0.3",
     "axios": "^1.6.8",
-    "better-sqlite3": "^11.2.1",
+    "better-sqlite3": "^11.6.0",
     "canvas": "^2.11.2",
     "color": "^4.2.3",
     "cookie-parser": "^1.4.6",

@@ -14,10 +14,6 @@ module.exports = {
 		token: process.env.NAVIAC_TOKEN
 	},
 
-	gary: {
-		apiKey: process.env.GARY_APIKEY
-	},
-
 	web: {
 		enabled: process.env.DASHBOARD_ENABLED === "true" || true,
 		hostname: process.env.DASHBOARD_HOSTNAME || "localhost",

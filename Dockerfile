@@ -18,9 +18,11 @@ RUN apk add --no-cache \
     fastfetch \
     curl
 
-COPY package.json package-lock.json /bot/
-RUN npm i
 
+# COPY package.json package-lock.json /bot/
 COPY . .
+
+RUN rm -rf /bot/node_modules
+RUN npm i
 
 ENTRYPOINT ["npm", "run", "build"]

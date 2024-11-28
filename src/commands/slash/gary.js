@@ -1,6 +1,6 @@
 module.exports = {
 	name: "gary",
-	requires: ["gary"],
+	requires: [],
 
 	async execute(client, int) {
 		const subcommand = int.options.getSubcommand();
