@@ -1,8 +1,7 @@
 import fs from "node:fs";
+import type { Functions } from "../types/functions";
 
-const functions: {
-    [key: string]: (...args: any[]) => any | Promise<any>;
-} = {};
+const functions = {};
 
 const funcs = fs
     .readdirSync(`${__dirname}/functions`)
@@ -14,4 +13,4 @@ for (const func of funcs) {
     functions[func.split(".")[0]] = funcData
 }
 
-export default functions;
+export default functions as Functions;

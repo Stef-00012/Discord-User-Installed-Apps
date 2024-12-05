@@ -21,7 +21,7 @@ export default function (client: Client) {
 
         if (!code) return res.redirect(`https://discord.com/oauth2/authorize?client_id=${client.config.web.auth.clientId}&response_type=code&redirect_uri=${encodeURIComponent(client.config.web.auth.redirectURI)}&scope=${client.config.web.auth.scopes}`);
 
-        const hashedId: string | null = await client.functions.getAccessToken(client, code)
+        const hashedId: string | null = await client.functions.getAccessToken(client, code as string)
 
         if (!hashedId) return res.redirect('/dashboard');
 

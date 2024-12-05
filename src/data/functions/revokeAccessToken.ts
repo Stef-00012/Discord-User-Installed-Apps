@@ -1,7 +1,7 @@
 import axios from "axios"
 import type { Client } from "../../structures/DiscordClient";
 
-export default async function (client: Client, token: string, tokenType: string, id: string): Promise<boolean | null> {
+export default async function (client: Client, token: string, tokenType: string): Promise<boolean | null> {
     if (!client.config.web || !client.config.web.enabled) return null;
 
     try {

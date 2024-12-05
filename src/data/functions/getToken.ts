@@ -3,7 +3,7 @@ import jwt, { type JwtPayload } from 'jsonwebtoken'
 import type { Client } from '../../structures/DiscordClient';
 import type { DatabaseTokenData, DatabaseUserData } from '../../types/discord';
 
-export default async function (client: Client, JWT: string): Promise<null | DatabaseUserData> {
+export default async function (client: Client, JWT: string): Promise<DatabaseUserData | null> {
     if (!JWT || !client.config.web || !client.config.web.enabled) return null;
 
     let decodedJWT: JwtPayload;
@@ -23,7 +23,7 @@ export default async function (client: Client, JWT: string): Promise<null | Data
     if (!userData) return null;
 
     if (new Date().getTime() > new Date(userData?.expiresAt).getTime()) {
-        const refreshedTokenData: DatabaseTokenData = await client.functions.refreshToken(client, userData.refreshToken)
+        const refreshedTokenData: DatabaseTokenData | null = await client.functions.refreshToken(client, userData.refreshToken)
 
         if (!refreshedTokenData) return null;
 

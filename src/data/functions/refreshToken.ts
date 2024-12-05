@@ -3,7 +3,7 @@ import type { Client } from "../../structures/DiscordClient";
 import type { RESTPostOAuth2RefreshTokenResult } from "discord.js";
 import type { DatabaseTokenData } from "../../types/discord";
 
-export default async function (client: Client, token: string): Promise<null | DatabaseTokenData> {
+export default async function (client: Client, token: string): Promise<DatabaseTokenData | null> {
     if (!client.config.web || !client.config.web.enabled) return null;
 
     try {
