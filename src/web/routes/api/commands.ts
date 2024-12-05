@@ -1,5 +1,4 @@
 import joi from 'joi'
-import fs from 'node:fs'
 import path from 'node:path'
 import express, { type NextFunction, type Request, type Response } from 'express'
 import type { Client } from '../../../structures/DiscordClient'

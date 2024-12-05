@@ -1,4 +1,3 @@
-import fs from "node:fs";
 import type { Client } from "../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
 import type { CommandPermissions } from "../../../types/permissions";

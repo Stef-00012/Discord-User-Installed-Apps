@@ -1,5 +1,4 @@
 import { eq } from "drizzle-orm";
-import fs from "node:fs";
 import type { Client } from "../structures/DiscordClient";
 import type { Interaction } from "discord.js";
 import type { CommandPermissions, CommandStatus } from "../types/permissions";

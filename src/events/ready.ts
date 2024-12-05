@@ -1,6 +1,5 @@
 import { EmbedBuilder } from "discord.js";
 import axios from "axios";
-import fs from "node:fs";
 import { and, eq } from "drizzle-orm";
 import type { Client } from "../structures/DiscordClient";
 import Commands from "../commands"
