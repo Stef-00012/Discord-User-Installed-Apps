@@ -1,7 +1,7 @@
 import { type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import type { Client } from "../../../structures/DiscordClient";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	const player = int.options.getString("player", true);
 	const renderType = int.options.getString("render-type", true);
 	const cropType = int.options.getString("crop-type", true);

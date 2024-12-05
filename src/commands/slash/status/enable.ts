@@ -2,7 +2,7 @@ import type { Client } from "../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
 import type { CommandStatus } from "../../../types/permissions";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	const commandStatusJSON: CommandStatus = await Bun.file(`${__dirname}/../../../data/permissions/commandStatus.json`).json();
 
 	const commandName = int.options.getString("command", true);

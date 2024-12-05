@@ -1,7 +1,7 @@
 import express, { type NextFunction, type Request, type Response } from 'express'
 import type { Client } from '../../../structures/DiscordClient';
 
-export default function(client: Client) {
+export default function (client: Client) {
 	const router = express.Router();
 
 	router.get("/dashboard", async (req: Request, res: Response, next: NextFunction): Promise<any> => {
@@ -15,7 +15,7 @@ export default function(client: Client) {
 			client.user?.avatarURL({
 				size: 4096,
 			}) || "https://discord.com/assets/974be2a933143742e8b1.png";
-            
+
 		const username = client.user?.tag || "Unknown#0000";
 		let mostUsedCommands = (await client.db.query.analytics.findMany()) || [];
 

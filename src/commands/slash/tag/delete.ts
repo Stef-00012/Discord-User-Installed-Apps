@@ -3,7 +3,7 @@ import type { Client } from "../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
 import type { Tag } from "../../../types/tag";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	const tagName = int.options.getString("name", true);
 
 	const tagsSchema = client.dbSchema.tags;

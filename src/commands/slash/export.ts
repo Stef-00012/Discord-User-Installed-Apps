@@ -25,9 +25,8 @@ export default {
 		await int.deferReply();
 
 		await int.editReply({
-			content: `<https://github.com/stef-00012/discord-user-installed-apps/blob/main/${
-				inputPath.startsWith("/") ? inputPath.replace("/", "") : inputPath
-			}>`,
+			content: `<https://github.com/stef-00012/discord-user-installed-apps/blob/main/${inputPath.startsWith("/") ? inputPath.replace("/", "") : inputPath
+				}>`,
 			files: [attachment],
 		});
 	},

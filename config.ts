@@ -29,7 +29,7 @@ export default {
 			redirectURI: process.env.DISCORD_REDIRECT_URI || 'http://localhost:3000/login',
 			scopes: 'identify'
 		},
-		
+
 		jwt: {
 			secret: process.env.JWT_SECRET
 		}

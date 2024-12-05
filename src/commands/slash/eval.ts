@@ -47,9 +47,9 @@ export default {
 					value:
 						cleanEvalOutput(evaluatedCode).length > 1000
 							? `\`\`\`js\n${cleanEvalOutput(evaluatedCode).substr(
-									0,
-									1000,
-								)}...\n\`\`\``
+								0,
+								1000,
+							)}...\n\`\`\``
 							: `\`\`\`js\n${cleanEvalOutput(evaluatedCode)}\n\`\`\``,
 				});
 			} else {

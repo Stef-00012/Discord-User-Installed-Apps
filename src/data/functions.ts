@@ -9,7 +9,7 @@ const funcs = fs
     .filter((file) => file.endsWith(".ts"));
 
 for (const func of funcs) {
-    const funcData: (...args: any[]) => any | Promise<any>= (await import(`${__dirname}/functions/${func}`)).default
+    const funcData: (...args: any[]) => any | Promise<any> = (await import(`${__dirname}/functions/${func}`)).default
 
     functions[func.split(".")[0]] = funcData
 }

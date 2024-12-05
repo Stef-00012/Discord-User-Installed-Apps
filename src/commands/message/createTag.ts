@@ -86,11 +86,10 @@ export default {
 						});
 
 					await interaction.reply({
-						content: `Successfully created/updated the tag "${tagName}" with${tagData.embeds?.length > 0 ? ` ${tagData.embeds.length} embeds and` : ''} the content:\n>>> ${
-							tagContent.length >= 2000 - 62 - tagName.length
+						content: `Successfully created/updated the tag "${tagName}" with${tagData.embeds?.length > 0 ? ` ${tagData.embeds.length} embeds and` : ''} the content:\n>>> ${tagContent.length >= 2000 - 62 - tagName.length
 								? `${tagContent.substr(0, 2000 - 62 - tagName.length)}...`
 								: tagContent
-						}`,
+							}`,
 						ephemeral: true,
 					});
 				});

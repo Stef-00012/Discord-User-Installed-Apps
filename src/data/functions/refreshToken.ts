@@ -3,7 +3,7 @@ import type { Client } from "../../structures/DiscordClient";
 import type { RESTPostOAuth2RefreshTokenResult } from "discord.js";
 import type { DatabaseTokenData } from "../../types/discord";
 
-export default async function(client: Client, token: string): Promise<null | DatabaseTokenData> {
+export default async function (client: Client, token: string): Promise<null | DatabaseTokenData> {
     if (!client.config.web || !client.config.web.enabled) return null;
 
     try {
@@ -16,11 +16,11 @@ export default async function(client: Client, token: string): Promise<null | Dat
                 scope: client.config.web.auth.scopes,
                 refresh_token: token
             }).toString(),
-            {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            })
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    }
+                })
         ).data
 
         return {
@@ -29,7 +29,7 @@ export default async function(client: Client, token: string): Promise<null | Dat
             expiresAt: new Date((Math.floor(new Date().getTime() / 1000) + newTokenData.expires_in) * 1000).toISOString(),
             scopes: newTokenData.scope
         } as DatabaseTokenData;
-    } catch(e) {
+    } catch (e) {
         return null;
     }
 }

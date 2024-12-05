@@ -4,8 +4,8 @@ import express, { type NextFunction, type Request, type Response } from 'express
 import type { Client } from '../../../structures/DiscordClient'
 import type { CommandStatus } from "../../../types/permissions"
 
-export default function(client: Client) {
-    const router = express.Router()
+export default function (client: Client) {
+    const router = express.Router();
 
     router.post('/commands', (req: Request, res: Response, next: NextFunction): any => {
         const commands = client.commands.map(cmd => cmd.name)
@@ -42,7 +42,7 @@ export default function(client: Client) {
             if (!commandData) return res.status(400).json({
                 error: "Command not found"
             });
-        
+
             if (
                 commandData.requires.includes("naviac") &&
                 ["username", "token"].some((cfg) => !client.config?.naviac?.[cfg])
@@ -51,7 +51,7 @@ export default function(client: Client) {
                     error: `You must add a N.A.V.I.A.C. username and token in order to be able to enable the command "${command}"`
                 });
             }
-        
+
             if (
                 commandData.requires.includes("zipline") &&
                 ["token", "url", "chunkSize", "maxFileSize"].some(

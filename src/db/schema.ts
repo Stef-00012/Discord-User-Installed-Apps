@@ -1,7 +1,7 @@
 import {
-	sqliteTable,
-	integer,
-	text,
+    sqliteTable,
+    integer,
+    text,
     primaryKey
 } from "drizzle-orm/sqlite-core";
 
@@ -58,7 +58,7 @@ const analytics = sqliteTable("analytics", {
 })
 
 export default {
-	tags,
+    tags,
     ptero,
     tokens,
     reminders,

@@ -3,7 +3,7 @@ import express, { type NextFunction, type Request, type Response } from 'express
 import type { Client } from '../../../structures/DiscordClient'
 import type { CommandPermissions } from '../../../types/permissions'
 
-export default function(client: Client) {
+export default function (client: Client) {
     const router = express.Router()
 
     router.get('/dashboard/permissions', async (req: Request, res: Response, next: NextFunction): Promise<any> => {
@@ -26,7 +26,7 @@ export default function(client: Client) {
                 permissions,
                 username
             })
-        } catch(e) {
+        } catch (e) {
             return res.sendStatus(500)
         }
     })

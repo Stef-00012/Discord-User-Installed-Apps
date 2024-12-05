@@ -4,7 +4,7 @@ import type { Client } from "../../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
 import type { PterodactylPowerActions } from "../../../../types/pterodactyl";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	const id = int.options.getString("id", true);
 	const action = int.options.getString("action", true) as PterodactylPowerActions;
 

@@ -1,7 +1,7 @@
 import type { ChatInputCommandInteraction } from "discord.js";
 import type { Client } from "../../../../structures/DiscordClient";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	let panelUrl = int.options.getString("url", true);
 	const apiKey = int.options.getString("key", true);
 

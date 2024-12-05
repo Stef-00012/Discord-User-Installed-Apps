@@ -13,10 +13,9 @@ export default {
 		);
 
 		const embed = new EmbedBuilder().setDescription(
-			`\`\`\`json\n${
-				memberJSON.length > 4081
-					? `${memberJSON.substr(0, 4081)}...`
-					: memberJSON
+			`\`\`\`json\n${memberJSON.length > 4081
+				? `${memberJSON.substr(0, 4081)}...`
+				: memberJSON
 			}\n\`\`\``,
 		);
 

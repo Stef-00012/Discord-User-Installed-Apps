@@ -2,7 +2,7 @@ import { type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import type { Client } from "../../../structures/DiscordClient";
 import type { CommandPermissions } from "../../../types/permissions";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	const commandPermissionsJSON: CommandPermissions = await Bun.file(`${__dirname}/../../../data/permissions/commandPermissions.json`).json();
 
 	const commands = require("../../../commands.js");

@@ -25,7 +25,7 @@ export default {
 		const subcommand = int.options.getSubcommand();
 
 		const subcommandData = (await import(`./status/${subcommand}.js`)).default
-		
+
 		await subcommandData(client, int);
 	},
 } as Command;

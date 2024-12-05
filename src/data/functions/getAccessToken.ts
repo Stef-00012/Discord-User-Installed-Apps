@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import type { Client } from '../../structures/DiscordClient'
 import type { APIUser, RESTPostOAuth2AccessTokenResult } from "discord.js";
 
-export default async function(client: Client, code: string): Promise<string | null> {
+export default async function (client: Client, code: string): Promise<string | null> {
     if (!code || !client.config.web || !client.config.web.enabled) return null;
 
     try {
@@ -16,11 +16,11 @@ export default async function(client: Client, code: string): Promise<string | nu
                 redirect_uri: client.config.web.auth.redirectURI,
                 scope: client.config.web.auth.scopes
             }).toString(),
-            {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            })
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    }
+                })
         ).data
 
         const userData: APIUser = (

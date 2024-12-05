@@ -4,7 +4,7 @@ import { and, eq } from "drizzle-orm";
 import type { Client } from "../structures/DiscordClient";
 import Commands from "../commands"
 
-export default async function(client: Client) {
+export default async function (client: Client) {
 	console.log(`\x1b[32mThe app is online (logged as ${client.user?.tag})\x1b[0m`);
 
 	const remindersSchema = client.dbSchema.reminders
@@ -46,7 +46,7 @@ export default async function(client: Client) {
 								eq(remindersSchema.userId, reminder.userId)
 							)
 						)
-				} catch(e) {
+				} catch (e) {
 					console.log(e)
 
 					await client.db

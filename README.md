@@ -26,7 +26,6 @@
 [^1]: Zipline is https://zipline.diced.sh.
 [^2]: N.A.V.I.A.C. is an AI.
 
-
 # Hosted
 
 If you can not selfhost the bot, you can use the already hosted versions.

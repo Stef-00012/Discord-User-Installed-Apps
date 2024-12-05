@@ -65,11 +65,9 @@ export default {
 					},
 					{
 						name: "Votes",
-						value: `${definitionData.thumbs_up} like${
-							definitionData.thumbs_up > 1 ? "s" : ""
-						} :+1: | ${definitionData.thumbs_down} like${
-							definitionData.thumbs_down > 1 ? "s" : ""
-						} :-1:`,
+						value: `${definitionData.thumbs_up} like${definitionData.thumbs_up > 1 ? "s" : ""
+							} :+1: | ${definitionData.thumbs_down} like${definitionData.thumbs_down > 1 ? "s" : ""
+							} :-1:`,
 					},
 				]);
 

@@ -2,7 +2,7 @@ import { type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { and, eq } from "drizzle-orm";
 import type { Client } from "../../../structures/DiscordClient";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	await int.deferReply({
 		ephemeral: true,
 	});

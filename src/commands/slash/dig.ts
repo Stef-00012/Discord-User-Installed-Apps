@@ -70,9 +70,8 @@ export default {
 
 		await int.deferReply();
 
-		const command = `dig ${domain} ${recordType} @${provider} +noall +answer${
-			short ? " +short" : ""
-		}${cdflag ? " +cdflag" : ""}`;
+		const command = `dig ${domain} ${recordType} @${provider} +noall +answer${short ? " +short" : ""
+			}${cdflag ? " +cdflag" : ""}`;
 
 		let output: string;
 

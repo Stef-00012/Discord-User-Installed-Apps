@@ -2,7 +2,7 @@ import { type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import type { Client } from "../../../structures/DiscordClient";
 import type { McstatusIoBedrockServerResponse, McstatusIoJavaServerResponse } from "../../../types/mcstatus.io";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	const serverVersion = int.options.getString("version");
 	const serverAddress = int.options.getString("address");
 

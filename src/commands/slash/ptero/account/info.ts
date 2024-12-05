@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import type { Client } from "../../../../structures/DiscordClient";
 import type { PterodactylAccount } from "../../../../types/pterodactyl";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	const showMail = int.options.getBoolean("mail") || false;
 
 	await int.deferReply();
@@ -35,12 +35,9 @@ export default async function(client: Client, int: ChatInputCommandInteraction) 
 		const embed = new EmbedBuilder()
 			.setTitle("Account Information")
 			.setDescription(
-				`**ID**: \`${data.id}\`\n**Admin**: ${
-					data.admin ? "Yes" : "No"
-				}\n**Username**: ${data.username}\n**Mail**: \`${
-					showMail ? data.email : "<hidden>"
-				}\`\n**Full Name**: ${data.first_name} ${
-					data.last_name
+				`**ID**: \`${data.id}\`\n**Admin**: ${data.admin ? "Yes" : "No"
+				}\n**Username**: ${data.username}\n**Mail**: \`${showMail ? data.email : "<hidden>"
+				}\`\n**Full Name**: ${data.first_name} ${data.last_name
 				}\n**Language**: \`${data.language}\``,
 			);
 

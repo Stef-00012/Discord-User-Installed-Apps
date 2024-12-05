@@ -4,7 +4,7 @@ import { randomUUID } from "node:crypto";
 import type { Client } from "../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	const time = int.options.getString("time", true);
 	const reason = int.options.getString("reason", true);
 

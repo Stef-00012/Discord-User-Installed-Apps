@@ -1,7 +1,7 @@
 import cmds from "../../commands";
 import config from "../../../config";
 
-export default async function(): Promise<void> {
+export default async function (): Promise<void> {
 	const commandPermissionsFile = Bun.file(`${__dirname}/../permissions/commandPermissions.json`)
 	const commandPermissionsFileExists = await commandPermissionsFile.exists()
 

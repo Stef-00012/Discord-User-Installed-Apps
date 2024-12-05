@@ -7,7 +7,7 @@ import type { Command } from "../../types/command";
 export default {
 	name: "colorpicker",
 	requires: [],
-	
+
 	async execute(client: Client, int: ChatInputCommandInteraction) {
 		const hex = int.options.getString("hex", true).replace("#", "");
 		const hexCodeRegex = /^([A-Fa-f0-9]{6})$/.test(hex);

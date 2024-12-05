@@ -38,7 +38,7 @@ if (client.config.web?.enabled) {
 		console.log(
 			"\x1b[31mYou must setup discord OAuth2 or disable the web UI\x1b[0m",
 		);
-	
+
 		process.exit(1);
 	}
 
@@ -46,7 +46,7 @@ if (client.config.web?.enabled) {
 		console.log(
 			"\x1b[31mYou must add a JWT secret or disable the web UI\x1b[0m",
 		);
-	
+
 		process.exit(1);
 	}
 }
@@ -76,7 +76,7 @@ app.get('/', (req: Request, res: Response, next: NextFunction): any => {
 
 for (const route in noAuthRoutes) {
 	app.use('/', noAuthRoutes[route])
-	
+
 	console.log(`\x1b[38;2;131;77;179mLoaded the dashboard route "${route}" [no auth]\x1b[0m`)
 }
 
@@ -88,7 +88,7 @@ for (const middleware in dashboardMiddlewares) {
 
 for (const route in authRoutes) {
 	app.use('/', authRoutes[route])
-	
+
 	console.log(`\x1b[38;2;131;77;179mLoaded the dashboard route "${route}"\x1b[0m`)
 }
 

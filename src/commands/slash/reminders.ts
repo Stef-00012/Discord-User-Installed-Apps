@@ -22,11 +22,10 @@ export default {
 		let matches = userReminders
 			.filter((reminder) => reminder.reminderId.startsWith(value))
 			.map((reminder) => ({
-				name: `${reminder.reminderId} - ${
-					reminder.description.length > 80
+				name: `${reminder.reminderId} - ${reminder.description.length > 80
 						? `${reminder.description.substr(0, 80)}...`
 						: reminder.description.substr(0, 80)
-				}`,
+					}`,
 				value: reminder.reminderId,
 			}));
 
@@ -38,7 +37,7 @@ export default {
 		const subcommand = int.options.getSubcommand();
 
 		const subcommandData = (await import(`./reminders/${subcommand}.js`)).default
-		
+
 		await subcommandData(client, int);
 	},
 } as Command;

@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import type { Client } from "../../../../structures/DiscordClient";
 import type { PterodactylAPIServer } from "../../../../types/pterodactyl";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	await int.deferReply();
 
 	const pteroSchema = client.dbSchema.ptero;

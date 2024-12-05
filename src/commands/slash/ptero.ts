@@ -15,7 +15,7 @@ export default {
 		path += subcommand;
 
 		const subcommandData = (await import(`./ptero/${path}.js`)).default
-		
+
 		await subcommandData(client, int);
 	},
 } as Command;

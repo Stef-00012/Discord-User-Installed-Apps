@@ -3,7 +3,7 @@ import type { Client } from "../structures/DiscordClient";
 import type { Interaction } from "discord.js";
 import type { CommandPermissions, CommandStatus } from "../types/permissions";
 
-export default async function(client: Client, int: Interaction) {
+export default async function (client: Client, int: Interaction) {
 	const commandStatusJSON: CommandStatus = await Bun.file(`${__dirname}/../data/permissions/commandStatus.json`).json();
 
 	if (
@@ -97,7 +97,7 @@ export default async function(client: Client, int: Interaction) {
 
 		try {
 			await cmd.autocomplete(client, int);
-		} catch(e) {
+		} catch (e) {
 			if (e.code !== 10062) {
 				await int.respond([])
 			}

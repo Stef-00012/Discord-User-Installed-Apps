@@ -3,7 +3,7 @@ import type { Client } from "../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
 import type { Tag } from "../../../types/tag";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	const tagsSchema = client.dbSchema.tags;
 
 	const userTags =
@@ -20,9 +20,8 @@ export default async function(client: Client, int: ChatInputCommandInteraction) 
 	const tagsString = userTags.map((tag) => tag.name).join("\n- ");
 
 	await int.reply({
-		content: `Your tags are:\n- ${
-			tagsString.length > 1950 ? `${tagsString.substr(0, 1950)}...` : tagsString
-		}`,
+		content: `Your tags are:\n- ${tagsString.length > 1950 ? `${tagsString.substr(0, 1950)}...` : tagsString
+			}`,
 		ephemeral: true,
 	});
 };

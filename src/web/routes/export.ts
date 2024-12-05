@@ -13,7 +13,7 @@ import TagPreviewRoute from './tagPreview/embedBuilder'
 
 import type { Client } from '../../structures/DiscordClient'
 
-export default function(client: Client) {
+export default function (client: Client) {
     return {
         auth: {
             dashboardHome: DashboardHomeRoute(client),

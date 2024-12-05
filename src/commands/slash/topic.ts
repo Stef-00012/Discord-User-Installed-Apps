@@ -6,7 +6,7 @@ import type { Command } from '../../types/command'
 export default {
     name: "topic",
     requires: [],
-    
+
     async execute(client: Client, int: ChatInputCommandInteraction) {
         const topics = [
             "What was the last funny video you saw?",

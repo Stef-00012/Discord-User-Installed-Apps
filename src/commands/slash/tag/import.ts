@@ -11,7 +11,7 @@ import { randomUUID } from "node:crypto";
 import type { Client } from "../../../structures/DiscordClient";
 import type { ImportTag, Tag } from "../../../types/tag";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	await int.deferReply({
 		ephemeral: true,
 	});
@@ -147,11 +147,9 @@ export default async function(client: Client, int: ChatInputCommandInteraction) 
 				global.conflicts[newId] = conflict[1].data;
 
 				const message = await int.editReply({
-					content: `There ${conflicts.length > 1 ? "are" : "is"} ${
-						conflicts.length
-					} conflicts\n\nTag Name: "${conflict[0].name}"\n[Old Tag Data](${
-						global.baseUrl
-					}/tags/${oldId}) - [New Tag Data](${global.baseUrl}/tags/${newId})`,
+					content: `There ${conflicts.length > 1 ? "are" : "is"} ${conflicts.length
+						} conflicts\n\nTag Name: "${conflict[0].name}"\n[Old Tag Data](${global.baseUrl
+						}/tags/${oldId}) - [New Tag Data](${global.baseUrl}/tags/${newId})`,
 					components: [row],
 				});
 

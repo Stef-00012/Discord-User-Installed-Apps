@@ -3,17 +3,17 @@ import jwt, { type JwtPayload } from 'jsonwebtoken'
 import type { Client } from '../../../structures/DiscordClient'
 import type { DatabaseUserData } from '../../../types/discord'
 
-export default function(client: Client) {
+export default function (client: Client) {
     const router = express.Router()
 
     router.get("/login", async (req: Request, res: Response, next: NextFunction): Promise<any> => {
         if (req.query?.a === "1" || !client.config.web) return res.render("auth/notLogged")
 
         const tokenData: null | DatabaseUserData = await client.functions.getToken(client, req.cookies?.id)
-        
+
         if (tokenData) {
             if (!client.config.owners.includes(tokenData.id)) return res.redirect('/logout?r=1');
-            
+
             return res.redirect('/dashboard');
         }
 

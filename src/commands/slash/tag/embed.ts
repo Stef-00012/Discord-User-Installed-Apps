@@ -14,7 +14,7 @@ import { and, eq } from "drizzle-orm";
 import type { Client } from "../../../structures/DiscordClient";
 import type { Tag, TagData } from "../../../types/tag";
 
-export default async function(client: Client, int: ChatInputCommandInteraction) {
+export default async function (client: Client, int: ChatInputCommandInteraction) {
 	await int.deferReply({
 		ephemeral: true,
 	});
