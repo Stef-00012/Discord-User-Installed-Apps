@@ -1,28 +1,29 @@
-FROM node:18-alpine
+FROM oven/bun:debian
 
 WORKDIR /bot
 
-RUN apk add --no-cache \
-    build-base \
+RUN apt update && apt install -y \
+    build-essential \
     python3 \
-    sqlite-dev \
+    libsqlite3-dev \
     g++ \
-    cairo-dev \
-    jpeg-dev \
-    pango-dev \
+    libcairo2-dev \
+    libjpeg-dev \
+    libpango1.0-dev \
     bash \
     imagemagick \
-    pixman-dev \
-    pkgconfig \
-    bind-tools \
-    fastfetch \
-    curl
+    libpixman-1-dev \
+    pkg-config \
+    dnsutils \
+    curl \
+    wget
 
+RUN wget https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.deb -O /tmp/fastfetch.deb && \
+    apt -y install -f /tmp/fastfetch.deb && \
+    rm -f /tmp/fastfetch.deb
 
-# COPY package.json package-lock.json /bot/
 COPY . .
 
-RUN rm -rf /bot/node_modules
-RUN npm i
+RUN bun i
 
-ENTRYPOINT ["npm", "run", "build"]
+ENTRYPOINT ["bun", "run", "build"]

@@ -1,0 +1,8 @@
+node_modules
+compose.yml
+compose.example.yml
+LICENSE
+README.md
+.gitignore
+.git
+biome.json

@@ -8,3 +8,5 @@ shCmds
 /permissions
 compose.yml
 bun.lockb
+.env
+tmp.ts

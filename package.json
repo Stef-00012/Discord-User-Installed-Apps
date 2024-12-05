@@ -4,20 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "db:transfer": "rm -f ./data.db && npm run db:setup && node scripts/transferDB.js",
-    "db:setup": "npm run db:generate && npm run db:migrate",
-    "build": "npm run db:setup && npm run start",
+    "db:transfer": "rm -f ./data.db && bun run db:setup && bun run scripts/transferDB.js",
+    "db:setup": "bun run db:generate && bun run db:migrate",
+    "build": "bun run db:setup && bun run start",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "start": "node src/index.js"
+    "start": "bun run src/index.ts"
   },
   "author": "admin@stefdp.lol",
   "license": "MIT",
   "dependencies": {
     "@dmzoneill/urban-dictionary": "^3.0.3",
+    "@libsql/client": "^0.14.0",
+    "@napi-rs/canvas": "^0.1.65",
+    "@types/bun": "^1.1.14",
     "axios": "^1.6.8",
-    "better-sqlite3": "^11.6.0",
-    "canvas": "^2.11.2",
     "color": "^4.2.3",
     "cookie-parser": "^1.4.6",
     "discord.js": "^14.16.1",
@@ -35,6 +36,12 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.2",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/color": "^4.2.0",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/qrcode-terminal": "^0.12.2",
+    "@types/stream-to-blob": "^2.0.0",
     "drizzle-kit": "^0.24.2",
     "ejs": "^3.1.10"
   }
