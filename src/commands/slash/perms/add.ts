@@ -4,10 +4,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
 import type { CommandPermissions } from "../../../types/permissions";
 
 export default async function(client: Client, int: ChatInputCommandInteraction) {
-	const commandPermissions = fs.readFileSync(
-		`${__dirname}/../../../data/permissions/commandPermissions.json`,
-	).toString();
-	const commandPermissionsJSON = JSON.parse(commandPermissions) as CommandPermissions;
+	const commandPermissionsJSON: CommandPermissions = await Bun.file(`${__dirname}/../../../data/permissions/commandPermissions.json`).json();
 
 	const commandName = int.options.getString("command", true);
 	const user = int.options.getString("user", true);
@@ -35,7 +32,7 @@ export default async function(client: Client, int: ChatInputCommandInteraction) 
 		]),
 	);
 
-	fs.writeFileSync(
+	Bun.write(
 		`${__dirname}/../../../data/permissions/commandPermissions.json`,
 		JSON.stringify(commandPermissionsJSON, null, 2),
 	);

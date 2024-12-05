@@ -1,13 +1,10 @@
 import fs from "node:fs";
 import type { Client } from "../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
-import type { CommandStatus } from "../../../types/status";
+import type { CommandStatus } from "../../../types/permissions";
 
 export default async function(client: Client, int: ChatInputCommandInteraction) {
-	const commandStatus = fs.readFileSync(
-		`${__dirname}/../../../data/permissions/commandStatus.json`,
-	).toString();
-	const commandStatusJSON: CommandStatus = JSON.parse(commandStatus);
+	const commandStatusJSON: CommandStatus = await Bun.file(`${__dirname}/../../../data/permissions/commandStatus.json`).json();
 
 	const commandName = int.options.getString("command", true);
 
@@ -49,7 +46,7 @@ export default async function(client: Client, int: ChatInputCommandInteraction) 
 
 	commandStatusJSON[commandName] = true;
 
-	fs.writeFileSync(
+	Bun.write(
 		`${__dirname}/../../../data/permissions/commandStatus.json`,
 		JSON.stringify(commandStatusJSON, null, 2),
 	);

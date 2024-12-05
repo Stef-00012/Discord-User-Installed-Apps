@@ -82,6 +82,6 @@ export default async function(client: Client) {
 	}
 
 	if (!commands || commands.size === 0) {
-		fs.writeFileSync(`${__dirname}/../data/permissions/commandPermissions.json`, "{}");
+		Bun.write(`${__dirname}/../data/permissions/commandPermissions.json`, "{}");
 	}
 };

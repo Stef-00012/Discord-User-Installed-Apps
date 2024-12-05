@@ -8,6 +8,7 @@ import express, { type NextFunction, type Request, type Response } from 'express
 import cookieParser from 'cookie-parser'
 import RoutesHander from './web/routes/export'
 import MiddlewaresHandler from './web/middlewares/export'
+import type { CommandStatus } from "./types/permissions";
 
 const client = new Client({
 	intents: [
@@ -24,7 +25,7 @@ const client = new Client({
 
 global.conflicts = {};
 
-client.functions.init();
+await client.functions.init();
 
 if (client.config.web?.enabled) {
 	if (
@@ -114,8 +115,7 @@ const events = fs
 
 const commandDirs = ["slash", "message", "user"];
 
-const commandStatus = fs.readFileSync(`${__dirname}/data/permissions/commandStatus.json`).toString();
-const commandStatusJSON = JSON.parse(commandStatus);
+const commandStatusJSON: CommandStatus = await Bun.file(`${__dirname}/data/permissions/commandStatus.json`).json();
 
 for (const dir of commandDirs) {
 	const commands = fs

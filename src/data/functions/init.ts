@@ -1,9 +1,11 @@
-import fs from "node:fs";
 import cmds from "../../commands";
 import config from "../../../config";
 
-export default function(): void {
-	if (!fs.existsSync(`${__dirname}/../permissions/commandPermissions.json`)) {
+export default async function(): Promise<void> {
+	const commandPermissionsFile = Bun.file(`${__dirname}/../permissions/commandPermissions.json`)
+	const commandPermissionsFileExists = await commandPermissionsFile.exists()
+
+	if (!commandPermissionsFileExists) {
 		const commandPermissions = {
 			eval: config.owners,
 			perms: config.owners,
@@ -11,13 +13,16 @@ export default function(): void {
 			console: config.owners,
 		};
 
-		fs.writeFileSync(
+		Bun.write(
 			`${__dirname}/../permissions/commandPermissions.json`,
 			JSON.stringify(commandPermissions, null, 4),
 		);
 	}
 
-	if (!fs.existsSync(`${__dirname}/../permissions/commandStatus.json`)) {
+	const commandStatusFile = Bun.file(`${__dirname}/../permissions/commandStatus.json`)
+	const commandStatusFileExists = await commandStatusFile.exists()
+
+	if (!commandStatusFileExists) {
 		const commands = cmds.map((cmd) => cmd.name);
 
 		let commandStatus = {};
@@ -33,7 +38,7 @@ export default function(): void {
 			shorten: false,
 		};
 
-		fs.writeFileSync(
+		Bun.write(
 			`${__dirname}/../permissions/commandStatus.json`,
 			JSON.stringify(commandStatus, null, 4),
 		);

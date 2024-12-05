@@ -42,7 +42,7 @@ export default function(client: Client) {
 
         const commandPermissionsPath = path.join(__dirname, '../../../data/permissions/commandPermissions.json')
 
-        fs.writeFileSync(commandPermissionsPath, JSON.stringify(value, null, 4))
+        Bun.write(commandPermissionsPath, JSON.stringify(value, null, 4))
 
         return res.sendStatus(204)
     })

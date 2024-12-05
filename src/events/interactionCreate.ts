@@ -5,10 +5,7 @@ import type { Interaction } from "discord.js";
 import type { CommandPermissions, CommandStatus } from "../types/permissions";
 
 export default async function(client: Client, int: Interaction) {
-	const commandStatus = fs.readFileSync(
-		`${__dirname}/../data/permissions/commandStatus.json`,
-	).toString();
-	const commandStatusJSON: CommandStatus = JSON.parse(commandStatus);
+	const commandStatusJSON: CommandStatus = await Bun.file(`${__dirname}/../data/permissions/commandStatus.json`).json();
 
 	if (
 		(
@@ -27,15 +24,12 @@ export default async function(client: Client, int: Interaction) {
 		int.isUserContextMenuCommand() ||
 		int.isMessageContextMenuCommand()
 	) {
-		const commandPermissions = fs.readFileSync(
-			`${__dirname}/../data/permissions/commandPermissions.json`,
-		).toString();
-		const commandPermissionsJSON: CommandPermissions = JSON.parse(commandPermissions);
+		const commandPermissionsJSON: CommandPermissions = await Bun.file(`${__dirname}/../data/permissions/commandPermissions.json`).json();
 
 		if (!commandPermissionsJSON[int.commandName]) {
 			commandPermissionsJSON[int.commandName] = [];
 
-			fs.writeFileSync(
+			Bun.write(
 				`${__dirname}/../data/permissions/commandPermissions.json`,
 				JSON.stringify(commandPermissionsJSON, null, 2),
 			);

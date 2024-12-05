@@ -55,7 +55,7 @@ export default {
 				responseType: "arraybuffer",
 			});
 
-			fs.writeFileSync(filePath, response.data);
+			Bun.write(filePath, response.data);
 
 			await int.editReply({
 				content: "File has been downloaded successfully, uploading...",
