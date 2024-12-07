@@ -3,6 +3,7 @@ import axios from "axios";
 import { and, eq } from "drizzle-orm";
 import type { Client } from "../structures/DiscordClient";
 import Commands from "../commands"
+import packageJson from "../../package.json"
 
 export default async function (client: Client) {
 	console.log(`\x1b[32mThe app is online (logged as ${client.user?.tag})\x1b[0m`);
@@ -72,7 +73,7 @@ export default async function (client: Client) {
 				headers: {
 					Authorization: `Bot ${client.config.token}`,
 					"Content-Type": "application/json; charset=UTF-8",
-					"User-Agent": "DiscordBot (discord.js, 14.14.1 (modified))",
+					"User-Agent": `DiscordBot (discord.js, ${packageJson.dependencies["discord.js"]} (modified))`,
 				},
 			},
 		);
