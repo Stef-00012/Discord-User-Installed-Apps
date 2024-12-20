@@ -1,10 +1,13 @@
-import { and, eq } from "drizzle-orm";
-import ms from "enhanced-ms";
-import { randomUUID } from "node:crypto";
 import type { Client } from "../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
+import { randomUUID } from "node:crypto";
+import { and, eq } from "drizzle-orm";
+import ms from "enhanced-ms";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
 	const time = int.options.getString("time", true);
 	const reason = int.options.getString("reason", true);
 
@@ -42,9 +45,13 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 	return await int.editReply({
 		content: `Successfully set the reminder with id \`${reminderId}\` and description\n> ${reason}`,
 	});
-};
+}
 
-async function checkId(client: Client, int: ChatInputCommandInteraction, reminderId: string) {
+async function checkId(
+	client: Client,
+	int: ChatInputCommandInteraction,
+	reminderId: string,
+) {
 	const remindersSchema = client.dbSchema.reminders;
 
 	const existingReminderWithid = await client.db.query.reminders.findFirst({

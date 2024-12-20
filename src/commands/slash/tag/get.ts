@@ -1,17 +1,20 @@
-import { and, eq } from "drizzle-orm";
+import type { SendTagData, Tag, TagData } from "../../../types/tag";
 import type { Client } from "../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
-import type { SendTagData, Tag, TagData } from "../../../types/tag";
+import { and, eq } from "drizzle-orm";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
 	const tagName = int.options.getString("name", true);
 	const ephemeral = int.options.getBoolean("ephemeral") || false;
 
 	const tagsSchema = client.dbSchema.tags;
 
-	const existingTag = await client.db.query.tags.findFirst({
+	const existingTag = (await client.db.query.tags.findFirst({
 		where: and(eq(tagsSchema.id, int.user.id), eq(tagsSchema.name, tagName)),
-	}) as Tag | undefined;
+	})) as Tag | undefined;
 
 	if (!existingTag)
 		return await int.reply({
@@ -27,7 +30,7 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 		);
 
 	await int.reply({
-		...existingTagData as SendTagData,
+		...(existingTagData as SendTagData),
 		ephemeral,
 	});
-};
+}

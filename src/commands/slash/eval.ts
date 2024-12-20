@@ -1,7 +1,7 @@
 import { type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
-import util from "node:util";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import util from "node:util";
 
 export default {
 	name: "eval",
@@ -47,9 +47,9 @@ export default {
 					value:
 						cleanEvalOutput(evaluatedCode).length > 1000
 							? `\`\`\`js\n${cleanEvalOutput(evaluatedCode).substr(
-								0,
-								1000,
-							)}...\n\`\`\``
+									0,
+									1000,
+								)}...\n\`\`\``
 							: `\`\`\`js\n${cleanEvalOutput(evaluatedCode)}\n\`\`\``,
 				});
 			} else {

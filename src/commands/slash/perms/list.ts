@@ -1,9 +1,14 @@
 import { type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
-import type { Client } from "../../../structures/DiscordClient";
 import type { CommandPermissions } from "../../../types/permissions";
+import type { Client } from "../../../structures/DiscordClient";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
-	const commandPermissionsJSON: CommandPermissions = await Bun.file(`${__dirname}/../../../data/permissions/commandPermissions.json`).json();
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
+	const commandPermissionsJSON: CommandPermissions = await Bun.file(
+		`${__dirname}/../../../data/permissions/commandPermissions.json`,
+	).json();
 
 	const commands = require("../../../commands.js");
 
@@ -32,4 +37,4 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 		embeds: [embed],
 		ephemeral: true,
 	});
-};
+}

@@ -1,13 +1,13 @@
+import type { Client } from "../../structures/DiscordClient";
+import type { Command } from "../../types/command";
+import axios from "axios";
+import os from "node:os";
+import fs from "node:fs";
 import {
 	AttachmentBuilder,
 	MessageFlags,
 	type MessageContextMenuCommandInteraction,
 } from "discord.js";
-import axios from "axios";
-import os from "node:os";
-import fs from "node:fs";
-import type { Client } from "../../structures/DiscordClient";
-import type { Command } from "../../types/command";
 
 export default {
 	name: "Download Voice Message",

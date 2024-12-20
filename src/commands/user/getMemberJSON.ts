@@ -1,6 +1,9 @@
-import { EmbedBuilder, type UserContextMenuCommandInteraction } from "discord.js";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import {
+	EmbedBuilder,
+	type UserContextMenuCommandInteraction,
+} from "discord.js";
 
 export default {
 	name: "Get Member JSON",
@@ -13,9 +16,10 @@ export default {
 		);
 
 		const embed = new EmbedBuilder().setDescription(
-			`\`\`\`json\n${memberJSON.length > 4081
-				? `${memberJSON.substr(0, 4081)}...`
-				: memberJSON
+			`\`\`\`json\n${
+				memberJSON.length > 4081
+					? `${memberJSON.substr(0, 4081)}...`
+					: memberJSON
 			}\n\`\`\``,
 		);
 

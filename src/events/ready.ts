@@ -1,24 +1,26 @@
-import { EmbedBuilder } from "discord.js";
-import axios from "axios";
-import { and, eq } from "drizzle-orm";
 import type { Client } from "../structures/DiscordClient";
-import Commands from "../commands"
-import packageJson from "../../package.json"
+import packageJson from "../../package.json";
+import { EmbedBuilder } from "discord.js";
+import { and, eq } from "drizzle-orm";
+import Commands from "../commands";
+import axios from "axios";
 
 export default async function (client: Client) {
-	console.log(`\x1b[32mThe app is online (logged as ${client.user?.tag})\x1b[0m`);
+	console.log(
+		`\x1b[32mThe app is online (logged as ${client.user?.tag})\x1b[0m`,
+	);
 
-	const remindersSchema = client.dbSchema.reminders
+	const remindersSchema = client.dbSchema.reminders;
 
 	setInterval(async () => {
-		const reminders = await client.db.query.reminders.findMany()
+		const reminders = await client.db.query.reminders.findMany();
 
 		for (const reminder of reminders) {
-			const reminderDate = new Date(reminder.date)
+			const reminderDate = new Date(reminder.date);
 
 			if (Date.now() > reminderDate.getTime()) {
 				try {
-					const user = await client.users.fetch(reminder.userId)
+					const user = await client.users.fetch(reminder.userId);
 
 					if (!user) {
 						return await client.db
@@ -26,42 +28,42 @@ export default async function (client: Client) {
 							.where(
 								and(
 									eq(remindersSchema.reminderId, reminder.reminderId),
-									eq(remindersSchema.userId, reminder.userId)
-								)
-							)
-					};
+									eq(remindersSchema.userId, reminder.userId),
+								),
+							);
+					}
 
 					const embed = new EmbedBuilder()
-						.setTitle('Reminder')
-						.setDescription(reminder.description)
+						.setTitle("Reminder")
+						.setDescription(reminder.description);
 
 					await user.send({
-						embeds: [embed]
-					})
+						embeds: [embed],
+					});
 
 					await client.db
 						.delete(remindersSchema)
 						.where(
 							and(
 								eq(remindersSchema.reminderId, reminder.reminderId),
-								eq(remindersSchema.userId, reminder.userId)
-							)
-						)
+								eq(remindersSchema.userId, reminder.userId),
+							),
+						);
 				} catch (e) {
-					console.log(e)
+					console.log(e);
 
 					await client.db
 						.delete(remindersSchema)
 						.where(
 							and(
 								eq(remindersSchema.reminderId, reminder.reminderId),
-								eq(remindersSchema.userId, reminder.userId)
-							)
-						)
+								eq(remindersSchema.userId, reminder.userId),
+							),
+						);
 				}
 			}
 		}
-	}, 30000)
+	}, 30000);
 
 	const commands = await client.application?.commands.fetch();
 
@@ -84,4 +86,4 @@ export default async function (client: Client) {
 	if (!commands || commands.size === 0) {
 		Bun.write(`${__dirname}/../data/permissions/commandPermissions.json`, "{}");
 	}
-};
+}

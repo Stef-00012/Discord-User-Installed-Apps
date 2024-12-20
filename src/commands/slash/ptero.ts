@@ -1,6 +1,6 @@
 import type { ChatInputCommandInteraction } from "discord.js";
-import type { Command } from "../../types/command";
 import type { Client } from "../../structures/DiscordClient";
+import type { Command } from "../../types/command";
 
 export default {
 	name: "ptero",
@@ -14,7 +14,7 @@ export default {
 		if (subcommandGroup) path += `${subcommandGroup}/`;
 		path += subcommand;
 
-		const subcommandData = (await import(`./ptero/${path}.js`)).default
+		const subcommandData = (await import(`./ptero/${path}.js`)).default;
 
 		await subcommandData(client, int);
 	},

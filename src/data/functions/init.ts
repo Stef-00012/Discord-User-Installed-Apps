@@ -1,9 +1,11 @@
-import cmds from "../../commands";
 import config from "../../../config";
+import cmds from "../../commands";
 
 export default async function (): Promise<void> {
-	const commandPermissionsFile = Bun.file(`${__dirname}/../permissions/commandPermissions.json`)
-	const commandPermissionsFileExists = await commandPermissionsFile.exists()
+	const commandPermissionsFile = Bun.file(
+		`${__dirname}/../permissions/commandPermissions.json`,
+	);
+	const commandPermissionsFileExists = await commandPermissionsFile.exists();
 
 	if (!commandPermissionsFileExists) {
 		const commandPermissions = {
@@ -19,8 +21,10 @@ export default async function (): Promise<void> {
 		);
 	}
 
-	const commandStatusFile = Bun.file(`${__dirname}/../permissions/commandStatus.json`)
-	const commandStatusFileExists = await commandStatusFile.exists()
+	const commandStatusFile = Bun.file(
+		`${__dirname}/../permissions/commandStatus.json`,
+	);
+	const commandStatusFileExists = await commandStatusFile.exists();
 
 	if (!commandStatusFileExists) {
 		const commands = cmds.map((cmd) => cmd.name);
@@ -43,4 +47,4 @@ export default async function (): Promise<void> {
 			JSON.stringify(commandStatus, null, 4),
 		);
 	}
-};
+}

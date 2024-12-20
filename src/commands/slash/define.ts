@@ -1,8 +1,8 @@
-import ubdict from "@dmzoneill/urban-dictionary";
 import { type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
-import replace from "string-replace-async";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import ubdict from "@dmzoneill/urban-dictionary";
+import replace from "string-replace-async";
 
 export default {
 	name: "define",
@@ -65,9 +65,11 @@ export default {
 					},
 					{
 						name: "Votes",
-						value: `${definitionData.thumbs_up} like${definitionData.thumbs_up > 1 ? "s" : ""
-							} :+1: | ${definitionData.thumbs_down} like${definitionData.thumbs_down > 1 ? "s" : ""
-							} :-1:`,
+						value: `${definitionData.thumbs_up} like${
+							definitionData.thumbs_up > 1 ? "s" : ""
+						} :+1: | ${definitionData.thumbs_down} like${
+							definitionData.thumbs_down > 1 ? "s" : ""
+						} :-1:`,
 					},
 				]);
 

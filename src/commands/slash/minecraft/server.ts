@@ -1,8 +1,14 @@
 import { type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import type { Client } from "../../../structures/DiscordClient";
-import type { McstatusIoBedrockServerResponse, McstatusIoJavaServerResponse } from "../../../types/mcstatus.io";
+import type {
+	McstatusIoBedrockServerResponse,
+	McstatusIoJavaServerResponse,
+} from "../../../types/mcstatus.io";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
 	const serverVersion = int.options.getString("version", true);
 	const serverAddress = int.options.getString("address", true);
 
@@ -14,9 +20,10 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 				const status: McstatusIoJavaServerResponse | null =
 					await client.functions.getMCJavaServerStatus(serverAddress);
 
-				if (!status) return int.editReply({
-					content: `Unable to find the server \`${serverAddress}\``
-				})
+				if (!status)
+					return int.editReply({
+						content: `Unable to find the server \`${serverAddress}\``,
+					});
 
 				const embed = new EmbedBuilder()
 					.setTitle(
@@ -74,9 +81,10 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 				const status: McstatusIoBedrockServerResponse | null =
 					await client.functions.getMCBedrockServerStatus(serverAddress);
 
-				if (!status) return int.editReply({
-					content: `Unable to find the server \`${serverAddress}\``
-				})
+				if (!status)
+					return int.editReply({
+						content: `Unable to find the server \`${serverAddress}\``,
+					});
 
 				const embed = new EmbedBuilder()
 					.setTitle(
@@ -130,4 +138,4 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 			break;
 		}
 	}
-};
+}

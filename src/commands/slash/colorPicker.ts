@@ -1,8 +1,13 @@
-import { EmbedBuilder, AttachmentBuilder, type ChatInputCommandInteraction, type HexColorString } from "discord.js";
-import { createCanvas } from "@napi-rs/canvas";
-import color from "color";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import { createCanvas } from "@napi-rs/canvas";
+import color from "color";
+import {
+	EmbedBuilder,
+	AttachmentBuilder,
+	type ChatInputCommandInteraction,
+	type HexColorString,
+} from "discord.js";
 
 export default {
 	name: "colorpicker",
@@ -28,7 +33,7 @@ export default {
 		ctx.fillRect(0, 0, 250, 250);
 		ctx.closePath();
 
-		const colorImage = canvas.toBuffer('image/png');
+		const colorImage = canvas.toBuffer("image/png");
 
 		const attachment = new AttachmentBuilder(colorImage, {
 			name: `color_${hex.replace("#", "")}.jpg`,

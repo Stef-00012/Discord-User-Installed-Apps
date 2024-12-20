@@ -5,6 +5,6 @@ export default defineConfig({
 	schema: "./src/db/schema.ts",
 	out: "./drizzle",
 	dbCredentials: {
-		url: "data/data.db"
+		url: "data/data.db",
 	},
 });

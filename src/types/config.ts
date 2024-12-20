@@ -1,40 +1,40 @@
 export interface Config {
-    token: string;
-    owners: Array<string>;
-    zipline?: ZiplineConfig;
-    naviac?: NaviacConfig;
-    web?: WebConfig;
+	token: string;
+	owners: Array<string>;
+	zipline?: ZiplineConfig;
+	naviac?: NaviacConfig;
+	web?: WebConfig;
 }
 
 export interface ZiplineConfig {
-    token: string;
-    url: string;
-    chunkSize: number;
-    maxFileSize: number;
+	token: string;
+	url: string;
+	chunkSize: number;
+	maxFileSize: number;
 }
 
 export interface NaviacConfig {
-    username: string;
-    token: string
+	username: string;
+	token: string;
 }
 
 export interface WebConfig {
-    enabled: boolean;
-    hostname: string;
-    port: number;
-    secure: boolean;
-    keepPort: boolean;
-    auth: AuthConfig;
-    jwt: JwtConfig;
+	enabled: boolean;
+	hostname: string;
+	port: number;
+	secure: boolean;
+	keepPort: boolean;
+	auth: AuthConfig;
+	jwt: JwtConfig;
 }
 
 export interface AuthConfig {
-    clientId: string;
-    clientSecret: string;
-    redirectURI: string;
-    scopes: string;
+	clientId: string;
+	clientSecret: string;
+	redirectURI: string;
+	scopes: string;
 }
 
 export interface JwtConfig {
-    secret: string;
+	secret: string;
 }

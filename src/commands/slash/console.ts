@@ -1,7 +1,7 @@
-import { execSync } from "node:child_process";
 import { type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import { execSync } from "node:child_process";
 
 export default {
 	name: "console",

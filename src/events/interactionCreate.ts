@@ -1,17 +1,18 @@
-import { eq } from "drizzle-orm";
+import type { CommandPermissions, CommandStatus } from "../types/permissions";
 import type { Client } from "../structures/DiscordClient";
 import type { Interaction } from "discord.js";
-import type { CommandPermissions, CommandStatus } from "../types/permissions";
+import { eq } from "drizzle-orm";
 
 export default async function (client: Client, int: Interaction) {
-	const commandStatusJSON: CommandStatus = await Bun.file(`${__dirname}/../data/permissions/commandStatus.json`).json();
+	const commandStatusJSON: CommandStatus = await Bun.file(
+		`${__dirname}/../data/permissions/commandStatus.json`,
+	).json();
 
 	if (
-		(
-			int.isChatInputCommand() ||
+		(int.isChatInputCommand() ||
 			int.isMessageContextMenuCommand() ||
-			int.isUserContextMenuCommand()
-		) && !commandStatusJSON[int.commandName]
+			int.isUserContextMenuCommand()) &&
+		!commandStatusJSON[int.commandName]
 	)
 		return int.reply({
 			content: "This command is disabled",
@@ -23,7 +24,9 @@ export default async function (client: Client, int: Interaction) {
 		int.isUserContextMenuCommand() ||
 		int.isMessageContextMenuCommand()
 	) {
-		const commandPermissionsJSON: CommandPermissions = await Bun.file(`${__dirname}/../data/permissions/commandPermissions.json`).json();
+		const commandPermissionsJSON: CommandPermissions = await Bun.file(
+			`${__dirname}/../data/permissions/commandPermissions.json`,
+		).json();
 
 		if (!commandPermissionsJSON[int.commandName]) {
 			commandPermissionsJSON[int.commandName] = [];
@@ -99,8 +102,8 @@ export default async function (client: Client, int: Interaction) {
 			await cmd.autocomplete(client, int);
 		} catch (e) {
 			if (e.code !== 10062) {
-				await int.respond([])
+				await int.respond([]);
 			}
 		}
 	}
-};
+}

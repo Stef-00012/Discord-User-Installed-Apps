@@ -46,7 +46,6 @@
 		"@types/qrcode-terminal": "^0.12.2",
 		"@types/stream-to-blob": "^2.0.0",
 		"drizzle-kit": "^0.24.2",
-		"ejs": "^3.1.10",
-		"i": "^0.3.7"
+		"ejs": "^3.1.10"
 	}
 }

@@ -1,8 +1,11 @@
-import qrcode from "qrcode-terminal";
-import axios from "axios";
-import { AttachmentBuilder, type ChatInputCommandInteraction } from "discord.js";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import qrcode from "qrcode-terminal";
+import axios from "axios";
+import {
+	AttachmentBuilder,
+	type ChatInputCommandInteraction,
+} from "discord.js";
 
 export default {
 	name: "qr",
@@ -45,7 +48,7 @@ export default {
 						ephemeral: true,
 					});
 
-				const attachment = new AttachmentBuilder(req.data)
+				const attachment = new AttachmentBuilder(req.data);
 
 				await int.reply({
 					files: [attachment],

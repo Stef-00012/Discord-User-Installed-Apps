@@ -1,7 +1,9 @@
-import axios from "axios";
-import type { AutocompleteInteraction, ChatInputCommandInteraction } from "discord.js";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import type {
+	AutocompleteInteraction,
+	ChatInputCommandInteraction,
+} from "discord.js";
 
 export default {
 	name: "minecraft",
@@ -105,7 +107,8 @@ export default {
 	async execute(client: Client, int: ChatInputCommandInteraction) {
 		const subcommand = int.options.getSubcommand();
 
-		const subcommandData = (await import(`./minecraft/${subcommand}.js`)).Default
+		const subcommandData = (await import(`./minecraft/${subcommand}.js`))
+			.Default;
 
 		await subcommandData(client, int);
 	},

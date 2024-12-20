@@ -1,3 +1,5 @@
+import type { Client } from "../../structures/DiscordClient";
+import type { Command } from "../../types/command";
 import {
 	EmbedBuilder,
 	ButtonBuilder,
@@ -10,8 +12,6 @@ import {
 	type HexColorString,
 	type EmbedField,
 } from "discord.js";
-import type { Client } from "../../structures/DiscordClient";
-import type { Command } from "../../types/command";
 
 export default {
 	name: "embed",
@@ -31,7 +31,7 @@ export default {
 		const embedAuthorIcon = int.options.getString("author-icon") ?? null;
 		const embedFields = int.options.getBoolean("fields") ?? false;
 		const embedJSONString = int.options.getString("json") ?? "{}";
-		let embedJSON = {}
+		let embedJSON = {};
 
 		try {
 			embedJSON = JSON.parse(embedJSONString) || {};
@@ -50,7 +50,8 @@ export default {
 		if (embedDescription) embed.setDescription(embedDescription);
 		if (embedURL) embed.setURL(embedURL);
 		if (embedTimestamp) embed.setTimestamp();
-		if (embedColor && hexCodeRegex.test(embedColor)) embed.setColor(embedColor as HexColorString);
+		if (embedColor && hexCodeRegex.test(embedColor))
+			embed.setColor(embedColor as HexColorString);
 		if (embedFooterText || (embedFooterText && embedFooterIcon))
 			embed.setFooter({
 				text: embedFooterText,
@@ -99,11 +100,9 @@ export default {
 			.setStyle(ButtonStyle.Secondary)
 			.setCustomId("send");
 
-		const fieldButtonsRow = new ActionRowBuilder<ButtonBuilder>().addComponents([
-			addFieldButton,
-			clearFieldsButton,
-			sendButton,
-		]);
+		const fieldButtonsRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+			[addFieldButton, clearFieldsButton, sendButton],
+		);
 
 		const msg = await int.reply({
 			components: [fieldButtonsRow],
@@ -160,11 +159,11 @@ export default {
 					.setRequired(true)
 					.setStyle(TextInputStyle.Paragraph);
 
-				const fieldNameRow = new ActionRowBuilder<TextInputBuilder>().addComponents([fieldName]);
+				const fieldNameRow =
+					new ActionRowBuilder<TextInputBuilder>().addComponents([fieldName]);
 
-				const fieldValueRow = new ActionRowBuilder<TextInputBuilder>().addComponents([
-					fieldValue,
-				]);
+				const fieldValueRow =
+					new ActionRowBuilder<TextInputBuilder>().addComponents([fieldValue]);
 
 				fieldModal.addComponents([fieldNameRow, fieldValueRow]);
 
@@ -176,10 +175,11 @@ export default {
 						time: 60e3 * 5,
 					})
 					.then(async (interaction) => {
-						if (!interaction.isFromMessage()) return interaction.reply({
-							content: "Something went wrong...",
-							ephemeral: true
-						});
+						if (!interaction.isFromMessage())
+							return interaction.reply({
+								content: "Something went wrong...",
+								ephemeral: true,
+							});
 
 						const fieldName = interaction.fields.getTextInputValue("name");
 						const fieldValue = interaction.fields.getTextInputValue("value");
@@ -187,15 +187,16 @@ export default {
 						fields.push({
 							name: fieldName,
 							value: fieldValue,
-							inline: false
+							inline: false,
 						});
 
 						if (fields.length === 25) {
-							const disabledAddRow = new ActionRowBuilder<ButtonBuilder>().addComponents([
-								addFieldButton.setDisabled(true),
-								clearFieldsButton,
-								sendButton,
-							]);
+							const disabledAddRow =
+								new ActionRowBuilder<ButtonBuilder>().addComponents([
+									addFieldButton.setDisabled(true),
+									clearFieldsButton,
+									sendButton,
+								]);
 
 							return await interaction.update({
 								content: `Successfully added the field (${fields.length}/25)`,

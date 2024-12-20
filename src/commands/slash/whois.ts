@@ -1,7 +1,7 @@
 import { type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
-import whoiser from "whoiser";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import whoiser from "whoiser";
 
 export default {
 	name: "whois",
@@ -35,7 +35,7 @@ export default {
 			`**Updated Date**: ${whoisData["Updated Date"]}`,
 			`**Created Date**: ${whoisData["Created Date"]}`,
 			`**Expiry Date**: ${whoisData["Expiry Date"]}`,
-			`**Registrar**: ${whoisData['Registrar']}`,
+			`**Registrar**: ${whoisData["Registrar"]}`,
 			`**Registrar IANA ID**: ${whoisData["Registrar IANA ID"]}`,
 			`**Registrar Abuse Contact Email**: ${whoisData["Registrar Abuse Contact Email"]}`,
 			`**Registrar Abuse Contact Phone**: ${whoisData["Registrar Abuse Contact Phone"]}`,

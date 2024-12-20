@@ -1,7 +1,7 @@
 export interface CommandPermissions {
-    [key: string]: Array<string>
+	[key: string]: Array<string>;
 }
 
 export interface CommandStatus {
-    [key: string]: boolean;
+	[key: string]: boolean;
 }

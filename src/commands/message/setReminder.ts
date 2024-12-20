@@ -1,3 +1,8 @@
+import type { Client } from "../../structures/DiscordClient";
+import type { Command } from "../../types/command";
+import { randomUUID } from "node:crypto";
+import { eq, and } from "drizzle-orm";
+import ms from "enhanced-ms";
 import {
 	ModalBuilder,
 	TextInputBuilder,
@@ -6,13 +11,8 @@ import {
 	type ModalSubmitInteraction,
 	type MessageContextMenuCommandInteraction,
 	ButtonBuilder,
-	ButtonStyle
+	ButtonStyle,
 } from "discord.js";
-import { eq, and } from "drizzle-orm";
-import ms from "enhanced-ms";
-import { randomUUID } from "node:crypto";
-import type { Client } from "../../structures/DiscordClient";
-import type { Command } from "../../types/command";
 
 export default {
 	name: "Set as Reminder",
@@ -38,10 +38,14 @@ export default {
 			.setStyle(TextInputStyle.Short)
 			.setRequired(false)
 			.setMinLength(3)
-			.setMaxLength(7)
+			.setMaxLength(7);
 
-		const timeRow = new ActionRowBuilder<TextInputBuilder>().addComponents([timeInput]);
-		const typeRow = new ActionRowBuilder<TextInputBuilder>().addComponents([typeInput]);
+		const timeRow = new ActionRowBuilder<TextInputBuilder>().addComponents([
+			timeInput,
+		]);
+		const typeRow = new ActionRowBuilder<TextInputBuilder>().addComponents([
+			typeInput,
+		]);
 
 		modal.addComponents([timeRow, typeRow]);
 
@@ -58,7 +62,7 @@ export default {
 				const time = mainModalInteraction.fields.getTextInputValue("time");
 				let type = mainModalInteraction.fields.getTextInputValue("type");
 
-				if (["content", "url"].every(x => type !== x)) type = "content";
+				if (["content", "url"].every((x) => type !== x)) type = "content";
 
 				const msTime: number = ms(time);
 
@@ -69,57 +73,71 @@ export default {
 					});
 
 				if (type === "content") {
-					if (!int.targetMessage?.content || int.targetMessage?.content?.length <= 0)
+					if (
+						!int.targetMessage?.content ||
+						int.targetMessage?.content?.length <= 0
+					)
 						return await mainModalInteraction.reply({
 							content: "This message has no content",
 							ephemeral: true,
 						});
 
-					const reminderId = await generateReminderId(client, mainModalInteraction);
+					const reminderId = await generateReminderId(
+						client,
+						mainModalInteraction,
+					);
 
 					const modifyButton = new ButtonBuilder()
 						.setLabel("Modify content")
 						.setCustomId("reminder_modify")
-						.setStyle(ButtonStyle.Secondary)
-					
+						.setStyle(ButtonStyle.Secondary);
+
 					const saveButton = new ButtonBuilder()
 						.setLabel("Save Reminder")
 						.setCustomId("reminder_save")
-						.setStyle(ButtonStyle.Success)
+						.setStyle(ButtonStyle.Success);
 
-					const buttonsRow = new ActionRowBuilder<ButtonBuilder>().addComponents([
-						modifyButton,
-						saveButton
-					])
+					const buttonsRow =
+						new ActionRowBuilder<ButtonBuilder>().addComponents([
+							modifyButton,
+							saveButton,
+						]);
 
 					const mainModalReply = await mainModalInteraction.reply({
 						content: "Do you want to save or modify the reminder content?",
 						components: [buttonsRow],
 						ephemeral: true,
-						fetchReply: true
-					})
+						fetchReply: true,
+					});
 
-					const buttonCollector = mainModalReply.createMessageComponentCollector({
-						time: 60e3,
-					})
+					const buttonCollector =
+						mainModalReply.createMessageComponentCollector({
+							time: 60e3,
+						});
 
 					buttonCollector.on("collect", async (buttonInteraction) => {
-						const reminder = int.targetMessage.content
+						const reminder = int.targetMessage.content;
 
 						if (buttonInteraction.customId === "reminder_save") {
 							await buttonInteraction.deferUpdate();
 
-							await addReminder(client, mainModalInteraction, reminder, msTime, reminderId)
+							await addReminder(
+								client,
+								mainModalInteraction,
+								reminder,
+								msTime,
+								reminderId,
+							);
 
 							return await buttonInteraction.editReply({
 								content: `Successfully set the reminder with id \`${reminderId}\` and description\n> ${reminder}`,
-								components: []
+								components: [],
 							});
 						}
 
 						const contentModal = new ModalBuilder()
 							.setTitle("Modify Reminder Content?")
-							.setCustomId("modifyReminderContent")
+							.setCustomId("modifyReminderContent");
 
 						const reminderInput = new TextInputBuilder()
 							.setLabel("Reminder")
@@ -130,62 +148,85 @@ export default {
 							.setMinLength(1)
 							.setValue(int.targetMessage.content.substr(0, 900));
 
-						const reminderRow = new ActionRowBuilder<TextInputBuilder>().addComponents([reminderInput])
+						const reminderRow =
+							new ActionRowBuilder<TextInputBuilder>().addComponents([
+								reminderInput,
+							]);
 
-						contentModal.addComponents([reminderRow])
+						contentModal.addComponents([reminderRow]);
 
-						await buttonInteraction.showModal(contentModal)
+						await buttonInteraction.showModal(contentModal);
 
-						await buttonInteraction.awaitModalSubmit({
-							filter: (interaction) => interaction.customId === "modifyReminderContent",
-							time: 60e3
-						})
+						await buttonInteraction
+							.awaitModalSubmit({
+								filter: (interaction) =>
+									interaction.customId === "modifyReminderContent",
+								time: 60e3,
+							})
 							.then(async (contentModalInteraction) => {
-								const reminder = contentModalInteraction.fields.getTextInputValue("reminder");
+								const reminder =
+									contentModalInteraction.fields.getTextInputValue("reminder");
 
 								await contentModalInteraction.deferReply({
-									ephemeral: true
-								})
+									ephemeral: true,
+								});
 
-								await addReminder(client, contentModalInteraction, reminder, msTime, reminderId)
-								
+								await addReminder(
+									client,
+									contentModalInteraction,
+									reminder,
+									msTime,
+									reminderId,
+								);
+
 								return await contentModalInteraction.editReply({
 									content: `Successfully set the reminder with id \`${reminderId}\` and description\n> ${reminder}`,
 								});
-							})
-					})
+							});
+					});
 
 					buttonCollector.on("end", (_, reason) => {
 						if (reason === "time") {
-							const disabledSaveButton = saveButton.setDisabled(true)
-							const disabledModifyButton = modifyButton.setDisabled(true)
+							const disabledSaveButton = saveButton.setDisabled(true);
+							const disabledModifyButton = modifyButton.setDisabled(true);
 
-							const disabledRow = new ActionRowBuilder<ButtonBuilder>().addComponents([
-								disabledModifyButton,
-								disabledSaveButton
-							])
+							const disabledRow =
+								new ActionRowBuilder<ButtonBuilder>().addComponents([
+									disabledModifyButton,
+									disabledSaveButton,
+								]);
 
 							try {
 								return mainModalInteraction.editReply({
-									content: "~~Do you want to save or modify the reminder content?~~\nYou took too long to reply",
-									components: [disabledRow]
-								})
-							} catch(e) {}
+									content:
+										"~~Do you want to save or modify the reminder content?~~\nYou took too long to reply",
+									components: [disabledRow],
+								});
+							} catch (e) {}
 						}
-					})
+					});
 
 					return;
 				}
 
 				const reminder = int.targetMessage.url;
 
-				const reminderId = await generateReminderId(client, mainModalInteraction)
+				const reminderId = await generateReminderId(
+					client,
+					mainModalInteraction,
+				);
 
 				await mainModalInteraction.deferReply({
-					ephemeral: true
-				})
-				
-				await addReminder(client, mainModalInteraction, reminder, msTime, reminderId)
+					ephemeral: true,
+				});
+
+				await addReminder(
+					client,
+					mainModalInteraction,
+					reminder,
+					msTime,
+					reminderId,
+				);
 
 				return await mainModalInteraction.editReply({
 					content: `Successfully set the reminder with id \`${reminderId}\` and description\n> ${reminder}`,
@@ -194,7 +235,11 @@ export default {
 	},
 } as Command;
 
-async function checkId(client: Client, int: ModalSubmitInteraction, reminderId: string): Promise<boolean> {
+async function checkId(
+	client: Client,
+	int: ModalSubmitInteraction,
+	reminderId: string,
+): Promise<boolean> {
 	const remindersSchema = client.dbSchema.reminders;
 
 	const existingReminderWithid = await client.db.query.reminders.findFirst({
@@ -209,7 +254,10 @@ async function checkId(client: Client, int: ModalSubmitInteraction, reminderId: 
 	return false;
 }
 
-async function generateReminderId(client: Client, int: ModalSubmitInteraction): Promise<string> {
+async function generateReminderId(
+	client: Client,
+	int: ModalSubmitInteraction,
+): Promise<string> {
 	let reminderId = randomUUID().slice(0, 8);
 
 	let existsReminderWithId = await checkId(client, int, reminderId);
@@ -223,7 +271,13 @@ async function generateReminderId(client: Client, int: ModalSubmitInteraction): 
 	return reminderId;
 }
 
-async function addReminder(client: Client, int: ModalSubmitInteraction, reminder: string, time: number, reminderId: string): Promise<void> {
+async function addReminder(
+	client: Client,
+	int: ModalSubmitInteraction,
+	reminder: string,
+	time: number,
+	reminderId: string,
+): Promise<void> {
 	const remindersSchema = client.dbSchema.reminders;
 
 	await client.db.insert(remindersSchema).values({

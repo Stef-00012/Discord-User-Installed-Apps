@@ -1,9 +1,12 @@
-import axios from "axios";
-import { eq } from "drizzle-orm";
 import type { Client } from "../../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
+import { eq } from "drizzle-orm";
+import axios from "axios";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
 	const id = int.options.getString("id");
 	const command = int.options.getString("command");
 
@@ -56,4 +59,4 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 			content: "Something went wrong...",
 		});
 	}
-};
+}

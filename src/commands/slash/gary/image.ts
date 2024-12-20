@@ -1,9 +1,12 @@
-import axios from "axios";
-import { EmbedBuilder } from "discord.js";
 import type { Client } from "../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
+import { EmbedBuilder } from "discord.js";
+import axios from "axios";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
 	await int.deferReply();
 
 	try {
@@ -38,4 +41,4 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 			content: "Something went wrong...",
 		});
 	}
-};
+}

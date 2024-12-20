@@ -1,7 +1,7 @@
-import crypto from "node:crypto";
-import type { Client } from "../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
+import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import crypto from "node:crypto";
 
 export default {
 	name: "8ball",
@@ -83,8 +83,7 @@ export default {
 		const randomCategory =
 			categories[categoryNames[crypto.randomInt(0, categoryNames.length)]];
 
-		const answer =
-			randomCategory[crypto.randomInt(0, randomCategory.length)];
+		const answer = randomCategory[crypto.randomInt(0, randomCategory.length)];
 
 		await int.reply({
 			content: `> ${question}\n${answer}`,

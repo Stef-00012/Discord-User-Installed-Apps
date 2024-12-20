@@ -1,8 +1,11 @@
-import path from "node:path";
-import fs from "node:fs";
-import { AttachmentBuilder, type ChatInputCommandInteraction } from "discord.js";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import path from "node:path";
+import fs from "node:fs";
+import {
+AttachmentBuilder,
+	type ChatInputCommandInteraction,
+} from "discord.js";
 
 export default {
 	name: "export",
@@ -19,14 +22,15 @@ export default {
 			});
 
 		const attachment = new AttachmentBuilder(filePath, {
-			name: path.basename(filePath)
-		})
+			name: path.basename(filePath),
+		});
 
 		await int.deferReply();
 
 		await int.editReply({
-			content: `<https://github.com/stef-00012/discord-user-installed-apps/blob/main/${inputPath.startsWith("/") ? inputPath.replace("/", "") : inputPath
-				}>`,
+			content: `<https://github.com/stef-00012/discord-user-installed-apps/blob/main/${
+				inputPath.startsWith("/") ? inputPath.replace("/", "") : inputPath
+			}>`,
 			files: [attachment],
 		});
 	},

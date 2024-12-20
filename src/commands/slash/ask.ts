@@ -1,7 +1,7 @@
 import { type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
-import axios from "axios";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import axios from "axios";
 
 export default {
 	name: "ask",

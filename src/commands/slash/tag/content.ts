@@ -1,20 +1,23 @@
-import { and, eq } from "drizzle-orm";
 import type { Client } from "../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
 import type { Tag, TagData } from "../../../types/tag";
+import { and, eq } from "drizzle-orm";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
 	const tagName = int.options.getString("name", true);
 	const tagContent = int.options.getString("content") || null;
 	const removeContent = int.options.getBoolean("remove") || false;
 
 	const tagsSchema = client.dbSchema.tags;
 
-	const existingTag = await client.db.query.tags.findFirst({
+	const existingTag = (await client.db.query.tags.findFirst({
 		where: and(eq(tagsSchema.id, int.user.id), eq(tagsSchema.name, tagName)),
-	}) as Tag | undefined;
+	})) as Tag | undefined;
 
-	let existingTagData: TagData = {}
+	let existingTagData: TagData = {};
 
 	if (existingTag) existingTagData = JSON.parse(existingTag.data);
 
@@ -50,4 +53,4 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 		content: `Successfully created/updated the tag "${tagName}"`,
 		ephemeral: true,
 	});
-};
+}

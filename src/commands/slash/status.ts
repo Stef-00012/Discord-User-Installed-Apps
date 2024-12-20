@@ -1,6 +1,9 @@
-import type { AutocompleteInteraction, ChatInputCommandInteraction } from "discord.js";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import type {
+	AutocompleteInteraction,
+	ChatInputCommandInteraction,
+} from "discord.js";
 
 export default {
 	name: "status",
@@ -24,7 +27,7 @@ export default {
 	async execute(client: Client, int: ChatInputCommandInteraction) {
 		const subcommand = int.options.getSubcommand();
 
-		const subcommandData = (await import(`./status/${subcommand}.js`)).default
+		const subcommandData = (await import(`./status/${subcommand}.js`)).default;
 
 		await subcommandData(client, int);
 	},

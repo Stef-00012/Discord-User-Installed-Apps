@@ -1,10 +1,13 @@
-import axios from "axios";
 import { type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
-import { eq } from "drizzle-orm";
-import type { Client } from "../../../../structures/DiscordClient";
 import type { PterodactylServer } from "../../../../types/pterodactyl";
+import type { Client } from "../../../../structures/DiscordClient";
+import { eq } from "drizzle-orm";
+import axios from "axios";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
 	const id = int.options.getString("id");
 
 	await int.deferReply();
@@ -36,11 +39,13 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 			.map((allocation) => {
 				const allocationAttributes = allocation.attributes;
 
-				return `**ID**: \`${allocationAttributes.id}\`\n**URL**: \`${allocationAttributes.ip_alias
+				return `**ID**: \`${allocationAttributes.id}\`\n**URL**: \`${
+					allocationAttributes.ip_alias
 						? allocationAttributes.ip_alias
 						: allocationAttributes.ip
-					}:${allocationAttributes.port}\`\n**Default**: ${allocationAttributes.is_default ? "Yes" : "No"
-					}`;
+				}:${allocationAttributes.port}\`\n**Default**: ${
+					allocationAttributes.is_default ? "Yes" : "No"
+				}`;
 			})
 			.join("\n\n");
 
@@ -64,11 +69,15 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 				},
 				{
 					name: "Limits",
-					value: `**RAM**: \`${data.limits.memory === 0 ? "Unlimited" : data.limits.memory
-						}\`\n**Swap**: \`${data.limits.swap === -1 ? "Unlimited" : data.limits.swap
-						}\`\n**Disk**: \`${data.limits.disk === 0 ? "Unlimited" : data.limits.disk
-						}\`\n**Network**: \`${data.limits.io}\`\n**CPU**: \`${data.limits.cpu === 0 ? "Unlimited" : data.limits.cpu
-						}\``,
+					value: `**RAM**: \`${
+						data.limits.memory === 0 ? "Unlimited" : data.limits.memory
+					}\`\n**Swap**: \`${
+						data.limits.swap === -1 ? "Unlimited" : data.limits.swap
+					}\`\n**Disk**: \`${
+						data.limits.disk === 0 ? "Unlimited" : data.limits.disk
+					}\`\n**Network**: \`${data.limits.io}\`\n**CPU**: \`${
+						data.limits.cpu === 0 ? "Unlimited" : data.limits.cpu
+					}\``,
 					inline: true,
 				},
 				{
@@ -103,4 +112,4 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 			content: "Something went wrong...",
 		});
 	}
-};
+}

@@ -1,6 +1,9 @@
-import { EmbedBuilder, type MessageContextMenuCommandInteraction } from "discord.js";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import {
+	EmbedBuilder,
+	type MessageContextMenuCommandInteraction,
+} from "discord.js";
 
 export default {
 	name: "Get Message JSON",
@@ -13,9 +16,10 @@ export default {
 		);
 
 		const embed = new EmbedBuilder().setDescription(
-			`\`\`\`json\n${messageJSON.length > 4081
-				? `${messageJSON.substr(0, 4081)}...`
-				: messageJSON
+			`\`\`\`json\n${
+				messageJSON.length > 4081
+					? `${messageJSON.substr(0, 4081)}...`
+					: messageJSON
 			}\n\`\`\``,
 		);
 

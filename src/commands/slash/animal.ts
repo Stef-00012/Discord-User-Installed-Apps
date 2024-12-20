@@ -1,9 +1,8 @@
-import axios from "axios";
-import crypto from "node:crypto";
 import { EmbedBuilder, type ChatInputCommandInteraction } from "discord.js";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
-
+import crypto from "node:crypto";
+import axios from "axios";
 
 export default {
 	name: "animal",

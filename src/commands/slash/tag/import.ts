@@ -1,3 +1,7 @@
+import type { Client } from "../../../structures/DiscordClient";
+import type { ImportTag, Tag } from "../../../types/tag";
+import { randomUUID } from "node:crypto";
+import { eq } from "drizzle-orm";
 import axios from "axios";
 import {
 	ButtonBuilder,
@@ -6,12 +10,11 @@ import {
 	ComponentType,
 	type ChatInputCommandInteraction,
 } from "discord.js";
-import { eq } from "drizzle-orm";
-import { randomUUID } from "node:crypto";
-import type { Client } from "../../../structures/DiscordClient";
-import type { ImportTag, Tag } from "../../../types/tag";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
 	await int.deferReply({
 		ephemeral: true,
 	});
@@ -29,12 +32,12 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 		const request = await axios.get(file.url);
 		const requestTags = request.data;
 
-		if (typeof requestTags !== "string") return int.editReply({
-			content: "Something went wrong..."
-		});
+		if (typeof requestTags !== "string")
+			return int.editReply({
+				content: "Something went wrong...",
+			});
 
 		const tags = JSON.parse(requestTags) as Array<ImportTag>;
-
 
 		const valid = tags.every((tag) => {
 			if (!tag.name) return false;
@@ -57,9 +60,9 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 		const tagsSchema = client.dbSchema.tags;
 
 		let userTags =
-			(await client.db.query.tags.findMany({
+			((await client.db.query.tags.findMany({
 				where: eq(tagsSchema.id, int.user.id),
-			})) as Array<Tag> || [];
+			})) as Array<Tag>) || [];
 
 		for (const tagIndex in userTags) {
 			userTags[tagIndex].data = JSON.parse(userTags[tagIndex].data);
@@ -147,9 +150,11 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 				global.conflicts[newId] = conflict[1].data;
 
 				const message = await int.editReply({
-					content: `There ${conflicts.length > 1 ? "are" : "is"} ${conflicts.length
-						} conflicts\n\nTag Name: "${conflict[0].name}"\n[Old Tag Data](${global.baseUrl
-						}/tags/${oldId}) - [New Tag Data](${global.baseUrl}/tags/${newId})`,
+					content: `There ${conflicts.length > 1 ? "are" : "is"} ${
+						conflicts.length
+					} conflicts\n\nTag Name: "${conflict[0].name}"\n[Old Tag Data](${
+						global.baseUrl
+					}/tags/${oldId}) - [New Tag Data](${global.baseUrl}/tags/${newId})`,
 					components: [row],
 				});
 
@@ -214,11 +219,12 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 								const disabledOldButton = oldButton.setDisabled(true);
 								const disabledNewButton = newButton.setDisabled(true);
 
-								const disabledRow = new ActionRowBuilder<ButtonBuilder>().addComponents([
-									disabledCancelButton,
-									disabledOldButton,
-									disabledNewButton,
-								]);
+								const disabledRow =
+									new ActionRowBuilder<ButtonBuilder>().addComponents([
+										disabledCancelButton,
+										disabledOldButton,
+										disabledNewButton,
+									]);
 
 								await int.editReply({
 									content:
@@ -243,7 +249,7 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 		// await userData.save()
 
 		for (const tag of userTags) {
-			const tagData = JSON.stringify(tag.data)
+			const tagData = JSON.stringify(tag.data);
 
 			await client.db
 				.insert(tagsSchema)
@@ -270,4 +276,4 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 			content: "Something went wrong...",
 		});
 	}
-};
+}

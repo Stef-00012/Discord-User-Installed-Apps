@@ -1,19 +1,20 @@
+import type { ChatInputCommandInteraction } from "discord.js";
+import type { Client } from "../../structures/DiscordClient";
+import type { Command } from "../../types/command";
+import streamToBlob from "stream-to-blob";
+import path from "node:path";
 import axios from "axios";
 import fs from "node:fs";
-import path from "node:path";
-import streamToBlob from "stream-to-blob";
-import type { Client } from "../../structures/DiscordClient";
-import type { ChatInputCommandInteraction } from "discord.js";
-import type { Command } from "../../types/command";
 
 export default {
 	name: "upload",
 	requires: ["zipline"],
 
 	async execute(client: Client, int: ChatInputCommandInteraction) {
-		if (!client.config.zipline) return await int.reply({
-			content: "Missing Zipline auth data"
-		})
+		if (!client.config.zipline)
+			return await int.reply({
+				content: "Missing Zipline auth data",
+			});
 
 		const domain = client.config.zipline.url;
 		const token = client.config.zipline.token;
@@ -65,7 +66,11 @@ export default {
 				const file = fs.createReadStream(filePath);
 				const form = new FormData();
 
-				form.append("file", await streamToBlob(file, attachment.contentType), fileName);
+				form.append(
+					"file",
+					await streamToBlob(file, attachment.contentType),
+					fileName,
+				);
 
 				const uploadResponse = await axios.post(`${domain}/api/upload`, form, {
 					headers: {
@@ -106,7 +111,7 @@ export default {
 				formData.append(
 					"file",
 					await streamToBlob(chunk, attachment.contentType),
-					fileName
+					fileName,
 				);
 
 				axios

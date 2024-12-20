@@ -1,18 +1,25 @@
-import { AttachmentBuilder, type ChatInputCommandInteraction } from "discord.js";
-import { eq } from "drizzle-orm";
 import type { Client } from "../../../structures/DiscordClient";
 import type { Tag, TagData } from "../../../types/tag";
+import { eq } from "drizzle-orm";
+import {
+	AttachmentBuilder,
+	type ChatInputCommandInteraction,
+} from "discord.js";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
 	await int.deferReply({
 		ephemeral: true,
 	});
 
 	const tagsSchema = client.dbSchema.tags;
 
-	const userTags = await client.db.query.tags.findMany({
-		where: eq(tagsSchema.id, int.user.id),
-	}) as Array<Tag> || [];
+	const userTags =
+		((await client.db.query.tags.findMany({
+			where: eq(tagsSchema.id, int.user.id),
+		})) as Array<Tag>) || [];
 
 	if (!userTags || userTags.length <= 0)
 		return await int.editReply({
@@ -33,4 +40,4 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 	await int.editReply({
 		files: [attachment],
 	});
-};
+}

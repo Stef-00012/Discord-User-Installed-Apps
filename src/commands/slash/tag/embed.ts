@@ -1,3 +1,6 @@
+import type { Client } from "../../../structures/DiscordClient";
+import type { Tag, TagData } from "../../../types/tag";
+import { and, eq } from "drizzle-orm";
 import {
 	EmbedBuilder,
 	ButtonBuilder,
@@ -10,11 +13,11 @@ import {
 	type HexColorString,
 	type EmbedField,
 } from "discord.js";
-import { and, eq } from "drizzle-orm";
-import type { Client } from "../../../structures/DiscordClient";
-import type { Tag, TagData } from "../../../types/tag";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
 	await int.deferReply({
 		ephemeral: true,
 	});
@@ -24,11 +27,11 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 
 	const tagsSchema = client.dbSchema.tags;
 
-	const tag = await client.db.query.tags.findFirst({
+	const tag = (await client.db.query.tags.findFirst({
 		where: and(eq(tagsSchema.id, int.user.id), eq(tagsSchema.name, tagName)),
-	}) as Tag | undefined;
+	})) as Tag | undefined;
 
-	let existingTagData: TagData = {}
+	let existingTagData: TagData = {};
 
 	if (tag) existingTagData = JSON.parse(tag.data);
 
@@ -47,7 +50,7 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 			content: "This message already has no embeds",
 		});
 
-	if (!tagData.embeds) tagData.embeds = []
+	if (!tagData.embeds) tagData.embeds = [];
 
 	if (!removeEmbedIndex && tagData?.embeds?.length >= 25)
 		return await int.editReply({
@@ -103,7 +106,7 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 	const embedFields = int.options.getBoolean("fields") ?? false;
 	const embedJSONString = int.options.getString("json") ?? "{}";
 
-	let embedJSON = {}
+	let embedJSON = {};
 
 	try {
 		embedJSON = JSON.parse(embedJSONString);
@@ -275,9 +278,11 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 				.setRequired(true)
 				.setStyle(TextInputStyle.Paragraph);
 
-			const fieldNameRow = new ActionRowBuilder<TextInputBuilder>().addComponents([fieldName]);
+			const fieldNameRow =
+				new ActionRowBuilder<TextInputBuilder>().addComponents([fieldName]);
 
-			const fieldValueRow = new ActionRowBuilder<TextInputBuilder>().addComponents([fieldValue]);
+			const fieldValueRow =
+				new ActionRowBuilder<TextInputBuilder>().addComponents([fieldValue]);
 
 			fieldModal.addComponents([fieldNameRow, fieldValueRow]);
 
@@ -289,10 +294,11 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 					time: 60e3 * 5,
 				})
 				.then(async (interaction) => {
-					if (!interaction.isFromMessage()) return interaction.reply({
-						content: "Something went wrong...",
-						ephemeral: true
-					})
+					if (!interaction.isFromMessage())
+						return interaction.reply({
+							content: "Something went wrong...",
+							ephemeral: true,
+						});
 
 					const fieldName = interaction.fields.getTextInputValue("name");
 					const fieldValue = interaction.fields.getTextInputValue("value");
@@ -300,15 +306,16 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 					fields.push({
 						name: fieldName,
 						value: fieldValue,
-						inline: true
+						inline: true,
 					});
 
 					if (fields.length === 25) {
-						const disabledAddRow = new ActionRowBuilder<ButtonBuilder>().addComponents([
-							addFieldButton.setDisabled(true),
-							clearFieldsButton,
-							saveButton,
-						]);
+						const disabledAddRow =
+							new ActionRowBuilder<ButtonBuilder>().addComponents([
+								addFieldButton.setDisabled(true),
+								clearFieldsButton,
+								saveButton,
+							]);
 
 						return await interaction.update({
 							content: `Successfully added the field (${fields.length}/25)`,
@@ -322,4 +329,4 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 				});
 		}
 	});
-};
+}

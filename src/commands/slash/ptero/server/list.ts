@@ -1,10 +1,13 @@
 import { type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
-import axios from "axios";
-import { eq } from "drizzle-orm";
-import type { Client } from "../../../../structures/DiscordClient";
 import type { PterodactylAPIServer } from "../../../../types/pterodactyl";
+import type { Client } from "../../../../structures/DiscordClient";
+import { eq } from "drizzle-orm";
+import axios from "axios";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
 	await int.deferReply();
 
 	const pteroSchema = client.dbSchema.ptero;
@@ -58,4 +61,4 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 			content: "Something went wrong...",
 		});
 	}
-};
+}

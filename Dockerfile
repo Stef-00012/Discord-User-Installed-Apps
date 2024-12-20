@@ -3,20 +3,21 @@ FROM oven/bun:debian
 WORKDIR /bot
 
 RUN apt update && apt install -y \
-    build-essential \
-    python3 \
-    libsqlite3-dev \
-    g++ \
-    libcairo2-dev \
-    libjpeg-dev \
     libpango1.0-dev \
-    bash \
-    imagemagick \
     libpixman-1-dev \
+    build-essential \
+    libsqlite3-dev \
+    libcairo2-dev \
+    imagemagick \
+    libjpeg-dev \
     pkg-config \
     dnsutils \
+    python3 \
+    ffmpeg \
+    bash \
     curl \
-    wget
+    wget \
+    g++
 
 RUN wget https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.deb -O /tmp/fastfetch.deb && \
     apt -y install -f /tmp/fastfetch.deb && \

@@ -1,9 +1,14 @@
+import type { CommandPermissions } from "../../../types/permissions";
 import type { Client } from "../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
-import type { CommandPermissions } from "../../../types/permissions";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
-	const commandPermissionsJSON: CommandPermissions = await Bun.file(`${__dirname}/../../../data/permissions/commandPermissions.json`).json();
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
+	const commandPermissionsJSON: CommandPermissions = await Bun.file(
+		`${__dirname}/../../../data/permissions/commandPermissions.json`,
+	).json();
 
 	const commandName = int.options.getString("command", true);
 	const user = int.options.getString("user", true);
@@ -35,4 +40,4 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 		content: `Successfully removed \`${user}\` from the users who can run the command \`${commandName}\``,
 		ephemeral: true,
 	});
-};
+}

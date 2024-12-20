@@ -1,7 +1,11 @@
-import { execSync } from "node:child_process";
-import { type AutocompleteInteraction, type ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import type { Client } from "../../structures/DiscordClient";
 import type { Command } from "../../types/command";
+import { execSync } from "node:child_process";
+import {
+	type AutocompleteInteraction,
+	type ChatInputCommandInteraction,
+	EmbedBuilder,
+} from "discord.js";
 
 export default {
 	name: "dig",
@@ -70,8 +74,9 @@ export default {
 
 		await int.deferReply();
 
-		const command = `dig ${domain} ${recordType} @${provider} +noall +answer${short ? " +short" : ""
-			}${cdflag ? " +cdflag" : ""}`;
+		const command = `dig ${domain} ${recordType} @${provider} +noall +answer${
+			short ? " +short" : ""
+		}${cdflag ? " +cdflag" : ""}`;
 
 		let output: string;
 

@@ -43,9 +43,13 @@ export default {
 				.setStyle(TextInputStyle.Paragraph)
 				.setValue(int.targetMessage.content.substr(0, 2048));
 
-			const nameRow = new ActionRowBuilder<TextInputBuilder>().addComponents([nameOption]);
+			const nameRow = new ActionRowBuilder<TextInputBuilder>().addComponents([
+				nameOption,
+			]);
 
-			const contentRow = new ActionRowBuilder<TextInputBuilder>().addComponents([contentOption]);
+			const contentRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
+				[contentOption],
+			);
 
 			modal.addComponents([nameRow, contentRow]);
 
@@ -86,10 +90,15 @@ export default {
 						});
 
 					await interaction.reply({
-						content: `Successfully created/updated the tag "${tagName}" with${tagData.embeds?.length > 0 ? ` ${tagData.embeds.length} embeds and` : ''} the content:\n>>> ${tagContent.length >= 2000 - 62 - tagName.length
+						content: `Successfully created/updated the tag "${tagName}" with${
+							tagData.embeds?.length > 0
+								? ` ${tagData.embeds.length} embeds and`
+								: ""
+						} the content:\n>>> ${
+							tagContent.length >= 2000 - 62 - tagName.length
 								? `${tagContent.substr(0, 2000 - 62 - tagName.length)}...`
 								: tagContent
-							}`,
+						}`,
 						ephemeral: true,
 					});
 				});
@@ -106,7 +115,9 @@ export default {
 				.setStyle(TextInputStyle.Short)
 				.setPlaceholder(int.targetMessage.content.split(" ")[0].substr(0, 25));
 
-			const nameRow = new ActionRowBuilder<TextInputBuilder>().addComponents([nameOption]);
+			const nameRow = new ActionRowBuilder<TextInputBuilder>().addComponents([
+				nameOption,
+			]);
 
 			modal.addComponents([nameRow]);
 

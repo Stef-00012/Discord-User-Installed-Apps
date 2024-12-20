@@ -1,7 +1,10 @@
-import { eq } from "drizzle-orm";
 import type { Client } from "../../structures/DiscordClient";
-import type { AutocompleteInteraction, ChatInputCommandInteraction } from "discord.js";
 import type { Command } from "../../types/command";
+import { eq } from "drizzle-orm";
+import type {
+	AutocompleteInteraction,
+	ChatInputCommandInteraction,
+} from "discord.js";
 
 export default {
 	name: "reminders",
@@ -22,10 +25,11 @@ export default {
 		let matches = userReminders
 			.filter((reminder) => reminder.reminderId.startsWith(value))
 			.map((reminder) => ({
-				name: `${reminder.reminderId} - ${reminder.description.length > 80
+				name: `${reminder.reminderId} - ${
+					reminder.description.length > 80
 						? `${reminder.description.substr(0, 80)}...`
 						: reminder.description.substr(0, 80)
-					}`,
+				}`,
 				value: reminder.reminderId,
 			}));
 
@@ -36,7 +40,8 @@ export default {
 	async execute(client: Client, int: ChatInputCommandInteraction) {
 		const subcommand = int.options.getSubcommand();
 
-		const subcommandData = (await import(`./reminders/${subcommand}.js`)).default
+		const subcommandData = (await import(`./reminders/${subcommand}.js`))
+			.default;
 
 		await subcommandData(client, int);
 	},

@@ -1,8 +1,10 @@
 //https://mcstatus.io/docs#routes
-import axios from "axios";
 import type { McstatusIoJavaServerResponse } from "../../types/mcstatus.io";
+import axios from "axios";
 
-export default async function (address: string): Promise<McstatusIoJavaServerResponse | null> {
+export default async function (
+	address: string,
+): Promise<McstatusIoJavaServerResponse | null> {
 	const endpoint = `https://api.mcstatus.io/v2/status/java/${address}`;
 
 	try {
@@ -12,4 +14,4 @@ export default async function (address: string): Promise<McstatusIoJavaServerRes
 	} catch (e) {
 		return null;
 	}
-};
+}

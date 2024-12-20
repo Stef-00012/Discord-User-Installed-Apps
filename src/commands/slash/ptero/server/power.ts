@@ -1,12 +1,18 @@
-import axios from "axios";
-import { eq } from "drizzle-orm";
+import type { PterodactylPowerActions } from "../../../../types/pterodactyl";
 import type { Client } from "../../../../structures/DiscordClient";
 import type { ChatInputCommandInteraction } from "discord.js";
-import type { PterodactylPowerActions } from "../../../../types/pterodactyl";
+import { eq } from "drizzle-orm";
+import axios from "axios";
 
-export default async function (client: Client, int: ChatInputCommandInteraction) {
+export default async function (
+	client: Client,
+	int: ChatInputCommandInteraction,
+) {
 	const id = int.options.getString("id", true);
-	const action = int.options.getString("action", true) as PterodactylPowerActions;
+	const action = int.options.getString(
+		"action",
+		true,
+	) as PterodactylPowerActions;
 
 	await int.deferReply();
 
@@ -52,4 +58,4 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 			content: "Something went wrong...",
 		});
 	}
-};
+}

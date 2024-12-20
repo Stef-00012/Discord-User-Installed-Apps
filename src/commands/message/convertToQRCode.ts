@@ -42,9 +42,13 @@ export default {
 			.setMinLength(1)
 			.setValue(int.targetMessage.content.substr(0, 900));
 
-		const typeRow = new ActionRowBuilder<TextInputBuilder>().addComponents([typeInput]);
+		const typeRow = new ActionRowBuilder<TextInputBuilder>().addComponents([
+			typeInput,
+		]);
 
-		const textRow = new ActionRowBuilder<TextInputBuilder>().addComponents([textInput]);
+		const textRow = new ActionRowBuilder<TextInputBuilder>().addComponents([
+			textInput,
+		]);
 
 		modal.addComponents([textRow, typeRow]);
 
