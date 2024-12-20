@@ -1081,13 +1081,13 @@ export default [
         contexts: [0, 1, 2],
     },
     {
-        name: "Set as Reminder (Content)",
+        name: "Set as Reminder",
         type: ApplicationCommandType.Message,
         integration_types: [0, 1],
         contexts: [0, 1, 2],
     },
     {
-        name: "Set as Reminder (URL)",
+        name: "Download Voice Message",
         type: ApplicationCommandType.Message,
         integration_types: [0, 1],
         contexts: [0, 1, 2],

@@ -9,5 +9,6 @@ export interface Functions {
     getToken: (client: Client, JWT: string) => Promise<DatabaseUserData | null>;
     init: () => Promise<void>;
     refreshToken: (client: Client, token: string) => Promise<DatabaseTokenData | null>;
-    revokeAccessToken: (client: Client, token: string, tokenType: string) => Promise<boolean | null>
+    revokeAccessToken: (client: Client, token: string, tokenType: string) => Promise<boolean | null>;
+    oggToMp3: (inputFile: string, outputFile: string) => Promise<void>;
 }

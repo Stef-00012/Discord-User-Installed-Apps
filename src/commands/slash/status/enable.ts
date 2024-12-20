@@ -16,7 +16,8 @@ export default async function (client: Client, int: ChatInputCommandInteraction)
 	const commandData = client.commands.get(commandName);
 
 	if (!commandData) return int.reply({
-		content: "Invalid Command"
+		content: "Invalid Command",
+		ephemeral: true
 	})
 
 	if (
